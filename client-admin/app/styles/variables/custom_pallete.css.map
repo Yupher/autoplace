@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "custom_pallete.scss"
+    ],
+    "names": [],
+    "file": "custom_pallete.css"
+}

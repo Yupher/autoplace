@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+
+    <style>
+
+        body{
+            background-color: #FEFEFF;
+        }
+
+        h1,h2{
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+        }
+
+        h2{
+            margin: 0;
+            color: #242424 !important;
+        }
+
+        .title{
+            color: #242424 !important;
+            margin: 1rem 0 0 0;
+        }
+
+        .head{
+            width: 100%;
+            height: 4.5rem;
+            background: #3F51B5 !important;
+            color: #FEFEFF !important;
+        }
+
+        .head-child h1 {
+            margin-left: 5%;
+            padding-top: 0.5rem;
+            padding-bottom: 1rem;
+            font-size: 35px;
+        }
+
+        .cl-blue{
+            color: #3F51B5 !important;
+        }
+
+        .version{
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <div class="head-child" >
+            <h1> IA Shop : Email Confirmation </h1>
+        </div>
+    </div>
+    <h1 class="title">Thank you for Regester </h1>
+    <br/>
+    <h2> Hello {{lastname}}  {{firstname}}, please confirm your email to be able to do all the functionalities in our service.  </h2>
+    <h2> Your Code Confirmation is : <strong class="cl-blue"> {{code}} </strong> </h2>
+
+    <h3 class="version"> Version 1.1 – Last Updated: July, 2021 </h3>
+</body>
+</html>

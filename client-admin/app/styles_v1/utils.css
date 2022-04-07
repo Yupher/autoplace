@@ -1,0 +1,25 @@
+/* Color  */
+
+.danger-vred{
+    color: #CB4335 !important;
+}
+
+.danger-vred h2 {
+    color: #c41d0b !important;
+}
+
+.danger-hover-vred:hover{
+    background-color: rgba(203, 67, 53, .1) !important;
+}
+
+.danger-after-vred::after{
+    background-color: #CB4335 !important;
+}
+
+.gray-vred {
+    color: #757575 !important;
+}
+
+.black-vred{
+    color: black;
+}

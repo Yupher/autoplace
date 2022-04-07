@@ -1,0 +1,87 @@
+a {
+    text-decoration: none;
+}
+
+/* App white form  */
+
+.white-field .MuiInput-root {
+    background: rgba(252, 252, 254, 0.6)
+}
+
+.white-field .MuiFormLabel-root {
+    color: black;
+}
+
+/* App Form Grid  */
+
+
+.Grid-vert .MuiGrid-spacing-xs-3 > .MuiGrid-item {
+    padding: 0px 16px !important;
+}
+
+.Grid-vert .MuiGrid-spacing-xs-3 > .MuiGrid-item button {
+    margin-top: 6px;
+}
+
+.info-tables-row{
+    padding: 10px 5px !important ;
+}
+
+.info-pic-users{
+    width: 40px !important;
+    height:  40px !important;
+    border-radius: 50%;
+    border: 2.5px solid #3F51B5;
+}
+
+/* Pagination */
+
+.info-pagination{
+    width: 100%;
+    margin-top: 1em;
+    display: flex;
+    /* justify-content: center; */
+}
+
+.info-pagination li {
+    border: 1.5px solid #BDBDBD;
+    border-radius: 50%;
+    height: 37px;
+    width: 37px;
+    padding: 0 !important;
+    margin: auto 3px;
+    cursor: pointer;
+    display: flex;
+}
+
+.info-pagination li p {
+    color: #707071;
+    line-height: 0;
+    margin: auto;
+}
+
+.info-pagination li:hover{
+    border-color: rgba(63, 81, 181,0.3) !important;
+    background-color: rgba(63, 81, 181,0.1);
+}
+
+.info-pagination li:hover > p {
+    color: #3F51B5 !important;
+}
+
+.info-pagination-current{
+border-color: rgba(63, 81, 181,0.6) !important;
+background-color: rgba(63, 81, 181,0.2);
+}
+
+.info-pagination-current p {
+color: #3F51B5 !important;
+font-weight: 500;
+ }
+
+
+ /* recharts */
+
+ .recharts-legend-item{
+    margin-bottom: 0px !important;
+ }

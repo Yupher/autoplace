@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "variables.scss",
+        "variables/bitters.scss",
+        "variables/neat.scss",
+        "variables/custom_pallete.scss"
+    ],
+    "names": [],
+    "file": "variables.css"
+}
