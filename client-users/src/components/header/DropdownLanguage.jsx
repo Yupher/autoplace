@@ -15,8 +15,9 @@ const DropdownLanguage = ({ setLanguage, locales, currentLocale }) => {
       })),
     [],
   );
-  const handleItemClick = (lang) => {
-    setLanguage(lang);
+
+  const handleItemClick = ({ language }) => {
+    setLanguage(language);
   };
 
   const label = (
@@ -27,7 +28,7 @@ const DropdownLanguage = ({ setLanguage, locales, currentLocale }) => {
   return (
     <Dropdown
       label={label}
-      // title={currentLocale.code.toUpperCase()}
+      title={currentLocale.code.toUpperCase()}
       items={items}
       onItemClick={handleItemClick}
     />
@@ -35,5 +36,6 @@ const DropdownLanguage = ({ setLanguage, locales, currentLocale }) => {
 };
 const mapStateToProps = (state) => ({
   locales: state.languages.locales,
+  currentLocale: state.languages.currentLocale,
 });
 export default connect(mapStateToProps, { setLanguage })(DropdownLanguage);

@@ -30,7 +30,7 @@ const Topbar = (props) => {
       )}
       {layout !== "spaceship-start" && (
         <React.Fragment>
-          <DropdownLanguage />{" "}
+          <DropdownLanguage />
         </React.Fragment>
       )}
     </div>
