@@ -1,3 +1,28 @@
 // --------------------------------------------------------------------------
 // -- You can add your custom CSS here and it will overwrite template styles.
 // --------------------------------------------------------------------------
+.btn-facebook,
+.btn-facebook.disabled,
+.btn-facebook:disabled {
+  border-color: #3b5998;
+  background-color: #3b5998;
+  color: #fff;
+}
+.btn-google,
+.btn-google.disabled,
+.btn-google:disabled {
+  border-color: #db4437;
+  background-color: #db4437;
+  color: #fff;
+}
+
+.btn-facebook:hover {
+  border-color: #333;
+  background-color: #333;
+  color: #fff;
+}
+.btn-google:hover {
+  border-color: #333;
+  background-color: #333;
+  color: #fff;
+}

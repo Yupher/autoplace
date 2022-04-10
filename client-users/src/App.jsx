@@ -1,16 +1,22 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LanguageProvider from "./i18n/LanguageProvider";
 
+//components
 import Header from "./components/header/Header";
+
+//pages
+import Home from "./pages/Home";
+
 //styles
 import "./scss/index.scss";
 import "./scss/style.header-spaceship-variant-one.scss";
 import "./scss/style.mobile-header-variant-one.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-function App({ children, currentLocale }) {
+function App({ currentLocale }) {
   const { locale, direction, code } = currentLocale;
   useEffect(() => {
     document.documentElement.dir = direction;
@@ -18,33 +24,37 @@ function App({ children, currentLocale }) {
   }, []);
   return (
     <LanguageProvider locale={locale}>
-      <div className='site site--desktop-header--spaceship-one site--mobile-header--mobile-one'>
-        <ToastContainer autoClose={5000} hideProgressBar />
-        <div className='site__container'>
-          {/*
+      <Router>
+        <div className='site site--desktop-header--spaceship-one site--mobile-header--mobile-one'>
+          <ToastContainer autoClose={5000} hideProgressBar />
+          <div className='site__container'>
+            {/*
             <header className='site__mobile-header'>
               <MobileHeader />
             </header>
             */}
 
-          <header className='site__header'>
-            <Header />
-          </header>
+            <header className='site__header'>
+              <Header />
+            </header>
 
-          <div className='site__body' style={{ height: "1500px" }}>
-            {children}
+            <div className='site__body' style={{ height: "1500px" }}>
+              <Routes>
+                <Route exact path='/' element={<Home />} />
+              </Routes>
+            </div>
+
+            <footer className='site__footer'>
+              footer
+              {/* <Footer /> */}
+            </footer>
           </div>
 
-          <footer className='site__footer'>
-            footer
-            {/* <Footer /> */}
-          </footer>
+          {/* <MobileMenu /> */}
+
+          {/* <Quickview /> */}
         </div>
-
-        {/* <MobileMenu /> */}
-
-        {/* <Quickview /> */}
-      </div>
+      </Router>
     </LanguageProvider>
   );
 }

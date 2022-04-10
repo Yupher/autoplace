@@ -6,8 +6,14 @@ const storedLang = localStorage.getItem("language");
 if (!storedLang) {
   const userLanguage =
     window.navigator.userLanguage || window.navigator.language;
+
+  // this firefox support because navigator.language returns en-US in firefox
+  const firefoxSupport = userLanguage.includes("-")
+    ? userLanguage.split("-")[0]
+    : userLanguage;
+
   locales.forEach((locale) => {
-    if (locale.code === userLanguage) {
+    if (locale.code === firefoxSupport) {
       localStorage.setItem("language", JSON.stringify(locale));
     }
   });
