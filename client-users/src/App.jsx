@@ -11,6 +11,7 @@ import Header from "./components/header/Header";
 //pages
 import Home from "./pages/Home";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 //styles
 import "./scss/index.scss";
@@ -45,6 +46,7 @@ function App({ currentLocale }) {
                 <Routes>
                   <Route exact path='/' element={<Home />} />
                   <Route exact path='/register' element={<Register />} />
+                  <Route exact path='/login' element={<Login />} />
                 </Routes>
               </div>
 
