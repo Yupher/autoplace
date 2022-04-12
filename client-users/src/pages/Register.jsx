@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import classNames from "classnames";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { signup } from "../actions/authActions";
+import { CLEAR_ERROR, SET_ERROR } from "../actions/types/errorTypes";
 
 import BlockSpace from "../components/blocks/BlockSpace";
 import PageTitle from "../components/shared/PageTitle";
 
+import {
+  validateEmail,
+  validatePassword,
+  validateFirstname,
+  validateLastname,
+  validatePasswordConfirm,
+} from "../utils/userInputValidation";
+
 const Register = (props) => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const { user, loading, signup, error } = props;
 
   const navigate = useNavigate();
@@ -20,15 +30,47 @@ const Register = (props) => {
   }, [user]);
 
   const [userData, setUserData] = useState({
-    Firstname: "",
+    firstname: "",
     lastname: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
 
-  const onSubmit = (e) => {};
-  const onChange = (e) => {};
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    //  validation
+    validateFirstname(userData.firstname)
+      ? dispatch({
+          type: SET_ERROR,
+          payload: validateFirstname(userData.firstname),
+        })
+      : validateLastname(userData.lastname)
+      ? dispatch({
+          type: SET_ERROR,
+          payload: validateLastname(userData.lastname),
+        })
+      : validateEmail(userData.email)
+      ? dispatch({ type: SET_ERROR, payload: validateEmail(userData.email) })
+      : validatePassword(userData.password)
+      ? dispatch({
+          type: SET_ERROR,
+          payload: validatePassword(userData.password),
+        })
+      : validatePasswordConfirm(userData.passwordConfirm, userData.password)
+      ? dispatch({
+          type: SET_ERROR,
+          payload: validateEmail(userData.passwordConfirm, userData.password),
+        })
+      : signup(userData);
+  };
+  const onChange = (e) => {
+    if (error) {
+      dispatch({ type: CLEAR_ERROR });
+    }
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
 
   return (
     <React.Fragment>
@@ -43,9 +85,10 @@ const Register = (props) => {
                 <FormattedMessage id='HEADER_REGISTER' />
               </h3>
               <form onSubmit={onSubmit}>
-                {error && error.type === "server" && (
+                {error && (
                   <div className='alert alert-sm alert-danger'>
-                    <FormattedMessage id={error.message} />
+                    {/* <FormattedMessage id={error.message} /> */}
+                    <p>{error.message}</p>
                   </div>
                 )}
                 <div className='form-group'>
@@ -56,7 +99,7 @@ const Register = (props) => {
                     id='signup-firstname'
                     type='text'
                     className={classNames("form-control", {
-                      "is-invalid": error && error.type === "firstname",
+                      "is-invalid": error && error.message,
                     })}
                     placeholder={intl.formatMessage({
                       id: "INPUT_FIRSTNAME_LABEL",
@@ -70,7 +113,8 @@ const Register = (props) => {
                       <FormattedMessage id='ERROR_FORM_REQUIRED' />
                     )}
                     {error && error.type === "firstname" && (
-                      <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
+                      // to do translaton <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
+                      <p>{error.message}</p>
                     )}
                   </div>
                 </div>
@@ -165,10 +209,10 @@ const Register = (props) => {
                     onChange={onChange}
                   />
                   <div className='invalid-feedback'>
-                    {error && error.passwordConfirm.type === "required" && (
+                    {error && error.type === "required" && (
                       <FormattedMessage id='ERROR_FORM_REQUIRED' />
                     )}
-                    {error && error.passwordConfirm.type === "match" && (
+                    {error && error.type === "match" && (
                       <FormattedMessage id='ERROR_FORM_PASSWORD_DOES_NOT_MATCH' />
                     )}
                   </div>
@@ -201,4 +245,4 @@ const mapStateToProps = (state) => ({
 
 const actions = { signup };
 
-export default connect(mapStateToProps, { actions })(Register);
+export default connect(mapStateToProps, actions)(Register);

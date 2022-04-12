@@ -38,16 +38,15 @@ const AccountMenu = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // to do validation
-    validateEmail(userLogin.email) &&
-      dispatch({ type: SET_ERROR, payload: validateEmail(userLogin.email) });
-    validatePassword(userLogin.password) &&
-      dispatch({
-        type: SET_ERROR,
-        payload: validatePassword(userLogin.password),
-      });
-
-    login(userLogin);
+    // validation
+    validateEmail(userLogin.email)
+      ? dispatch({ type: SET_ERROR, payload: validateEmail(userLogin.email) })
+      : validatePassword(userLogin.password)
+      ? dispatch({
+          type: SET_ERROR,
+          payload: validatePassword(userLogin.password),
+        })
+      : login(userLogin);
   };
   const facebookLogin = () => {
     error && dispatch({ type: CLEAR_ERROR });
