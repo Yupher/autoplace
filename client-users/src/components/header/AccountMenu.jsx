@@ -1,7 +1,21 @@
 import React, { useState } from "react";
 import classNames from "classnames";
+import { connect, useDispatch } from "react-redux";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
+
+import { CLEAR_ERROR, SET_ERROR } from "../../actions/types/errorTypes";
+
+import {
+  login,
+  logout,
+  facebookAuth,
+  googleAuth,
+} from "../../actions/authActions";
+import {
+  validateEmail,
+  validatePassword,
+} from "../../utils/userInputValidation";
 
 const AccountMenu = (props) => {
   const { onCloseMenu } = props;
@@ -10,21 +24,40 @@ const AccountMenu = (props) => {
     password: "",
   });
   const intl = useIntl();
-  const user = {
-    firstName: "john",
-    lastName: "doe",
-    email: "jhon@document.bv",
-    avatar: "/images/avatars/avatar-1.jpg",
-  };
-  let loading = false;
-  let error;
+  const dispatch = useDispatch();
+  const { user, loading, error, login, facebookAuth, googleAuth, logout } =
+    props;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
+    if (error) {
+      dispatch({ type: CLEAR_ERROR });
+    }
+
     setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
-  const onSubmit = () => console.log("submit");
-  const facebookLogin = () => console.log("facebook");
-  const googleLogin = () => console.log("google");
-  const onLogout = () => console.log("logout");
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    // to do validation
+    validateEmail(userLogin.email) &&
+      dispatch({ type: SET_ERROR, payload: validateEmail(userLogin.email) });
+    validatePassword(userLogin.password) &&
+      dispatch({
+        type: SET_ERROR,
+        payload: validatePassword(userLogin.password),
+      });
+
+    login(userLogin);
+  };
+  const facebookLogin = () => {
+    error && dispatch({ type: CLEAR_ERROR });
+    facebookAuth();
+  };
+  const googleLogin = () => {
+    error && dispatch({ type: CLEAR_ERROR });
+    googleAuth();
+  };
+  const onLogout = () => logout();
 
   return (
     <div className='account-menu' onSubmit={onSubmit}>
@@ -115,26 +148,40 @@ const AccountMenu = (props) => {
           <div className='form-group account-menu__form-button'>
             <button
               type='button'
-              className={classNames("btn", "btn-google", "btn-block", {
-                "btn-loading": loading,
-              })}
+              className={classNames(
+                "btn",
+                "btn-primary",
+                "btn-google",
+                "btn-block",
+                {
+                  "btn-loading": loading,
+                },
+              )}
               onClick={googleLogin}
             >
               Google
             </button>
+          </div>
+          <div className='form-group account-menu__form-button'>
             <button
               type='button'
               onClick={facebookLogin}
-              className={classNames("btn", "btn-facebook", "btn-block", {
-                "btn-loading": loading,
-              })}
+              className={classNames(
+                "btn",
+                "btn-primary",
+                "btn-facebook",
+                "btn-block",
+                {
+                  "btn-loading": loading,
+                },
+              )}
             >
               Facebook
             </button>
           </div>
 
           <div className='account-menu__form-link'>
-            <Link to='/signup' onClick={onCloseMenu}>
+            <Link to='/register' onClick={onCloseMenu}>
               <FormattedMessage id='LINK_CREATE_ACCOUNT' />
             </Link>
           </div>
@@ -194,4 +241,17 @@ const AccountMenu = (props) => {
   );
 };
 
-export default AccountMenu;
+const mapStateToProps = (state) => ({
+  user: state.authState.user,
+  loading: state.loadingState.loading,
+  error: state.errorState.error,
+});
+
+const actions = {
+  login,
+  logout,
+  facebookAuth,
+  googleAuth,
+};
+
+export default connect(mapStateToProps, actions)(AccountMenu);

@@ -1,4 +1,6 @@
 {
+  "INPUT_LASTNAME_LABEL": "Lastname",
+  "INPUT_FIRSTNAME_LABEL": "firstname",
   "NAVBAR_TRENDING_LINK": "Trending",
   "NAVBAR_DASHBOARD_LINK": "Dashboard",
   "NAVBAR_PROFILE_LINK": "Profile",
