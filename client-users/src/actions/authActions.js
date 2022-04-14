@@ -8,7 +8,7 @@ import setAuthToken from "../utils/setAuthToken";
 export const login = (userData) => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.post("/users/login", userData);
+    const res = await axios.post("/api/v1/users/login", userData);
     dispatch(resetLoading());
     const { token, user } = res.data;
     localStorage.setItem("jwtToken", token);
@@ -27,7 +27,7 @@ export const login = (userData) => async (dispatch) => {
 export const signup = (userData) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const res = await axios.post("/users/signup", userData);
+    const res = await axios.post("//api/v1/users/signup", userData);
     dispatch(resetLoading());
     const { token, user } = res.data;
     localStorage.setItem("jwtToken", token);
@@ -46,7 +46,7 @@ export const signup = (userData) => async (dispatch) => {
 export const googleAuth = () => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.post("/users/google/login");
+    const res = await axios.post("/api/v1/users/google/login");
     dispatch(resetLoading());
     const { token, user } = res.data;
     localStorage.setItem("jwtToken", token);
@@ -64,7 +64,7 @@ export const googleAuth = () => async (dispatch) => {
 export const facebookAuth = () => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.post("/users/facebook/login");
+    const res = await axios.post("/api/v1/users/facebook/login");
     dispatch(resetLoading());
     const { token, user } = res.data;
     localStorage.setItem("jwtToken", token);
@@ -83,7 +83,8 @@ export const facebookAuth = () => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.get("/users/laoduser");
+    const token = localStorage.getItem("jwtToken");
+    const res = await axios.post("/api/v1/users/loaduser", { token });
     dispatch(resetLoading());
     return dispatch({ type: SET_CURRENT_USER, payload: res.data });
   } catch (error) {
