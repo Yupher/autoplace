@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl";
 
 import { ReactComponent as Heart32Svg } from "../../svg/heart-32.svg";
 import { ReactComponent as Person32Svg } from "../../svg/person-32.svg";
+import { ReactComponent as Plus32Svg } from "../../svg/plus-32.svg";
 
 import Topbar from "./Topbar";
 import MainMenu from "./MainMenu";
@@ -52,6 +53,8 @@ const Header = () => {
           counter={wishlistCounter}
         />
 
+        <Indicator href='/add-product' icon={<Plus32Svg />} />
+
         <Indicator
           href='/account'
           icon={<Person32Svg />}
@@ -64,18 +67,6 @@ const Header = () => {
             onCloseMenu={() => accountIndicatorCtrl.current?.close()}
           />
         </Indicator>
-
-        {/* <Indicator
-          href={url.cart()}
-          icon={<Cart32Svg />}
-          label={cartIndicatorLabel}
-          value={<CurrencyFormat value={cart.total} />}
-          counter={cart.quantity}
-          trigger='click'
-          controllerRef={cartIndicatorCtrl}
-        >
-          <Dropcart onCloseMenu={() => cartIndicatorCtrl.current?.close()} />
-        </Indicator> */}
       </div>
     </div>
   );

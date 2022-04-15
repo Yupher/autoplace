@@ -27,7 +27,7 @@ export const login = (userData) => async (dispatch) => {
 export const signup = (userData) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const res = await axios.post("//api/v1/users/signup", userData);
+    const res = await axios.post("/api/v1/users/signup", userData);
     dispatch(resetLoading());
     const { token, user } = res.data;
     localStorage.setItem("jwtToken", token);
@@ -83,13 +83,13 @@ export const facebookAuth = () => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const token = localStorage.getItem("jwtToken");
-    const res = await axios.post("/api/v1/users/loaduser", { token });
+    const res = await axios.get("/api/v1/users/loaduser");
     dispatch(resetLoading());
-    return dispatch({ type: SET_CURRENT_USER, payload: res.data });
+    return dispatch({ type: SET_CURRENT_USER, payload: res.data.user });
   } catch (error) {
     dispatch(resetLoading());
     console.log(error.response.data);
+    localStorage.removeItem("jwtToken");
     dispatch({
       type: SET_ERROR,
       payload: { type: "server", message: error.response.data.message },

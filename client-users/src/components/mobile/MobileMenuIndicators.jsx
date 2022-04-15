@@ -46,7 +46,7 @@ const MobileMenuIndicators = (props) => {
         </span>
       </Link>
       <Link
-        to='/dashboard'
+        to={user ? "/dashboard" : "/login"}
         className='mobile-menu__indicator'
         onClick={mobileMenuClose}
       >

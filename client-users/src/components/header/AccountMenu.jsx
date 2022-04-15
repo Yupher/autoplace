@@ -194,11 +194,18 @@ const AccountMenu = (props) => {
             onClick={onCloseMenu}
           >
             <div className='account-menu__user-avatar'>
-              <img src={user.avatar} alt='profile' />
+              <img
+                src={
+                  user.photo === "default.jpg"
+                    ? "/images/avatars/avatar-1.jpg"
+                    : user.photo
+                }
+                alt='profile'
+              />
             </div>
             <div className=' account-menu__user-info'>
               <div className=' account-menu__user-name'>
-                {`${user.firstName} ${user.lastName}`}
+                {`${user.firstname} ${user.lastname}`}
               </div>
               <div className=' account-menu__user-email'>{user.email}</div>
             </div>
