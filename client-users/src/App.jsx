@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
 import LanguageProvider from "./i18n/LanguageProvider";
 
 //components
 import Header from "./components/header/Header";
+import MobileHeader from "./components/mobile/MobileHeader";
+import MobileMenu from "./components/mobile/MobileMenu";
 
 //pages
 import Home from "./pages/Home";
@@ -32,16 +34,13 @@ function App({ currentLocale }) {
           <div className='site site--desktop-header--spaceship-one site--mobile-header--mobile-one'>
             <ToastContainer autoClose={5000} hideProgressBar />
             <div className='site__container'>
-              {/*
-            <header className='site__mobile-header'>
-              <MobileHeader />
-            </header>
-            */}
+              <header className='site__mobile-header'>
+                <MobileHeader />
+              </header>
 
               <header className='site__header'>
                 <Header />
               </header>
-
               <div className='site__body' style={{ height: "1500px" }}>
                 <Routes>
                   <Route exact path='/' element={<Home />} />
@@ -49,14 +48,13 @@ function App({ currentLocale }) {
                   <Route exact path='/login' element={<Login />} />
                 </Routes>
               </div>
-
               <footer className='site__footer'>
                 footer
                 {/* <Footer /> */}
               </footer>
             </div>
 
-            {/* <MobileMenu /> */}
+            <MobileMenu />
 
             {/* <Quickview /> */}
           </div>
