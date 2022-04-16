@@ -8,7 +8,6 @@ const FooterLinks = (props) => {
       <h5 className='footer-links__title'>{header}</h5>
       <ul className='footer-links__list'>
         {links.map((link, index) => {
-          console.log(link.url);
           return (
             <li key={index} className='footer-links__item'>
               <Link to={`${link.url}`} className='footer-links__link'>

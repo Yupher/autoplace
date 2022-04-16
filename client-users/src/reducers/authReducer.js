@@ -1,7 +1,7 @@
 import { SET_CURRENT_USER, LOGOUT_USER } from "../actions/types/authTypes";
 
 const initialSate = {
-  user: null,
+  user: undefined,
 };
 
 const authReducer = (state = initialSate, action) => {

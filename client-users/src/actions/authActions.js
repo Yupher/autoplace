@@ -89,6 +89,7 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     dispatch(resetLoading());
     console.log(error.response.data);
+    dispatch({ type: LOGOUT_USER });
     localStorage.removeItem("jwtToken");
     dispatch({
       type: SET_ERROR,

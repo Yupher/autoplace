@@ -18,32 +18,36 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import AddProduct from "./pages/AddProduct";
-
+import AddVehicle from "./pages/AddVehicle";
+import PrivateRoutes from "./utils/PrivateRoutes";
 //styles
 import "./scss/index.scss";
 import "./scss/style.header-spaceship-variant-one.scss";
 import "./scss/style.mobile-header-variant-one.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-function App({ currentLocale, user, loadUser, logout }) {
+if (localStorage.jwtToken) {
+  setAuthToken(localStorage.jwtToken);
+} else {
+  setAuthToken(false);
+}
+
+function App({ currentLocale, error, user, loadUser, logout }) {
   const { locale, direction, code } = currentLocale;
 
-  if (localStorage.jwtToken) {
-    setAuthToken(localStorage.jwtToken);
-  } else {
-    logout();
-  }
-
   useEffect(() => {
+    loadUser();
     document.documentElement.dir = direction;
     document.documentElement.lang = code;
-  }, []);
+  }, [direction, code]);
 
   useEffect(() => {
-    if (!user) {
-      loadUser();
-    }
-  }, [user, loadUser]);
+    loadUser();
+  }, []);
+
+  if (user === undefined) {
+    return null;
+  }
 
   return (
     <HelmetProvider>
@@ -60,11 +64,20 @@ function App({ currentLocale, user, loadUser, logout }) {
                 <Header />
               </header>
               <div className='site__body' style={{ height: "1500px" }}>
+                {error && error.type === "authorization" && (
+                  <div className='alert alert-sm alert-danger mt-5'>
+                    {/* <FormattedMessage id={error.message} /> */}
+                    <p>{error.message}</p>
+                  </div>
+                )}
                 <Routes>
                   <Route exact path='/' element={<Home />} />
                   <Route exact path='/register' element={<Register />} />
                   <Route exact path='/login' element={<Login />} />
                   <Route exact path='/add-product' element={<AddProduct />} />
+                  <Route element={<PrivateRoutes user={user} />}>
+                    <Route path='/add-vehicle' element={<AddVehicle />} />
+                  </Route>
                 </Routes>
               </div>
               <footer className='site__footer'>
@@ -85,6 +98,7 @@ function App({ currentLocale, user, loadUser, logout }) {
 const mapStateToProps = (state) => ({
   currentLocale: state.languages.currentLocale,
   user: state.authState.user,
+  error: state.errorState.error,
 });
 const actions = { loadUser, logout };
 export default connect(mapStateToProps, actions)(App);
