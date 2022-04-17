@@ -4,6 +4,7 @@ import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
 import loadingReducer from "./loadingReducer";
 import mobileMenuReducer from "./mobileMenuReducer";
+import vehicleReducer from "./vehicleReducer";
 
 export default combineReducers({
   languages: languagesReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   authState: authReducer,
   errorState: errorReducer,
   loadingState: loadingReducer,
+  vehicleState: vehicleReducer,
 });

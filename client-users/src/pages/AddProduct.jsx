@@ -4,10 +4,6 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Car50Svg } from "../svg/car-50.svg";
 
 const AddProduct = () => {
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log("add product");
-  };
   return (
     <div className='container'>
       <div className='card'>

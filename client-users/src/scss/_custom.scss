@@ -26,3 +26,30 @@
   background-color: #333;
   color: #fff;
 }
+
+.play-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loading-spiner {
+  width: 150px;
+  height: 150px;
+  border: 16px solid rgb(108, 108, 232);
+  border-top-color: rgb(255, 99, 71);
+  border-bottom-color: rgb(71, 255, 221);
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 45%;
+  animation: spin 1s cubic-bezier(0.55, -0.48, 0.5, 1.62) infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

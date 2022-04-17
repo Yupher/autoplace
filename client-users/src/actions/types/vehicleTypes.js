@@ -1,0 +1,1 @@
+export const GET_VEHICLE_DATA = "GET_VEHICLE_DATA";
