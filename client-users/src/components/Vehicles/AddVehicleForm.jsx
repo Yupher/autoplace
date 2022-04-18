@@ -23,6 +23,7 @@ const AddVehicleForm = (props) => {
     transmission: "",
     description: "",
     kilometrage: "",
+    isChecked: {},
     photos: [],
   });
 
@@ -39,14 +40,15 @@ const AddVehicleForm = (props) => {
 
   const onChange = (e) => {
     dispatch({ type: CLEAR_ERROR });
-    let checked = e.target.checked;
-    console.log(checked);
-    setVehicleState({
-      ...vehicleState,
-      [e.target.name]: e.target.value,
-      //   options: [...vehicleState.options, e.target.checked && e.target.value],
-    });
+    //console.log(e.target.name);
+    if (e.target.name !== "options") {
+      setVehicleState({ ...vehicleState, [e.target.name]: e.target.value });
+    }
+
+    // console.log(e.target.checked);
   };
+
+  console.log(vehicleState.options);
 
   const onClickNext = (e) => {
     if (error) {
@@ -77,6 +79,7 @@ const AddVehicleForm = (props) => {
             vehicleData={vehicleData}
             vehicleState={vehicleState}
             onChange={onChange}
+            setVehicleState={setVehicleState}
           />
         );
       default:
