@@ -53,3 +53,33 @@
     transform: rotate(360deg);
   }
 }
+
+.dropzone {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  width: 80%;
+  height: 300px;
+
+  border-radius: 5px;
+  background-image: url("../components//shared//upload.png");
+  background-repeat: no-repeat;
+  background-size: 20%;
+  background-position: center center;
+  text-align: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-size: 2rem;
+  font-weight: 300;
+}
+.dropzone-active {
+  opacity: 0.8;
+}
+
+.selected-images {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 16px;
+  background-color: antiquewhite;
+}

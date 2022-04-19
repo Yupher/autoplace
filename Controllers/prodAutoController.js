@@ -1,14 +1,12 @@
 const model = require("./../Models/prodAutoModel");
 const factory = require("./factoryHandler");
 
-
-
-
-
-
 exports.getAllDocuments = factory.getAll(model);
 
-exports.createDocument = factory.createOne(model, { user: true });
+exports.createDocument = factory.createOne(model, {
+  user: true,
+  hasPhotos: true,
+});
 
 exports.updateDocument = factory.updateOne(model, "name", "desc", "slug");
 

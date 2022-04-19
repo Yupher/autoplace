@@ -1,47 +1,49 @@
 const express = require("express");
-const cors = require('cors');
-const helmet = require('helmet');
+const cors = require("cors");
+const helmet = require("helmet");
 
 const connectDB = require("./config/db");
 
-const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
 
-const userRouter = require('./Router/userRoutes');
-const sectionRouter = require('./Router/sectionRoutes');
-const prodAutoRouter = require('./Router/prodAutoRoutes');
-const prodHouseRouter = require('./Router/prodHouseroutes');
+const userRouter = require("./Router/userRoutes");
+const sectionRouter = require("./Router/sectionRoutes");
+const prodAutoRouter = require("./Router/prodAutoRoutes");
+const prodHouseRouter = require("./Router/prodHouseroutes");
 
-const cookiesMiddleware = require('universal-cookie-express');
+const cookiesMiddleware = require("universal-cookie-express");
 
-require("dotenv").config()
-
-
+require("dotenv").config();
 
 const app = express();
 
-
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: false,
+});
 
 // app.enable('trust proxy');
 
 connectDB();
 
 // Allow cors everywhere
-app.use(cors({ origin: true, credentials: true }))
+app.use(cors({ origin: true, credentials: true }));
 
-app.options('*', cors());
-
+app.options("*", cors());
 
 // Set security HTTP headers
 app.use(helmet());
 
 //Limit Data Body
 app.use(
-    express.json({
-        limit: "10kb"
-    })
+  express.json({
+    limit: "50mb",
+  }),
 );
-
 
 // set cookies
 app.use(cookiesMiddleware());
@@ -58,26 +60,19 @@ app.use(cookiesMiddleware());
 //     next();
 // });
 
+// Routes
 
-// Routes  
-
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/sections', sectionRouter);
-app.use('/api/v1/vehicles', prodAutoRouter);
-app.use('/api/v1/realestate', prodHouseRouter);
-
-
-
-
-
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/sections", sectionRouter);
+app.use("/api/v1/vehicles", prodAutoRouter);
+app.use("/api/v1/realestate", prodHouseRouter);
 
 // error to no exist routes
-app.all('*', (req, res, next) => {
-    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-
-// Error midleware 
+// Error midleware
 app.use(globalErrorHandler);
 
 module.exports = app;

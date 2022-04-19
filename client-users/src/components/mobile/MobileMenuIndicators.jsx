@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
@@ -14,13 +14,10 @@ import { ReactComponent as Logout20Svg } from "../../svg/logout-20.svg";
 
 const MobileMenuIndicators = (props) => {
   const { user, logout } = props;
-  const ref = useRef();
+
   const dispatch = useDispatch();
   const mobileMenuClose = () => {
     dispatch({ type: CLOSE_MENU });
-    if (ref.current.getAttribute("ref-attribute") === "logout") {
-      logout();
-    }
   };
 
   //todo wishlist from state
@@ -71,11 +68,13 @@ const MobileMenuIndicators = (props) => {
       </Link>
       {user && (
         <Link
-          ref={ref}
           ref-attribute='logout'
           to='/'
           className='mobile-menu__indicator'
-          onClick={mobileMenuClose}
+          onClick={() => {
+            logout();
+            dispatch({ type: CLOSE_MENU });
+          }}
         >
           <span className='mobile-menu__indicator-icon'>
             <Logout20Svg />

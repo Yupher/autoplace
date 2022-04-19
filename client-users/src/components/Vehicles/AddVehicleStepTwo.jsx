@@ -1,9 +1,8 @@
-import e from "cors";
 import React, { Fragment } from "react";
 
 const AddVehicleStepTwo = (props) => {
   const { vehicleData, vehicleState, setVehicleState, onChange } = props;
-  const { color, paper, description } = vehicleState;
+  const { color, paper, description, isChecked } = vehicleState;
 
   //console.log(checked);
   return (
@@ -50,30 +49,41 @@ const AddVehicleStepTwo = (props) => {
               return (
                 <div
                   key={option.name + index}
-                  className='form-check form-check-inline col-lg-4 col-sm-6'
+                  className='form-check form-check-inline col-lg-4 mr-0  col-sm-6 col-xs-12'
                 >
-                  <input
-                    className='form-check-input '
-                    checked={vehicleState.isChecked[option.name]}
-                    type='checkbox'
-                    name='options'
-                    value={option.name}
-                    onChange={(e) => {
-                      setVehicleState({
-                        ...vehicleState,
-                        isChecked: {
-                          ...vehicleState.isChecked,
-                          [e.target.value]: e.target.checked ? true : false,
-                        },
-                        options:
-                          e.target.checked === true
-                            ? [...vehicleState.options, e.target.value]
-                            : vehicleState.options.filter(
-                                (ch) => ch !== e.target.value,
-                              ),
-                      });
-                    }}
-                  />
+                  <span className='input-check form-check-input'>
+                    <span className='input-check__body'>
+                      <input
+                        className='input-check__input'
+                        checked={isChecked[option.name]}
+                        type='checkbox'
+                        name='options'
+                        value={option.name}
+                        onChange={(e) => {
+                          setVehicleState({
+                            ...vehicleState,
+                            isChecked: {
+                              ...vehicleState.isChecked,
+                              [e.target.value]: e.target.checked ? true : false,
+                            },
+                            options:
+                              e.target.checked === true
+                                ? [...vehicleState.options, e.target.value]
+                                : vehicleState.options.filter(
+                                    (ch) => ch !== e.target.value,
+                                  ),
+                          });
+                        }}
+                      />
+                      <span className='input-check__box' />
+                      <span className='input-check__icon'>
+                        <svg width='9px' height='7px'>
+                          <path d='M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z' />
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+
                   <label className='form-check-label' htmlFor='defaultCheck1'>
                     {option.name}
                   </label>
@@ -89,7 +99,7 @@ const AddVehicleStepTwo = (props) => {
           type='text'
           className='form-control'
           placeholder='description'
-          name='Description'
+          name='description'
           value={description}
           onChange={onChange}
         />

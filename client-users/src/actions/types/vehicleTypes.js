@@ -1,1 +1,6 @@
 export const GET_VEHICLE_DATA = "GET_VEHICLE_DATA";
+export const GET_VEHICLE = "GET_VEHICLE";
+export const ADD_VEHICLE = "ADD_VEHICLE";
+export const UPDATE_VEHICLE = "UPDATE_VEHICLE";
+export const DELETE_VEHICLE = "DELETE_VEHICLE";
+export const GET_ALL_VEHICLES = "GET_ALL_VEHICLES";

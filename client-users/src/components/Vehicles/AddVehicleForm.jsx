@@ -3,15 +3,20 @@ import classNames from "classnames";
 import { useDispatch, connect } from "react-redux";
 
 import { CLEAR_ERROR } from "../../actions/types/errorTypes";
-import { getVihecleData } from "../../actions/vehicleAction";
+import { getVihecleData, addVehicle } from "../../actions/vehicleAction";
 
 import AddVehicleStepOne from "./AddVehicleStepOne";
 import AddVehicleStepTwo from "./AddVehicleStepTwo";
+import AddVehicleFormStepThree from "./AddVehicleFormStepThree";
+import AddVehicleFormStepFour from "./AddVehicleFormStepFour";
+import AddVehicleFormStepFive from "./AddVehicleFormStepFive";
+import AddVehicleFormStepSix from "./AddVehicleFormStepSix";
 
 const AddVehicleForm = (props) => {
-  const { loading, vehicleData, getVihecleData, error } = props;
+  const { loading, user, vehicleData, getVihecleData, addVehicle, error } =
+    props;
   const dispatch = useDispatch();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(5);
   const [vehicleState, setVehicleState] = useState({
     year: "",
     brand: "",
@@ -23,8 +28,31 @@ const AddVehicleForm = (props) => {
     transmission: "",
     description: "",
     kilometrage: "",
-    isChecked: {},
+    isChecked: {
+      Climatisation: false,
+      "Toit ouvrant": false,
+      ABS: false,
+      ESP: false,
+      "Radar de recul": false,
+      "Direction assisstee": false,
+      "Retroviseurs electriques": false,
+      "Phares antibrouillard": false,
+      "Radio CD": false,
+      Alarme: false,
+      "Phares xenon": false,
+      "Jantes Alliage": false,
+      "Feux du jour": false,
+      "Vitres electriques": false,
+    },
     photos: [],
+    price: "",
+    offerType: "",
+    exchange: false,
+    wilaya: "",
+    commune: "",
+    email: "",
+    phone: user && user.phone ? user.phone : "",
+    displayPhone: true,
   });
 
   useEffect(() => {
@@ -32,23 +60,17 @@ const AddVehicleForm = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(vehicleState);
-    console.log("add-vehicle");
+    addVehicle(vehicleState);
   };
 
   const onChange = (e) => {
     dispatch({ type: CLEAR_ERROR });
-    //console.log(e.target.name);
-    if (e.target.name !== "options") {
-      setVehicleState({ ...vehicleState, [e.target.name]: e.target.value });
-    }
-
-    // console.log(e.target.checked);
+    setVehicleState({ ...vehicleState, [e.target.name]: e.target.value });
   };
 
-  console.log(vehicleState.options);
+  //console.log(vehicleState);
 
   const onClickNext = (e) => {
     if (error) {
@@ -82,13 +104,49 @@ const AddVehicleForm = (props) => {
             setVehicleState={setVehicleState}
           />
         );
+      case 3:
+        return (
+          <AddVehicleFormStepThree
+            vehicleData={vehicleData}
+            vehicleState={vehicleState}
+            onChange={onChange}
+            setVehicleState={setVehicleState}
+          />
+        );
+      case 4:
+        return (
+          <AddVehicleFormStepFour
+            vehicleData={vehicleData}
+            vehicleState={vehicleState}
+            onChange={onChange}
+            setVehicleState={setVehicleState}
+          />
+        );
+      case 5:
+        return (
+          <AddVehicleFormStepFive
+            vehicleData={vehicleData}
+            vehicleState={vehicleState}
+            onChange={onChange}
+            setVehicleState={setVehicleState}
+          />
+        );
+      case 6:
+        return (
+          <AddVehicleFormStepSix
+            vehicleData={vehicleData}
+            vehicleState={vehicleState}
+            onChange={onChange}
+            setVehicleState={setVehicleState}
+          />
+        );
       default:
         return;
     }
   };
   return (
     <form onSubmit={onSubmit}>
-      <MultiStepForm />
+      {MultiStepForm()}
       <div className='form-group play-buttons'>
         <button
           type='button'
@@ -115,6 +173,7 @@ const AddVehicleForm = (props) => {
             "btn-vehicle-next",
             {
               "ml-auto": step <= 1,
+              "d-none": step > 5,
             },
           )}
         >
@@ -129,6 +188,7 @@ const AddVehicleForm = (props) => {
             "btn-vehicle-submit",
             {
               "btn-loading": loading,
+              "d-none": step < 6,
             },
           )}
         >
@@ -143,6 +203,12 @@ const mapStateToProps = (state) => ({
   loading: state.loadingState.loading,
   vehicleData: state.vehicleState.vehicleData,
   error: state.errorState.error,
+  user: state.authState.user,
 });
 
-export default connect(mapStateToProps, { getVihecleData })(AddVehicleForm);
+const actions = {
+  getVihecleData,
+  addVehicle,
+};
+
+export default connect(mapStateToProps, actions)(AddVehicleForm);

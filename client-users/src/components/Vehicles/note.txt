@@ -1,3 +1,11 @@
 add display none to submit button 
 add display none to next button 
-finish checkbox  of options
+add remove in preview
+add styles to preview
+add validation (important)
+
+add delete photo in backend
+
+to delete image from cloudinary you need public id of the image
+
+cloudinary.uploader.destroy(public_id)
