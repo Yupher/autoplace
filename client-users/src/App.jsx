@@ -63,7 +63,7 @@ function App({ currentLocale, error, user, loadUser, logout }) {
               <header className='site__header'>
                 <Header />
               </header>
-              <div className='site__body' style={{ height: "1500px" }}>
+              <div className='site__body'>
                 {error && error.type === "authorization" && (
                   <div className='alert alert-sm alert-danger mt-5'>
                     {/* <FormattedMessage id={error.message} /> */}
@@ -71,7 +71,11 @@ function App({ currentLocale, error, user, loadUser, logout }) {
                   </div>
                 )}
                 <Routes>
-                  <Route exact path='/' element={<Home />} />
+                  <Route
+                    exact
+                    path='/'
+                    element={<Home style={{ height: "1500px" }} />}
+                  />
                   <Route exact path='/register' element={<Register />} />
                   <Route exact path='/login' element={<Login />} />
                   <Route exact path='/add-product' element={<AddProduct />} />

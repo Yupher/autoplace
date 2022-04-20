@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import classNames from "classnames";
 import { useDispatch, connect } from "react-redux";
 
-import { CLEAR_ERROR } from "../../actions/types/errorTypes";
+import { CLEAR_ERROR, SET_ERROR } from "../../actions/types/errorTypes";
 import { getVihecleData, addVehicle } from "../../actions/vehicleAction";
 
 import AddVehicleStepOne from "./AddVehicleStepOne";
@@ -11,12 +11,13 @@ import AddVehicleFormStepThree from "./AddVehicleFormStepThree";
 import AddVehicleFormStepFour from "./AddVehicleFormStepFour";
 import AddVehicleFormStepFive from "./AddVehicleFormStepFive";
 import AddVehicleFormStepSix from "./AddVehicleFormStepSix";
+import addVehicleValidation from "../../utils/addVehicleValidation";
 
 const AddVehicleForm = (props) => {
   const { loading, user, vehicleData, getVihecleData, addVehicle, error } =
     props;
   const dispatch = useDispatch();
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(1);
   const [vehicleState, setVehicleState] = useState({
     year: "",
     brand: "",
@@ -60,8 +61,21 @@ const AddVehicleForm = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ERROR });
+      }, 3000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (error) {
+      return;
+    }
+    dispatch({ type: CLEAR_ERROR });
     addVehicle(vehicleState);
   };
 
@@ -72,13 +86,21 @@ const AddVehicleForm = (props) => {
 
   //console.log(vehicleState);
 
-  const onClickNext = (e) => {
-    if (error) {
+  const onClickNext = () => {
+    let message = addVehicleValidation(vehicleState, step);
+    if (message) {
+      dispatch({
+        type: SET_ERROR,
+        payload: {
+          type: "required",
+          message: message,
+        },
+      });
       return;
     }
     setStep(step + 1);
   };
-  const onClickPrev = (e) => {
+  const onClickPrev = () => {
     if (step <= 1) {
       return;
     }
@@ -145,57 +167,68 @@ const AddVehicleForm = (props) => {
     }
   };
   return (
-    <form onSubmit={onSubmit}>
-      {MultiStepForm()}
-      <div className='form-group play-buttons'>
-        <button
-          type='button'
-          onClick={onClickPrev}
-          className={classNames(
-            "btn",
-            "btn-primary",
-            "mt-3",
-            "btn-vehicle-prev",
-            {
-              "d-none": step <= 1,
-            },
-          )}
-        >
-          Prev
-        </button>
-        <button
-          type='button'
-          onClick={onClickNext}
-          className={classNames(
-            "btn",
-            "btn-primary",
-            "mt-3",
-            "btn-vehicle-next",
-            {
-              "ml-auto": step <= 1,
-              "d-none": step > 5,
-            },
-          )}
-        >
-          next
-        </button>
-        <button
-          type='submit'
-          className={classNames(
-            "btn",
-            "btn-primary",
-            "mt-3",
-            "btn-vehicle-submit",
-            {
-              "btn-loading": loading,
-              "d-none": step < 6,
-            },
-          )}
-        >
-          Add vehicle
-        </button>
-      </div>
-    </form>
+    <Fragment>
+      <form onSubmit={onSubmit}>
+        {error && (
+          <div className='alert alert-sm alert-danger'>
+            {/* <FormattedMessage id={error.message} /> */}
+            <p>{error.message}</p>
+          </div>
+        )}
+        {MultiStepForm()}
+        <div className='form-group play-buttons'>
+          <button
+            type='button'
+            disabled={loading}
+            onClick={onClickPrev}
+            className={classNames(
+              "btn",
+              "btn-primary",
+              "mt-3",
+              "btn-vehicle-prev",
+              {
+                "d-none": step <= 1,
+              },
+            )}
+          >
+            Prev
+          </button>
+          <button
+            type='button'
+            disabled={loading || error}
+            onClick={onClickNext}
+            className={classNames(
+              "btn",
+              "btn-primary",
+              "mt-3",
+              "btn-vehicle-next",
+              {
+                "ml-auto": step <= 1,
+                "d-none": step > 5,
+              },
+            )}
+          >
+            next
+          </button>
+          <button
+            type='submit'
+            disabled={error}
+            className={classNames(
+              "btn",
+              "btn-primary",
+              "mt-3",
+              "btn-vehicle-submit",
+              {
+                "btn-loading": loading,
+                "d-none": step < 6,
+              },
+            )}
+          >
+            Add vehicle
+          </button>
+        </div>
+      </form>
+    </Fragment>
   );
 };
 

@@ -1,11 +1,25 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
 import { useDropzone } from "react-dropzone";
 
+import { CLEAR_ERROR, SET_ERROR } from "../../actions/types/errorTypes";
+
 const AddVehicleFormStepFive = (props) => {
-  const { vehicleData, vehicleState, setVehicleState, onChange } = props;
+  const { vehicleState, setVehicleState } = props;
   const { photos } = vehicleState;
+  const dispatch = useDispatch();
+
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    dispatch({ type: CLEAR_ERROR });
+
+    if (rejectedFiles && rejectedFiles.length > 0) {
+      dispatch({
+        type: SET_ERROR,
+        payload: { type: "file", message: "Files are not supported" },
+      });
+    }
+
     acceptedFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -25,28 +39,46 @@ const AddVehicleFormStepFive = (props) => {
     accept: "image/*",
   });
 
-  useEffect(() => {
-    console.log(photos);
-  }, [photos]);
+  const [removed, setRemoved] = useState("");
+
+  const removePhoto = (photo) => {
+    setRemoved(photo);
+    setTimeout(() => {
+      setVehicleState({
+        ...vehicleState,
+        photos: photos.filter((p) => p !== photo),
+      });
+      setRemoved("");
+    }, 900);
+  };
 
   return (
     <div className='container'>
-      <div
-        className={classNames("dropzone", { "dropzone-active": isDragActive })}
-        {...getRootProps()}
-      >
-        <input className='d-none' {...getInputProps} />
-        {isDragActive ? "Drag active" : "Drag and drop files"}
+      <div className='row'>
+        <div
+          className={classNames("dropzone", {
+            "dropzone-active": isDragActive,
+          })}
+          {...getRootProps()}
+        >
+          <input className='d-none' {...getInputProps} />
+          {isDragActive ? "Drop" : "Drag and drop files"}
+        </div>
       </div>
+      <div className='card-divider' />
       {photos.length > 0 && (
-        <div className='preview'>
+        <div className='preview row'>
           {photos.map((photo, index) => (
-            <img
-              className='selected-images'
-              src={photo}
-              alt='preview'
-              key={index}
-            />
+            <div key={index} className='col-lg-3 col-sm-12  mt-2'>
+              <img
+                onClick={() => removePhoto(photo)}
+                className={classNames("selected-images", {
+                  "removed-image": removed === photo,
+                })}
+                src={photo}
+                alt='preview'
+              />
+            </div>
           ))}
         </div>
       )}

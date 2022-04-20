@@ -1,10 +1,10 @@
-add display none to submit button 
-add display none to next button 
-add remove in preview
-add styles to preview
-add validation (important)
+add display none to submit button  (done)
+add display none to next button  (done)
+add remove in preview (done)
+add styles to preview (done)
+add validation (important) (done)
 
-add delete photo in backend
+add delete photo in backend (when addin delete product)
 
 to delete image from cloudinary you need public id of the image
 
