@@ -1,0 +1,105 @@
+.sidebar {
+  flex: 1;
+  border-right: solid 0.5px lightgray;
+  min-height: 100vh;
+  background: white;
+  .top {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #6439ff;
+    }
+  }
+  hr {
+    height: 0;
+    border: solid 0.2px lightgray;
+  }
+  .center {
+    padding-left: 10px;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .title {
+        font-size: 10px;
+        font-weight: bold;
+        color: #999;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+      }
+      li {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        transition: background-color 0.25s ease-in;
+
+        &:hover {
+          background-color: #ece8ff;
+        }
+        .icon {
+          font-size: 18px;
+        }
+        span {
+          font-size: 13px;
+          font-weight: 600;
+          color: #888;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  .bottom {
+    padding-left: 10px;
+    .advertising {
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .title {
+          font-size: 10px;
+          font-weight: bold;
+          color: #999;
+          margin-top: 15px;
+          margin-bottom: 5px;
+          text-transform: uppercase;
+        }
+
+        li {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          cursor: pointer;
+          transition: background-color 0.25s ease-in;
+
+          &:hover {
+            background-color: #ece8ff;
+          }
+          .icon {
+            font-size: 18px;
+          }
+          span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+    .copyright {
+      font-size: 10px;
+      font-weight: bold;
+      color: #999;
+      margin-top: 50px;
+      transform: translateX(30%);
+    }
+  }
+}
