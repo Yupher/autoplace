@@ -4,13 +4,10 @@ import Sidebar from "./sidebar/Sidebar";
 
 const Layout = ({ children }) => {
   return (
-    <Fragment>
-      <Navbar />
-      <div style={{ display: "flex" }}>
-        <Sidebar />
-        {children}
-      </div>
-    </Fragment>
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      {children}
+    </div>
   );
 };
 
