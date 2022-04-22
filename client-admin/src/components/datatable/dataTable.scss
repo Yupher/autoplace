@@ -1,0 +1,76 @@
+@import "../../variables";
+.dataTable {
+  height: 600px;
+  padding: 20px;
+
+  .cellWithImg {
+    display: flex;
+    align-items: center;
+
+    .cellImg {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+  }
+
+  .cellWithStatus {
+    padding: 5px;
+
+    &.active {
+      color: green;
+
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    &.admin {
+      color: orange;
+
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    &.mainAdmin {
+      color: lightblue;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    &.passive {
+      color: cornflowerblue;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    &.pending {
+      color: rgb(240, 213, 64);
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    &.blocked {
+      color: $red;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+  }
+
+  .cellAction {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .viewButton {
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: darkblue;
+      border: 1px solid rgba(0, 0, 139, 0.158);
+      cursor: pointer;
+    }
+    .deleteButton {
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: $primary;
+      border: 1px solid $red;
+      cursor: pointer;
+    }
+  }
+}

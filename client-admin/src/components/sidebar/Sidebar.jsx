@@ -13,10 +13,6 @@ import UpcomingOutlinedIcon from "@mui/icons-material/UpcomingOutlined";
 const Sidebar = () => {
   return (
     <div className='sidebar'>
-      <div className='top'>
-        <div className='logo'>Autoplace</div>
-      </div>
-      <hr />
       <div className='center'>
         <ul>
           <p className='title'>Main</p>

@@ -9,9 +9,11 @@ const Navbar = () => {
   return (
     <div className='navbar'>
       <div className='wrapper'>
+        <div className='logo'>Autoplace Admin</div>
+
         <div className='search'>
           <input type='text' name='search' placeholder='Search' />
-          <SearchOutlinedIcon />
+          <SearchOutlinedIcon style={{ fill: "white" }} />
         </div>
         <div className='items'>
           <div className='item'>

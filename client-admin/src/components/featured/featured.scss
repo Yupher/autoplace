@@ -1,3 +1,4 @@
+@import "../../variables";
 .featured {
   flex: 4;
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
@@ -8,8 +9,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: gray;
-
+    color: $black;
+    color: $black;
     .title {
       font-size: 16px;
       font-weight: 500;
@@ -30,7 +31,7 @@
     }
     .title {
       font-weight: 500;
-      color: grey;
+      color: $black;
     }
   }
 }
