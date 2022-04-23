@@ -1,0 +1,11 @@
+[
+    {
+        "name": "automatique"
+    },
+    {
+        "name": "manuelle"
+    },
+    {
+        "name": "semi-automatique"
+    }
+]
