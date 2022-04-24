@@ -3,6 +3,8 @@ const factory = require("./factoryHandler");
 
 exports.getAllDocuments = factory.getAll(model);
 
+exports.getDocument = factory.getOne(model);
+
 exports.createDocument = factory.createOne(model, {
   user: true,
   hasPhotos: true,

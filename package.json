@@ -12,6 +12,7 @@
   "author": "Bekkal Nasereddine",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.29.1",
     "concurrently": "^5.3.0",

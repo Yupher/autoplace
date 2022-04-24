@@ -8,7 +8,7 @@ import setAuthToken from "../utils/setAuthToken";
 export const login = (userData) => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.post("/api/v1/users/login", userData);
+    const res = await axios.post("/api/v1/users/admin-login", userData);
     dispatch(resetLoading());
     const { token, user } = res.data;
     localStorage.setItem("jwtToken", token);

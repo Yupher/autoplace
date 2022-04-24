@@ -106,13 +106,23 @@ const prodAutoSchema = new mongoose.Schema({
     required: [true, "A user is needed to add a section."],
   },
   accepted: {
-    type: Boolean,
-    default: undefined,
+    value: {
+      type: Boolean,
+      default: undefined,
+    },
+    acceptedBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: "users",
+    },
+    acceptedAt: {
+      type: Date,
+    },
   },
 });
 
 prodAutoSchema.pre(/^find/, function (next) {
   this.populate("addedBy");
+  this.populate("accepted.acceptedBy");
   next();
 });
 

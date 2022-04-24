@@ -10,7 +10,7 @@ const pageTitle = (props) => {
       <title>
         {title}
         {title ? " — " : ""}
-        RedParts
+        Admin
       </title>
     </Helmet>
   );

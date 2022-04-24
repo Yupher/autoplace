@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/signup", authController.signup);
 router.post("/signup/phone", authController.signupPhone);
 router.post("/login", authController.login);
+router.post("/admin-login", authController.adminLogin);
 router.post("/google/login", authController.googleLogin);
 router.post("/facebook/login", authController.facebookLogin);
 router.get("/logout", authController.logout);

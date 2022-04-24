@@ -28,6 +28,23 @@ exports.getAll = (Model) =>
     });
   });
 
+exports.getOne = (model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await model.findById(req.params.id);
+
+    if (!doc) {
+      if (!doc) {
+        return next(new AppError("No document found with that ID", 404));
+      }
+    }
+
+    // SEND RESPONSE
+    res.status(200).json({
+      status: "success",
+      data: doc,
+    });
+  });
+
 exports.createOne = (Model, params) =>
   catchAsync(async (req, res, next) => {
     if (params.user) {

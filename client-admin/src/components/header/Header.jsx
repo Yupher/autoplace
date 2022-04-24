@@ -33,11 +33,11 @@ const Header = () => {
           <Topbar layout='classic' />
         </div>
       </React.Fragment>
-      <div className='header__navbar'>
+      {/* <div className='header__navbar'>
         <div className=' header__navbar-menu'>
           <MainMenu />
         </div>
-      </div>
+      </div> */}
       <Logo className='header__logo' />
       <div className='header__search'>
         <Search />
