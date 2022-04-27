@@ -33,9 +33,7 @@ exports.getOne = (model) =>
     const doc = await model.findById(req.params.id);
 
     if (!doc) {
-      if (!doc) {
-        return next(new AppError("No document found with that ID", 404));
-      }
+      return next(new AppError("No document found with that ID", 404));
     }
 
     // SEND RESPONSE

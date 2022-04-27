@@ -69,7 +69,7 @@ export const getAllVehicles = () => async (dispatch) => {
     let res = await axios.get("/api/v1/vehicles");
     let { data } = res;
     dispatch({ type: RESET_LOADING });
-    console.log(data);
+
     dispatch({ type: GET_ALL_VEHICLES, payload: data });
   } catch (error) {
     console.log(error.response.data.message);
@@ -85,9 +85,9 @@ export const getVehicle = (id) => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING });
     let res = await axios.get(`/api/v1/vehicles/${id}`);
-    let { data } = res;
+    let { data } = res.data;
     dispatch({ type: RESET_LOADING });
-    console.log(data);
+
     dispatch({ type: GET_VEHICLE, payload: data });
   } catch (error) {
     console.log(error.response.data.message);
