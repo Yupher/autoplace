@@ -93,7 +93,6 @@ const prodAutoSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-    select: false,
   },
   updatedAt: {
     type: Date,
@@ -113,6 +112,7 @@ const prodAutoSchema = new mongoose.Schema({
     acceptedBy: {
       type: mongoose.Schema.ObjectId,
       ref: "users",
+      required: [true, "A user is needed to for this action."],
     },
     acceptedAt: {
       type: Date,

@@ -86,6 +86,10 @@ exports.createOne = (Model, params) =>
 
 exports.updateOne = (Model, ...filtring) =>
   catchAsync(async (req, res, next) => {
+    if (req.body && req.body.accepted) {
+      return next(new AppError("Forbidden.", 403));
+    }
+
     const doc = await Model.findByIdAndUpdate(
       req.params.id,
       obgFiltring(req.body, filtring),

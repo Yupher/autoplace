@@ -1,20 +1,55 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 
-import { getVehicle } from "../actions/vehicleAction";
+import {
+  getVehicle,
+  acceptVehicle,
+  rejectVehicle,
+} from "../actions/vehicleAction";
+import { CLEAR_ERROR } from "../actions/types/errorTypes";
 
 import PageTitle from "../components/shared/PageTitle";
 import BlockSpace from "../components/blocks/BlockSpace";
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import ProductImageSlider from "../components/Products/ProductImageSlider";
 
-const VehiclePage = ({ loading, error, getVehicle, currentVehicle }) => {
+const VehiclePage = ({
+  loading,
+  error,
+  getVehicle,
+  currentVehicle,
+  acceptVehicle,
+  rejectVehicle,
+}) => {
   const { productId } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getVehicle(productId);
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ERROR });
+      }, 5000);
+    }
+  }, [error]);
+
+  const onAccept = () => {
+    dispatch({ type: CLEAR_ERROR });
+    acceptVehicle(productId);
+  };
+  const onReject = () => {
+    dispatch({ type: CLEAR_ERROR });
+    rejectVehicle(productId);
+  };
+
+  const formatDate = (date) => {
+    const dateJS = new Date(date);
+    return `${dateJS.getDay()}/${dateJS.getMonth()}/${dateJS.getFullYear()}`;
+  };
 
   if (!currentVehicle && !loading) {
     return <h3 style={{ textAlign: "center" }}>No data to display</h3>;
@@ -29,6 +64,14 @@ const VehiclePage = ({ loading, error, getVehicle, currentVehicle }) => {
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>
+          <div className='col-12'>
+            {error && (
+              <div className='alert alert-sm alert-danger'>
+                {/* <FormattedMessage id={error.message} /> */}
+                <p>{error.message}</p>
+              </div>
+            )}
+          </div>
           <div className='col-md-6 col-sm-12 '>
             <h1 style={{ textTransform: "capitalize" }}>
               {`${currentVehicle.brand} ${currentVehicle.model}`}
@@ -36,8 +79,16 @@ const VehiclePage = ({ loading, error, getVehicle, currentVehicle }) => {
           </div>
           <div className='col-md-6  col-sm-12 p-2'>
             <div className='header-btn'>
-              <button className='btn btn-primary '>Accept</button>
-              <button className='btn btn-primary '>Reject</button>
+              {currentVehicle.accepted.value === undefined && (
+                <Fragment>
+                  <button onClick={onAccept} className='btn btn-primary '>
+                    Accept
+                  </button>
+                  <button onClick={onReject} className='btn btn-primary '>
+                    Reject
+                  </button>
+                </Fragment>
+              )}
             </div>
           </div>
         </div>
@@ -154,6 +205,70 @@ const VehiclePage = ({ loading, error, getVehicle, currentVehicle }) => {
               <ProductImageSlider images={currentVehicle.images} />
             </div>
           </div>
+
+          {currentVehicle.accepted.value !== undefined && (
+            <Fragment>
+              <div className='col-12 mt-5'>
+                <h4>Admin Actions: </h4>
+              </div>
+              {currentVehicle.accepted.value === true ? (
+                <Fragment>
+                  <div className='col-md-3 col-sm-6 mt-2'>
+                    <div className='mb-2'>
+                      <span style={{ fontWeight: "bold" }}>Accepted by: </span>
+                      <span>
+                        {" "}
+                        {`${currentVehicle.accepted.acceptedBy.firstname} ${currentVehicle.accepted.acceptedBy.lastname}`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='col-md-3 col-sm-6 mt-2'>
+                    <div className='mb-2'>
+                      <span style={{ fontWeight: "bold" }}>Accepted at: </span>
+                      <span>
+                        {" "}
+                        {formatDate(currentVehicle.accepted.acceptedAt)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='col-md-3 col-sm-6'>
+                    <button
+                      onClick={onReject}
+                      className='btn btn-primary ml-auto'
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <div className='col-md-3 col-sm-6 mt-2'>
+                    <div className='mb-2'>
+                      <span style={{ fontWeight: "bold" }}>Rejected by: </span>
+                      <span>
+                        {" "}
+                        {`${currentVehicle.accepted.acceptedBy.firstname} ${currentVehicle.accepted.acceptedBy.lastname}`}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='col-md-3 col-sm-6 mt-2'>
+                    <div className='mb-2'>
+                      <span style={{ fontWeight: "bold" }}>Rejected at: </span>
+                      <span>
+                        {" "}
+                        {formatDate(currentVehicle.accepted.acceptedAt)}{" "}
+                      </span>
+                    </div>
+                  </div>
+                  <div className='col-md-3 col-sm-6'>
+                    <button onClick={onAccept} className='btn btn-primary '>
+                      Accept
+                    </button>
+                  </div>
+                </Fragment>
+              )}
+            </Fragment>
+          )}
         </div>
       </div>
       <BlockSpace layout='before-footer' />
@@ -169,6 +284,8 @@ const mapStateToProps = (state) => ({
 
 const actions = {
   getVehicle,
+  acceptVehicle,
+  rejectVehicle,
 };
 
 export default connect(mapStateToProps, actions)(VehiclePage);

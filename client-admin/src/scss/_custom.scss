@@ -22,3 +22,24 @@
   align-items: flex-end;
   justify-content: center;
 }
+
+.carousel-control-next,
+.carousel-control-prev {
+  background-color: none !important;
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+
+  .carousel-icons {
+    font-size: 40px;
+    color: "#ff3333";
+    opacity: 0.8;
+    transition: all 0.2s ease-in;
+
+    &:hover {
+      transform-origin: center;
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+}

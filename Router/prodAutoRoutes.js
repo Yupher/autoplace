@@ -8,6 +8,18 @@ const router = express.Router();
 router.get("/", documentController.getAllDocuments);
 router.post("/", authController.protect, documentController.createDocument);
 router.get("/:id", authController.protect, documentController.getDocument);
+router.get(
+  "/:id/accept",
+  authController.protect,
+  authController.isAdmin,
+  documentController.accept,
+);
+router.get(
+  "/:id/reject",
+  authController.protect,
+  authController.isAdmin,
+  documentController.reject,
+);
 router.patch(
   "/:id",
   authController.protect,

@@ -56,35 +56,31 @@ const ProductImageSlider = ({ images }) => {
           </div>
         </div>
       ))}
-      <a
+      <button
         className='carousel-control-prev'
         onClick={prev}
-        href='#carouselIndicators'
-        role='button'
         data-slide='prev'
       >
         <i
           style={{ fontSize: "40px", color: "#ff3333" }}
-          className='fa fa-angle-left'
+          className='fa fa-angle-left carousel-icons'
           aria-hidden='true'
         ></i>
         <span className='sr-only'>Previous</span>
-      </a>
-      <a
-        className='carousel-control-next color-primary'
+      </button>
+      <button
+        className='carousel-control-next'
         onClick={next}
-        href='#carouselIndicators'
-        role='button'
         data-slide='next'
       >
         <i
           style={{ fontSize: "40px", color: "#ff3333" }}
-          className='fa fa-angle-right'
+          className='fa fa-angle-right carousel-icons'
           aria-hidden='true'
         ></i>
 
         <span className='sr-only'>Next</span>
-      </a>
+      </button>
     </div>
   );
 };
