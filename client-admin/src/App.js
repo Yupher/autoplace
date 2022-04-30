@@ -1,11 +1,14 @@
 import { useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
 import LanguageProvider from "./i18n/LanguageProvider";
 import { loadUser, logout } from "./actions/authActions";
+import { CLEAR_ERROR } from "./actions/types/errorTypes";
+
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 //components
 import Header from "./components/header/Header";
@@ -36,6 +39,7 @@ if (localStorage.jwtToken) {
 
 function App({ currentLocale, error, user, loadUser, logout }) {
   const { locale, direction, code } = currentLocale;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.documentElement.dir = direction;
@@ -45,6 +49,14 @@ function App({ currentLocale, error, user, loadUser, logout }) {
   useEffect(() => {
     loadUser();
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        dispatch({ type: CLEAR_ERROR });
+      }, 5000);
+    }
+  }, [error]);
 
   if (user === undefined) {
     return null;
@@ -64,28 +76,26 @@ function App({ currentLocale, error, user, loadUser, logout }) {
               <Header />
             </header>
             <div className='site__body'>
-              {/* {error && error.type === "authorization" && (
+              {error && error.type === "authorization" && (
                 <div className='alert alert-sm alert-danger mt-5'>
-                   <FormattedMessage id={error.message} /> 
+                  {/* <FormattedMessage id={error.message} />  */}
                   <p>{error.message}</p>
                 </div>
-              )} */}
+              )}
               <Routes>
-                <Route path='/' element={<Home />} />
                 <Route path='/login' element={<Login />} />
-                {/* product routes */}
-                <Route path='/products'>
-                  <Route index element={<Products />} />
-                  <Route
-                    path='/products/:productId'
-                    element={<VehiclePage />}
-                  />
-                </Route>
-                {/*
-                <Route exact path='/add-product' element={<AddProduct />} />
+
                 <Route element={<PrivateRoutes user={user} />}>
-                  <Route path='/add-vehicle' element={<AddVehicle />} />
-                </Route> */}
+                  <Route path='/' element={<Home />} />
+                  {/* product routes */}
+                  <Route path='/products'>
+                    <Route index element={<Products />} />
+                    <Route
+                      path='/products/:productId'
+                      element={<VehiclePage />}
+                    />
+                  </Route>
+                </Route>
               </Routes>
             </div>
             <footer className='site__footer'>

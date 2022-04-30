@@ -58,15 +58,28 @@ exports.signup = catchAsync(async (req, res, next) => {
     confirmed: false,
   };
 
+  const checkUser = await User.findOne({ email });
+
+  if (checkUser) {
+    return next(new AppError("User already exists please login!", 400));
+  }
+
   const newUser = await User.create(data);
 
-  const context = { firstname, lastname, code: codeConfirmation };
+  if (!newUser) {
+    return next(
+      new AppError("We have an error in our system,try again later!", 400),
+    );
+  }
+
+  const context = { firstname, lastname, code: newUser.codeConfirmation };
 
   let transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp-mail.outlook.com",
+    port: 587,
     auth: {
-      user: "bettershop.wdz@gmail.com", // TODO: your gmail account
-      pass: "betterMailDevloper1234", // TODO: your gmail password
+      user: "bettershoptest@outlook.com", // TODO: your gmail account
+      pass: "Aa123456789", // TODO: your gmail password
     },
   });
 
@@ -79,9 +92,9 @@ exports.signup = catchAsync(async (req, res, next) => {
   );
 
   let mailOptions = {
-    from: "bettershop.wdz@gmail.com", // TODO: email sender
+    from: "bettershoptest@outlook.com", // TODO: email sender
     // to: email, // TODO: email receiver
-    to: "nasereddinebekkal@gmail.com",
+    to: email,
     subject: "IA SHOP - Register",
     text: "Confirm your email",
     template: "handle",
@@ -465,11 +478,19 @@ exports.confirmEmail = catchAsync(async (req, res, next) => {
     return next(new AppError(`Sorry! You can't use this service.`, 401));
   }
 
+  if (parseInt(req.body.code) === NaN) {
+    return next(new AppError(`This code is not valid.`, 401));
+  }
+
   const user = await User.findOne({ email: req.user.email }).select(
     "+codeConfirmation",
   );
 
-  if (user.codeConfirmation !== req.body.code) {
+  if (!user) {
+    return next(new AppError(`We  can not find user.`, 404));
+  }
+
+  if (user.codeConfirmation !== parseInt(req.body.code)) {
     return next(
       new AppError("Your code is wrong! Please try another code.", 401),
     );

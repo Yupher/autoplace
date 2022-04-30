@@ -75,7 +75,7 @@ exports.createOne = (Model, params) =>
 
       req.body.images = response;
     }
-    console.log(req.body.images);
+
     const doc = await Model.create(req.body);
 
     return res.status(201).json({

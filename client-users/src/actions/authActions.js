@@ -43,6 +43,26 @@ export const signup = (userData) => async (dispatch) => {
   }
 };
 
+export const confirmEmail = (code) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await axios.post("/api/v1/users/confirmEmail", { code });
+    dispatch(resetLoading());
+    const { status } = res.data;
+
+    return status;
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+    return error.response.data.message.status;
+  }
+};
+
 export const googleAuth = () => async (dispatch) => {
   try {
     dispatch(setLoading());

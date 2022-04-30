@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import LanguageProvider from "./i18n/LanguageProvider";
 import { loadUser, logout } from "./actions/authActions";
@@ -20,6 +20,7 @@ import Login from "./pages/Login";
 import AddProduct from "./pages/AddProduct";
 import AddVehicle from "./pages/AddVehicle";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import ConfirmEmail from "./pages/ConfirmEmail";
 //styles
 import "./scss/index.scss";
 import "./scss/style.header-spaceship-variant-one.scss";
@@ -34,6 +35,7 @@ if (localStorage.jwtToken) {
 
 function App({ currentLocale, error, user, loadUser, logout }) {
   const { locale, direction, code } = currentLocale;
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadUser();
@@ -45,6 +47,12 @@ function App({ currentLocale, error, user, loadUser, logout }) {
     loadUser();
   }, []);
 
+  useEffect(() => {
+    if (user && !user.confirmed) {
+      navigate("/confirm-email");
+    }
+  }, [user]);
+
   if (user === undefined) {
     return null;
   }
@@ -52,48 +60,48 @@ function App({ currentLocale, error, user, loadUser, logout }) {
   return (
     <HelmetProvider>
       <LanguageProvider locale={locale}>
-        <Router>
-          <div className='site site--desktop-header--spaceship-one site--mobile-header--mobile-one'>
-            <ToastContainer autoClose={5000} hideProgressBar />
-            <div className='site__container'>
-              <header className='site__mobile-header'>
-                <MobileHeader />
-              </header>
+        <div className='site site--desktop-header--spaceship-one site--mobile-header--mobile-one'>
+          <ToastContainer autoClose={5000} hideProgressBar />
+          <div className='site__container'>
+            <header className='site__mobile-header'>
+              <MobileHeader />
+            </header>
 
-              <header className='site__header'>
-                <Header />
-              </header>
-              <div className='site__body'>
-                {error && error.type === "authorization" && (
-                  <div className='alert alert-sm alert-danger mt-5'>
-                    {/* <FormattedMessage id={error.message} /> */}
-                    <p>{error.message}</p>
-                  </div>
-                )}
-                <Routes>
-                  <Route
-                    exact
-                    path='/'
-                    element={<Home style={{ height: "1500px" }} />}
-                  />
-                  <Route exact path='/register' element={<Register />} />
-                  <Route exact path='/login' element={<Login />} />
-                  <Route exact path='/add-product' element={<AddProduct />} />
-                  <Route element={<PrivateRoutes user={user} />}>
-                    <Route path='/add-vehicle' element={<AddVehicle />} />
-                  </Route>
-                </Routes>
-              </div>
-              <footer className='site__footer'>
-                <Footer />
-              </footer>
+            <header className='site__header'>
+              <Header />
+            </header>
+            <div className='site__body'>
+              {error && error.type === "authorization" && (
+                <div className='alert alert-sm alert-danger mt-5'>
+                  {/* <FormattedMessage id={error.message} /> */}
+                  <p>{error.message}</p>
+                </div>
+              )}
+              <Routes>
+                <Route
+                  exact
+                  path='/'
+                  element={<Home style={{ height: "1500px" }} />}
+                />
+                <Route exact path='/register' element={<Register />} />
+                <Route exact path='/login' element={<Login />} />
+
+                <Route exact path='/add-product' element={<AddProduct />} />
+                <Route element={<PrivateRoutes user={user} />}>
+                  <Route path='/add-vehicle' element={<AddVehicle />} />
+                  <Route path='/confirm-email' element={<ConfirmEmail />} />
+                </Route>
+              </Routes>
             </div>
-
-            <MobileMenu />
-
-            {/* <Quickview /> */}
+            <footer className='site__footer'>
+              <Footer />
+            </footer>
           </div>
-        </Router>
+
+          <MobileMenu />
+
+          {/* <Quickview /> */}
+        </div>
       </LanguageProvider>
     </HelmetProvider>
   );

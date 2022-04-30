@@ -10,13 +10,7 @@ import { CLEAR_ERROR, SET_ERROR } from "../actions/types/errorTypes";
 import BlockSpace from "../components/blocks/BlockSpace";
 import PageTitle from "../components/shared/PageTitle";
 
-import {
-  validateEmail,
-  validatePassword,
-  validateFirstname,
-  validateLastname,
-  validatePasswordConfirm,
-} from "../utils/userInputValidation";
+import { validateEmail, validatePassword } from "../utils/userInputValidation";
 
 const Login = (props) => {
   const intl = useIntl();

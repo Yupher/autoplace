@@ -102,7 +102,6 @@ const prodAutoSchema = new mongoose.Schema({
   addedBy: {
     type: mongoose.Schema.ObjectId,
     ref: "users",
-    required: [true, "A user is needed to add a section."],
   },
   accepted: {
     value: {
@@ -112,7 +111,6 @@ const prodAutoSchema = new mongoose.Schema({
     acceptedBy: {
       type: mongoose.Schema.ObjectId,
       ref: "users",
-      required: [true, "A user is needed to for this action."],
     },
     acceptedAt: {
       type: Date,

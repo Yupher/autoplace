@@ -48,7 +48,8 @@ const VehiclePage = ({
 
   const formatDate = (date) => {
     const dateJS = new Date(date);
-    return `${dateJS.getDay()}/${dateJS.getMonth()}/${dateJS.getFullYear()}`;
+    // console.log(dateJS);
+    return dateJS.toDateString();
   };
 
   if (!currentVehicle && !loading) {
@@ -78,18 +79,16 @@ const VehiclePage = ({
             </h1>
           </div>
           <div className='col-md-6  col-sm-12 p-2'>
-            <div className='header-btn'>
-              {currentVehicle.accepted.value === undefined && (
-                <Fragment>
-                  <button onClick={onAccept} className='btn btn-primary '>
-                    Accept
-                  </button>
-                  <button onClick={onReject} className='btn btn-primary '>
-                    Reject
-                  </button>
-                </Fragment>
-              )}
-            </div>
+            {currentVehicle.accepted === undefined && (
+              <Fragment>
+                <button onClick={onAccept} className='btn btn-primary mx-2'>
+                  Accept
+                </button>
+                <button onClick={onReject} className='btn btn-primary  mx-2'>
+                  Reject
+                </button>
+              </Fragment>
+            )}
           </div>
         </div>
         <div className='row mt-5'>
@@ -206,7 +205,7 @@ const VehiclePage = ({
             </div>
           </div>
 
-          {currentVehicle.accepted.value !== undefined && (
+          {currentVehicle.accepted !== undefined && (
             <Fragment>
               <div className='col-12 mt-5'>
                 <h4>Admin Actions: </h4>

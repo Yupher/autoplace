@@ -37,7 +37,8 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
 
   const formatDate = (date) => {
     const dateJS = new Date(date);
-    return `${dateJS.getDay()}/${dateJS.getMonth()}/${dateJS.getFullYear()}`;
+    // console.log(dateJS);
+    return dateJS.toDateString();
   };
 
   const data = [
@@ -46,11 +47,12 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
       product: `${product.brand} ${product.model}`,
       user: product.addedBy._id,
       status:
-        product.accepted.value === undefined
+        product.accepted === undefined
           ? "Pending"
-          : product.accepted.value
+          : product.accepted && product.accepted.value
           ? "Accepted"
           : "Rejected",
+
       addedAt: formatDate(product.createdAt),
     })),
   ];
@@ -130,16 +132,10 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
         return { width: "200px", textAlign: "center" };
       },
       sortFunction: (a, b, order) => {
-        const [dayA, monthA, yearA] = a.split("/");
-        const [dayB, monthB, yearB] = b.split("/");
-
-        const isoStrA = `${yearA}-${monthA}-${dayA}T00:00:00.000Z`;
-        const isoStrB = `${yearB}-${monthB}-${dayB}T00:00:00.000Z`;
-
         if (order === "asc") {
-          return Date.parse(isoStrA) - Date.parse(isoStrB);
+          return Date.parse(a) - Date.parse(b);
         } else if (order === "desc") {
-          return Date.parse(isoStrB) - Date.parse(isoStrA);
+          return Date.parse(b) - Date.parse(a);
         }
       },
     },
