@@ -62,3 +62,39 @@ export const addVehicle = (vehicleForm) => async (dispatch) => {
     });
   }
 };
+
+export const getAllVehicles = () => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    let res = await axios.get("/api/v1/vehicles");
+    let { data } = res.data;
+    dispatch({ type: RESET_LOADING });
+
+    dispatch({ type: GET_ALL_VEHICLES, payload: data });
+  } catch (error) {
+    console.log(error.response.data.message);
+    dispatch({ type: RESET_LOADING });
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const getVehicle = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    let res = await axios.get(`/api/v1/vehicles/${id}`);
+    let { data } = res.data;
+    dispatch({ type: RESET_LOADING });
+
+    dispatch({ type: GET_VEHICLE, payload: data });
+  } catch (error) {
+    console.log(error.response.data.message);
+    dispatch({ type: RESET_LOADING });
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};

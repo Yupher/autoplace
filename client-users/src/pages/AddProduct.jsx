@@ -24,6 +24,7 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
+      <BlockSpace layout='before-footer' />
     </Fragment>
   );
 };

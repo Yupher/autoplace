@@ -1,7 +1,35 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 
-const Home = () => {
-  return <div style={{ height: "1500px" }}>Home</div>;
+import { getAllVehicles } from "../actions/vehicleAction";
+
+import BlockFinder from "../components/blocks/BlockFinder";
+import LoadingSpiner from "../components/shared/LoadingSpiner";
+
+const Home = (props) => {
+  const { getAllVehicles, vehicles } = props;
+
+  useEffect(() => {
+    getAllVehicles();
+  }, []);
+
+  if (vehicles === null) {
+    return <LoadingSpiner />;
+  }
+
+  return (
+    <Fragment>
+      <BlockFinder />
+    </Fragment>
+  );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+  vehicles: state.vehicleState.vehicles,
+});
+
+const actions = {
+  getAllVehicles,
+};
+
+export default connect(mapStateToProps, actions)(Home);

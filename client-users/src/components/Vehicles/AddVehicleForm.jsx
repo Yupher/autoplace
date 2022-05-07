@@ -25,6 +25,8 @@ const AddVehicleForm = (props) => {
     color: "",
     energy: "",
     options: [],
+    accident: "",
+    accidentDescription: "",
     paper: "",
     transmission: "",
     description: "",

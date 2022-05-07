@@ -34,6 +34,16 @@ const addVehicleValidation = (input = {}, step) => {
       if (!input.paper || input.paper === "") {
         return "Paper is required";
       }
+      if (!input.accident || input.accident === "") {
+        return "Accident is required";
+      }
+      if (
+        input.accident !== "" &&
+        input.accident !== "No accident" &&
+        input.accidentDescription === ""
+      ) {
+        return "Please discribe the accident";
+      }
       if (
         !input.description ||
         input.description === "" ||

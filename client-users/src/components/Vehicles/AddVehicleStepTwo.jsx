@@ -2,7 +2,16 @@ import React, { Fragment } from "react";
 
 const AddVehicleStepTwo = (props) => {
   const { vehicleData, vehicleState, setVehicleState, onChange } = props;
-  const { color, paper, description, isChecked } = vehicleState;
+  const {
+    color,
+    paper,
+    description,
+    accident,
+    accidentDescription,
+    isChecked,
+  } = vehicleState;
+
+  console.log(accident);
 
   //console.log(checked);
   return (
@@ -41,6 +50,33 @@ const AddVehicleStepTwo = (props) => {
             ))}
         </select>
       </div>
+      <div className='form-group'>
+        <label htmlFor='accident'>Accident</label>
+        <select
+          name='accident'
+          value={accident}
+          className='form-control'
+          onChange={onChange}
+        >
+          <option value='0'> Select Option </option>
+          <option vlaue='no accident'>No accident</option>
+          <option vlaue='fixed'>Accident and Fixed</option>
+          <option vlaue='not fixed'>Accident and not fixed</option>
+        </select>
+      </div>
+      {accident !== "No accident" && accident !== "" && (
+        <div className='form-group'>
+          <label htmlFor='description'>Describe the accident</label>
+          <textarea
+            type='text'
+            className='form-control'
+            placeholder='Description'
+            name='accidentDescription'
+            value={accidentDescription}
+            onChange={onChange}
+          />
+        </div>
+      )}
       <div className='form-group'>
         <label htmlFor='option'>Options</label>
         <div>
@@ -94,7 +130,7 @@ const AddVehicleStepTwo = (props) => {
       </div>
 
       <div className='form-group'>
-        <label htmlFor='description'>Description</label>
+        <label htmlFor='description'>General description</label>
         <textarea
           type='text'
           className='form-control'
