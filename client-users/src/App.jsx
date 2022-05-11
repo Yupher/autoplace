@@ -21,11 +21,13 @@ import AddProduct from "./pages/AddProduct";
 import AddVehicle from "./pages/AddVehicle";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import ConfirmEmail from "./pages/ConfirmEmail";
+import Wishlist from "./pages/Wishlist";
 //styles
 import "./scss/index.scss";
 import "./scss/style.header-spaceship-variant-one.scss";
 import "./scss/style.mobile-header-variant-one.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { getWishlist } from "./actions/wishlistActions";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -33,18 +35,18 @@ if (localStorage.jwtToken) {
   setAuthToken(false);
 }
 
-function App({ currentLocale, error, user, loadUser, logout }) {
+function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
   const { locale, direction, code } = currentLocale;
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadUser();
     document.documentElement.dir = direction;
     document.documentElement.lang = code;
   }, [direction, code]);
 
   useEffect(() => {
     loadUser();
+    getWishlist();
   }, []);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ function App({ currentLocale, error, user, loadUser, logout }) {
                 <Route element={<PrivateRoutes user={user} />}>
                   <Route path='/add-vehicle' element={<AddVehicle />} />
                   <Route path='/confirm-email' element={<ConfirmEmail />} />
+                  <Route path='/favorite' element={<Wishlist />} />
                 </Route>
               </Routes>
             </div>
@@ -112,5 +115,5 @@ const mapStateToProps = (state) => ({
   user: state.authState.user,
   error: state.errorState.error,
 });
-const actions = { loadUser, logout };
+const actions = { loadUser, logout, getWishlist };
 export default connect(mapStateToProps, actions)(App);

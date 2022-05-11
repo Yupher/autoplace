@@ -7,10 +7,10 @@ const VehicleSelect = (props) => {
   const rootClasses = classNames("vehicle-select", className);
 
   const items = [
-    { year: [...vehicles.map((v) => v.year)] },
-    { brand: [...vehicles.map((v) => v.brand)] },
-    { model: [...vehicles.map((v) => v.model)] },
-    { energy: [...vehicles.map((v) => v.energy)] },
+    { year: [...new Set(vehicles.map((v) => v.year))] },
+    { brand: [...new Set(vehicles.map((v) => v.brand))] },
+    { model: [...new Set(vehicles.map((v) => v.model))] },
+    { energy: [...new Set(vehicles.map((v) => v.energy))] },
   ];
 
   return (
@@ -30,7 +30,7 @@ const VehicleSelect = (props) => {
                 value={vehicleState[Object.keys(item)[0]]}
                 onChange={onChange}
               >
-                <option value='none'>{Object.keys(item)[0]}</option>
+                <option value=''>{Object.keys(item)[0]}</option>
                 {item[Object.keys(item)[0]].map((option, index) => (
                   <option key={index} value={option}>
                     {option}

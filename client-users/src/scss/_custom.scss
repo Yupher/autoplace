@@ -130,3 +130,24 @@
     transform: scale(0.2);
   }
 }
+
+.product-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 5px;
+  width: 100%;
+  padding: 20px 0;
+  margin-bottom: 20px;
+
+  .product-card {
+    max-width: 100%;
+    min-width: 250px;
+  }
+  .product-wilaya {
+    padding: 0 10px;
+    margin-top: -3px;
+  }
+  .liked {
+    color: #e63121 !important;
+  }
+}

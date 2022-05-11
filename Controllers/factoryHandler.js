@@ -2,6 +2,8 @@ const catchAsync = require("./../utils/catchAsync");
 const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/APIFeatures");
 const obgFiltring = require("../utils/obgFiltring");
+const { promisify } = require("util");
+const User = require("../Models/userModel");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -9,6 +11,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: false,
 });
+
+const jwt = require("jsonwebtoken");
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -18,10 +22,42 @@ exports.getAll = (Model) =>
       .limitFields()
       .paginate();
 
-    const doc = await features.query;
+    const allDocs = await features.query;
+
+    let token;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies && req.cookies.jwt) {
+      token = req.cookies.jwt;
+    } else {
+      token = req.body.token;
+    }
+
+    const decoded =
+      token && (await promisify(jwt.verify)(token, process.env.JWT_SECRET));
+
+    const currentUser =
+      decoded &&
+      (await User.findById(decoded.id).select("+role").select("+password"));
+
+    let doc = [];
+    if (
+      currentUser &&
+      (currentUser.role === "main_admin" || currentUser.role === "admin")
+    ) {
+      doc = [...allDocs];
+    } else {
+      doc = [
+        ...allDocs.filter((obj) => obj.accepted && obj.accepted.value === true),
+      ];
+    }
 
     // SEND RESPONSE
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       results: doc.length,
       data: doc,

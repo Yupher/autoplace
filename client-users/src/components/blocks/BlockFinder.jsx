@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { useNavigate } from "react-router-dom";
+import { connect, useDispatch } from "react-redux";
+
+import { filteredVehicles, getAllVehicles } from "../../actions/vehicleAction";
 
 import Decor from "../shared/Decor";
 import VehicleSelect from "../shared/VehicleSelect";
 
-const BlockFinder = () => {
+const BlockFinder = (props) => {
+  const { filtred, filteredVehicles, getAllVehicles } = props;
   const [vehicleState, setVehicle] = useState({
     year: "",
     brand: "",
@@ -16,7 +21,26 @@ const BlockFinder = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    let params = {};
+    if (vehicleState.year !== "") {
+      params.year = vehicleState.year;
+    }
+    if (vehicleState.brand !== "") {
+      params.brand = vehicleState.brand;
+    }
+    if (vehicleState.model !== "") {
+      params.model = vehicleState.model;
+    }
+    if (vehicleState.energy !== "") {
+      params.energy = vehicleState.energy;
+    }
+    const queryString = new URLSearchParams(params).toString();
+    e.preventDefault();
+    if (!queryString) {
+      return getAllVehicles();
+    }
     console.log(vehicleState);
+    filteredVehicles(queryString);
   };
 
   return (
@@ -51,4 +75,11 @@ const BlockFinder = () => {
   );
 };
 
-export default BlockFinder;
+const mapStateToProps = (state) => ({
+  filtred: state.vehicleState.filtred,
+  error: state.errorState.error,
+  loading: state.loadingState.loading,
+});
+const actions = { filteredVehicles, getAllVehicles };
+
+export default connect(mapStateToProps, actions)(BlockFinder);

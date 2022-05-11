@@ -2,7 +2,7 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const model = require("./../Models/prodAutoModel");
 const factory = require("./factoryHandler");
-
+const wishlist = require("../Models/wishlistModel");
 exports.getAllDocuments = factory.getAll(model);
 
 exports.getDocument = factory.getOne(model);
@@ -56,4 +56,43 @@ exports.reject = catchAsync(async (req, res, next) => {
     status: "success",
     data: product,
   });
+});
+
+exports.addRemoveFromwishlist = catchAsync(async (req, res, next) => {
+  let Wishlist = await wishlist.findOne({ user: req.user._id });
+  if (!Wishlist) {
+    return next(new AppError("No document found with that ID", 404));
+  }
+
+  let prodIndx = Wishlist.products.indexOf(req.params.id);
+
+  if (prodIndx === -1) {
+    Wishlist.products.splice(0, 0, req.params.id);
+  } else {
+    Wishlist.products.splice(prodIndx, 1);
+  }
+  let result = await wishlist
+    .findOneAndUpdate(
+      { user: req.user._id },
+      { products: [...Wishlist.products] },
+      { new: true },
+    )
+    .populate("products")
+    .exec();
+  res.status(200).json({ success: true, data: result });
+});
+
+exports.getWishlist = catchAsync(async (req, res, next) => {
+  let Wishlist = await wishlist
+    .findOne({ user: req.user._id })
+    .populate("products")
+    .exec();
+  if (!Wishlist) {
+    Wishlist = new wishlist({
+      user: req.user._id,
+    });
+    await Wishlist.save();
+  }
+
+  res.status(200).json({ success: true, data: Wishlist });
 });

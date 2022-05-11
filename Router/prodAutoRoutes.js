@@ -7,6 +7,19 @@ const router = express.Router();
 
 router.get("/", documentController.getAllDocuments);
 router.post("/", authController.protect, documentController.createDocument);
+
+router.get(
+  "/wishlist",
+  authController.protect,
+  authController.isPermitted(model),
+  documentController.getWishlist,
+);
+router.post(
+  "/wishlist/:id",
+  authController.protect,
+  authController.isPermitted(model),
+  documentController.addRemoveFromwishlist,
+);
 router.get("/:id", authController.protect, documentController.getDocument);
 router.get(
   "/:id/accept",

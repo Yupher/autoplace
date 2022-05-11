@@ -2,6 +2,8 @@ import {
   GET_VEHICLE_DATA,
   GET_ALL_VEHICLES,
   GET_VEHICLE,
+  GET_FILTRED_VEHICLES,
+  CLEAR_FILTRED_VEHICLES,
 } from "../actions/types/vehicleTypes";
 
 const initialSate = {
@@ -19,6 +21,8 @@ const vehicleReducer = (state = initialSate, action) => {
       return { ...state, vehicles: action.payload };
     case GET_VEHICLE:
       return { ...state, currentVehicle: action.payload };
+    case GET_FILTRED_VEHICLES:
+      return { ...state, vehicles: action.payload };
 
     default:
       return state;

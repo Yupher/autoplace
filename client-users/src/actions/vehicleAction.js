@@ -3,6 +3,7 @@ import {
   GET_VEHICLE_DATA,
   GET_ALL_VEHICLES,
   GET_VEHICLE,
+  GET_FILTRED_VEHICLES,
   ADD_VEHICLE,
   UPDATE_VEHICLE,
   DELETE_VEHICLE,
@@ -68,9 +69,27 @@ export const getAllVehicles = () => async (dispatch) => {
     dispatch({ type: SET_LOADING });
     let res = await axios.get("/api/v1/vehicles");
     let { data } = res.data;
-    dispatch({ type: RESET_LOADING });
 
     dispatch({ type: GET_ALL_VEHICLES, payload: data });
+    dispatch({ type: RESET_LOADING });
+  } catch (error) {
+    console.log(error.response.data.message);
+    dispatch({ type: RESET_LOADING });
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const filteredVehicles = (queries) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    let res = await axios.get(`/api/v1/vehicles?${queries}`);
+    let { data } = res.data;
+    dispatch({ type: RESET_LOADING });
+
+    dispatch({ type: GET_FILTRED_VEHICLES, payload: data });
   } catch (error) {
     console.log(error.response.data.message);
     dispatch({ type: RESET_LOADING });
