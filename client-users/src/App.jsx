@@ -28,6 +28,7 @@ import "./scss/style.header-spaceship-variant-one.scss";
 import "./scss/style.mobile-header-variant-one.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { getWishlist } from "./actions/wishlistActions";
+import Profile from "./pages/Profile";
 
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
@@ -93,6 +94,7 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
                   <Route path='/add-vehicle' element={<AddVehicle />} />
                   <Route path='/confirm-email' element={<ConfirmEmail />} />
                   <Route path='/favorite' element={<Wishlist />} />
+                  <Route path='/profile' element={<Profile />} />
                 </Route>
               </Routes>
             </div>

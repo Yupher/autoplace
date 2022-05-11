@@ -12,14 +12,13 @@ import { ReactComponent as Person20Svg } from "../../svg/person-20.svg";
 import { ReactComponent as Heart20Svg } from "../../svg/heart-20.svg";
 import MobileLogo from "./MobileLogo";
 import { OPEN_MENU } from "../../actions/types/MobileMenuTypes";
+import { connect } from "react-redux";
 
-const MobileHeader = () => {
+const MobileHeader = ({ wishlist }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
-
-  const wishlist = ["something"];
 
   const onOpenMenuClick = () => dispatch({ type: OPEN_MENU });
   const onOpenSearchClick = () => setSearchOpen(!searchOpen);
@@ -112,9 +111,10 @@ const MobileHeader = () => {
               <Link to='/favorite' className='mobile-indicator__button'>
                 <span className='mobile-indicator__icon'>
                   <Heart20Svg />
-                  {wishlist.length > 0 && (
+
+                  {wishlist && (
                     <span className='mobile-indicator__counter'>
-                      {wishlist.length}
+                      {wishlist && wishlist.products.length}
                     </span>
                   )}
                 </span>
@@ -127,4 +127,8 @@ const MobileHeader = () => {
   );
 };
 
-export default MobileHeader;
+const mapStateToProps = (state) => ({
+  wishlist: state.wishlistState.wishlist,
+});
+
+export default connect(mapStateToProps)(MobileHeader);
