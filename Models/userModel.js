@@ -80,6 +80,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  address: String,
 });
 
 userSchema.pre("save", async function (next) {

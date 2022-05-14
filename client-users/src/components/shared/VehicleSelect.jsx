@@ -31,6 +31,7 @@ const VehicleSelect = (props) => {
                 onChange={onChange}
               >
                 <option value=''>{Object.keys(item)[0]}</option>
+                <option value=''>All</option>
                 {item[Object.keys(item)[0]].map((option, index) => (
                   <option key={index} value={option}>
                     {option}

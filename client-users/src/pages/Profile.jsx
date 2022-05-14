@@ -7,17 +7,16 @@ import { useDropzone } from "react-dropzone";
 
 import {
   validateEmail,
-  validatePassword,
   validateFirstname,
   validateLastname,
-  validatePasswordConfirm,
 } from "../utils/userInputValidation";
 import { CLEAR_ERROR, SET_ERROR } from "../actions/types/errorTypes";
+import { updateUser } from "../actions/authActions";
 
 const Profile = (props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { user, loading, error } = props;
+  const { user, loading, error, updateUser } = props;
 
   const [userData, setUserData] = useState({
     firstname: user && user.firstname,
@@ -25,12 +24,13 @@ const Profile = (props) => {
     email: user && user.email,
     phone: user && user.phone,
     address: user && user.address,
-    image:
-      user && user.photo[0].secure_url
-        ? user.photo[0].secure_url
+    photo:
+      user && user.photo !== "default.jpg"
+        ? user.photo
         : "/images/avatars/avatar-1.jpg",
   });
 
+  // setting up dropzone to capture profile picture upload
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     dispatch({ type: CLEAR_ERROR });
 
@@ -45,7 +45,7 @@ const Profile = (props) => {
     reader.onload = () => {
       setUserData((prevState) => ({
         ...prevState,
-        image: reader.result,
+        photo: reader.result,
       }));
     };
     reader.readAsDataURL(acceptedFiles[0]);
@@ -53,6 +53,7 @@ const Profile = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // initializing react dropzone
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     onDrop,
     accept: "image/*",
@@ -62,7 +63,32 @@ const Profile = (props) => {
     dispatch({ type: CLEAR_ERROR });
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  const onSubmit = (e) => {};
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (error) {
+      dispatch({ type: CLEAR_ERROR });
+    }
+    if (validateEmail(userData.email)) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: validateEmail(userData.email),
+      });
+    }
+    if (validateFirstname(userData.firstname)) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: validateFirstname(userData.firstname),
+      });
+    }
+    if (validateLastname(userData.lastname)) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: validateLastname(userData.lastname),
+      });
+    }
+
+    updateUser(userData);
+  };
 
   return (
     <div className='container mt-5 mb-5'>
@@ -78,7 +104,7 @@ const Profile = (props) => {
             <input className='d-none' {...getInputProps} />
             <img
               style={{ height: "200px", width: "200px", borderRadius: "10px" }}
-              src={userData.image}
+              src={userData.photo}
               alt='profile'
             />
           </div>
@@ -174,9 +200,9 @@ const Profile = (props) => {
                 className={classNames("form-control", {
                   "is-invalid": error && error.message,
                 })}
-                placeholder={intl.formatMessage({
+                placeholder='Phone' /*{intl.formatMessage({
                   id: "INPUT_LASTNAME_LABEL",
-                })}
+                })}*/
                 name='phone'
                 value={userData.phone}
                 onChange={onChange}
@@ -243,4 +269,4 @@ const mapStateToProps = (state) => ({
   error: state.errorState.error,
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { updateUser })(Profile);

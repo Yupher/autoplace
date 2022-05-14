@@ -68,7 +68,8 @@ const AccountMenu = (props) => {
 
           {error && error.type === "server" && (
             <div className='alert alert-xs alert-danger mt-n2'>
-              <FormattedMessage id={error.message} />
+              {/* <FormattedMessage id={error.message} /> */}
+              {error.message}
             </div>
           )}
 

@@ -46,7 +46,7 @@ export const signup = (userData) => async (dispatch) => {
 export const confirmEmail = (code) => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.post("/api/v1/users/confirmEmail", { code });
+    const res = await axios.post("/api/v1/users/confirmEmail", code);
     dispatch(resetLoading());
     const { status } = res.data;
 
@@ -90,6 +90,23 @@ export const facebookAuth = () => async (dispatch) => {
     localStorage.setItem("jwtToken", token);
     setAuthToken(token);
     return dispatch({ type: SET_CURRENT_USER, payload: user });
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const updateUser = (userData) => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const res = await axios.post("/api/v1/users/update/me", userData);
+    dispatch(resetLoading());
+    console.table(res.data.user);
+    return dispatch({ type: SET_CURRENT_USER, payload: res.data.user });
   } catch (error) {
     dispatch(resetLoading());
     console.log(error.response.data);
