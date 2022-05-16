@@ -194,7 +194,7 @@ const AccountMenu = (props) => {
             className='account-menu__user'
             onClick={onCloseMenu}
           >
-            <div className='account-menu__user-avatar'>
+            <div className='account-menu__user-avatar avatar-container'>
               <img
                 src={
                   user.photo === "default.jpg"

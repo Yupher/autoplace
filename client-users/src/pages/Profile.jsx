@@ -9,14 +9,16 @@ import {
   validateEmail,
   validateFirstname,
   validateLastname,
+  validatePassword,
+  validatePasswordConfirm,
 } from "../utils/userInputValidation";
 import { CLEAR_ERROR, SET_ERROR } from "../actions/types/errorTypes";
-import { updateUser } from "../actions/authActions";
+import { updateUser, updatePassword } from "../actions/authActions";
 
 const Profile = (props) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const { user, loading, error, updateUser } = props;
+  const { user, loading, error, updateUser, updatePassword } = props;
 
   const [userData, setUserData] = useState({
     firstname: user && user.firstname,
@@ -29,6 +31,14 @@ const Profile = (props) => {
         ? user.photo
         : "/images/avatars/avatar-1.jpg",
   });
+
+  const [passwordData, setPasswordData] = useState({
+    password: "",
+    passwordConfirm: "",
+    passwordOld: "",
+  });
+
+  const [displayPasswordForm, setDisplayPasswordForm] = useState(false);
 
   // setting up dropzone to capture profile picture upload
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
@@ -63,6 +73,12 @@ const Profile = (props) => {
     dispatch({ type: CLEAR_ERROR });
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
+
+  const onPasswordChange = (e) => {
+    dispatch({ type: CLEAR_ERROR });
+    setPasswordData({ ...passwordData, [e.target.name]: e.target.value });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (error) {
@@ -90,11 +106,51 @@ const Profile = (props) => {
     updateUser(userData);
   };
 
+  const handleUpdatePassword = (e) => {
+    e.preventDefault();
+    if (error) {
+      dispatch({ type: CLEAR_ERROR });
+    }
+    if (validatePassword(passwordData.passwordOld)) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: validatePassword(passwordData.password),
+      });
+    }
+    if (validatePassword(passwordData.password)) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: validatePassword(passwordData.password),
+      });
+    }
+    if (
+      validatePasswordConfirm(
+        passwordData.passwordConfirm,
+        passwordData.password,
+      )
+    ) {
+      return dispatch({
+        type: SET_ERROR,
+        payload: validatePasswordConfirm(
+          passwordData.passwordConfirm,
+          passwordData.password,
+        ),
+      });
+    }
+
+    updatePassword(passwordData);
+  };
+
+  const onUpdatePasswordDrop = (e) => {
+    e.preventDefault();
+    setDisplayPasswordForm(!displayPasswordForm);
+  };
+
   return (
     <div className='container mt-5 mb-5'>
       <div className='row'>
         {error && (
-          <div className='alert alert-sm alert-danger'>
+          <div className='col-12 alert alert-sm alert-danger'>
             {/* <FormattedMessage id={error.message} /> */}
             <p>{error.message}</p>
           </div>
@@ -103,7 +159,12 @@ const Profile = (props) => {
           <div {...getRootProps()}>
             <input className='d-none' {...getInputProps} />
             <img
-              style={{ height: "200px", width: "200px", borderRadius: "10px" }}
+              style={{
+                height: "200px",
+                //width: "200px",
+                maxWidth: "100%",
+                borderRadius: "5px",
+              }}
               src={userData.photo}
               alt='profile'
             />
@@ -245,18 +306,141 @@ const Profile = (props) => {
                 )}
               </div>
             </div>
-            <div className='form-group mb-0'>
-              <button
-                type='submit'
-                className={classNames("btn", "btn-primary", "mt-3", {
-                  "btn-loading": loading,
-                })}
-              >
-                {/* <FormattedMessage id='BUTTON_REGISTER' /> */}
-                Update Profile
-              </button>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <div className='form-group mb-0'>
+                <button
+                  type='submit'
+                  className={classNames("btn", "btn-primary", "mt-3", {
+                    "btn-loading": loading,
+                  })}
+                >
+                  {/* <FormattedMessage id='BUTTON_REGISTER' /> */}
+                  Update Profile
+                </button>
+              </div>
+              <div className='form-group mb-0'>
+                <button
+                  type='button'
+                  onClick={onUpdatePasswordDrop}
+                  className={classNames("btn", "mt-3", "btn-password-display")}
+                >
+                  {/* <FormattedMessage id='BUTTON_REGISTER' /> */}
+                  Update Password{" "}
+                  {displayPasswordForm ? (
+                    <i className='fa fa-angle-up ml-2'></i>
+                  ) : (
+                    <i className='fa  fa-angle-down ml-2'></i>
+                  )}
+                </button>
+              </div>
             </div>
           </form>
+
+          {displayPasswordForm && (
+            <div className='mt-4'>
+              <form onSubmit={handleUpdatePassword}>
+                <div className='form-group'>
+                  <label htmlFor='signup-Password'>
+                    {/* <FormattedMessage id='INPUT_PASSWORD_LABEL' /> */}
+                    Current Password
+                  </label>
+                  <input
+                    id='signup-password'
+                    type='password'
+                    className={classNames("form-control", {
+                      "is-invalid": error && error.message,
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: "INPUT_PASSWORD_LABEL",
+                    })}
+                    name='passwordOld'
+                    value={passwordData.passwordOld}
+                    onChange={onPasswordChange}
+                  />
+                  <div className='invalid-feedback'>
+                    {error && error.type === "required" && (
+                      <FormattedMessage id='ERROR_FORM_REQUIRED' />
+                    )}
+                    {error && error.type === "password" && (
+                      // to do translaton <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
+                      <p>{error.message}</p>
+                    )}
+                  </div>
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='signup-Password'>
+                    <FormattedMessage id='INPUT_PASSWORD_LABEL' />
+                  </label>
+                  <input
+                    id='signup-password'
+                    type='password'
+                    className={classNames("form-control", {
+                      "is-invalid": error && error.message,
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: "INPUT_PASSWORD_LABEL",
+                    })}
+                    name='password'
+                    value={passwordData.password}
+                    onChange={onPasswordChange}
+                  />
+                  <div className='invalid-feedback'>
+                    {error && error.type === "required" && (
+                      <FormattedMessage id='ERROR_FORM_REQUIRED' />
+                    )}
+                    {error && error.type === "password" && (
+                      // to do translaton <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
+                      <p>{error.message}</p>
+                    )}
+                  </div>
+                </div>
+                <div className='form-group'>
+                  <label htmlFor='signup-PasswordConfirm'>
+                    <FormattedMessage id='INPUT_PASSWORD_REPEAT_LABEL' />
+                  </label>
+                  <input
+                    id='signup-confirm'
+                    type='password'
+                    className={classNames("form-control", {
+                      "is-invalid": error && error.message,
+                    })}
+                    placeholder={intl.formatMessage({
+                      id: "INPUT_PASSWORD_REPEAT_LABEL",
+                    })}
+                    name='passwordConfirm'
+                    value={passwordData.passwordConfirm}
+                    onChange={onPasswordChange}
+                  />
+                  <div className='invalid-feedback'>
+                    {error && error.type === "required" && (
+                      <FormattedMessage id='ERROR_FORM_REQUIRED' />
+                    )}
+                    {error && error.type === "passwordConfirm" && (
+                      // to do translaton <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
+                      <p>{error.message}</p>
+                    )}
+                  </div>
+                </div>
+                <div className='form-group mb-0'>
+                  <button
+                    type='submit'
+                    className={classNames("btn", "btn-primary", "mt-3", {
+                      "btn-loading": loading,
+                    })}
+                  >
+                    {/* <FormattedMessage id='BUTTON_REGISTER' /> */}
+                    Update Password
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -269,4 +453,6 @@ const mapStateToProps = (state) => ({
   error: state.errorState.error,
 });
 
-export default connect(mapStateToProps, { updateUser })(Profile);
+export default connect(mapStateToProps, { updateUser, updatePassword })(
+  Profile,
+);
