@@ -75,7 +75,10 @@ const Register = (props) => {
     if (validatePasswordConfirm(userData.passwordConfirm, userData.password)) {
       return dispatch({
         type: SET_ERROR,
-        payload: validateEmail(userData.passwordConfirm, userData.password),
+        payload: validatePasswordConfirm(
+          userData.passwordConfirm,
+          userData.password,
+        ),
       });
     }
 

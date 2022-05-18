@@ -3,16 +3,13 @@ const User = require("../Models/userModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const { promisify } = require("util");
+const sendEmail = require("../config/mailer");
 
 const axios = require("axios");
 
 const { OAuth2Client } = require("google-auth-library");
 const messagebird = require("messagebird")("JG8a7XUMawHZXjLcHhkr5AmWO");
-
-// send email
-
-const nodemailer = require("nodemailer");
-const hbs = require("nodemailer-express-handlebars");
+const bcrypt = require("bcryptjs");
 
 const signToken = (user) => {
   return jwt.sign(
@@ -74,39 +71,9 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const context = { firstname, lastname, code: newUser.codeConfirmation };
 
-  let transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    port: 587,
-    auth: {
-      user: "bettershoptest@outlook.com", // TODO: your gmail account
-      pass: "Aa123456789", // TODO: your gmail password
-    },
-  });
+  //send email
 
-  transporter.use(
-    "compile",
-    hbs({
-      viewEngine: "handle-handlebars",
-      viewPath: "./",
-    }),
-  );
-
-  let mailOptions = {
-    from: "bettershoptest@outlook.com", // TODO: email sender
-    // to: email, // TODO: email receiver
-    to: email,
-    subject: "IA SHOP - Register",
-    text: "Confirm your email",
-    template: "handle",
-    context,
-  };
-
-  transporter.sendMail(mailOptions, (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
-    return console.log("Email sent!!!");
-  });
+  sendEmail(email, context);
 
   createSendToken(newUser, 201, req, res);
 });
@@ -421,43 +388,12 @@ exports.resendEmail = catchAsync(async (req, res, next) => {
   }
 
   let codeConfirmation = 10000 + Math.floor(Math.random() * 90000);
-  let firstname = req.user.firstname;
-  let lastname = req.user.lastname;
+
+  const { firstname, lastname, email } = req.user;
 
   const context = { firstname, lastname, code: codeConfirmation };
 
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "bettershop.wdz@gmail.com", // TODO: your gmail account
-      pass: "betterMailDevloper1234", // TODO: your gmail password
-    },
-  });
-
-  transporter.use(
-    "compile",
-    hbs({
-      viewEngine: "handle-handlebars",
-      viewPath: "./",
-    }),
-  );
-
-  let mailOptions = {
-    from: "bettershop.wdz@gmail.com", // TODO: email sender
-    // to: email, // TODO: email receiver
-    to: "nasereddinebekkal@gmail.com",
-    subject: "IA SHOP - Register",
-    text: "Confirm your email",
-    template: "handle",
-    context,
-  };
-
-  transporter.sendMail(mailOptions, (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
-    return console.log("Email sent!!!");
-  });
+  sendEmail(email, context);
 
   await User.findByIdAndUpdate(
     req.user._id,
@@ -575,4 +511,53 @@ exports.confirmPhone = catchAsync(async (req, res, next) => {
     status: "success",
     user: user,
   });
+});
+
+exports.forgetPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  let codeConfirmation = 10000 + Math.floor(Math.random() * 90000);
+
+  if (!email) {
+    return next(new AppError("Email is required.", 401));
+  }
+  const user = await User.findOneAndUpdate(
+    { email },
+    { codeConfirmation },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+  if (!user) {
+  }
+  const { firstname, lastname } = user;
+
+  const context = { firstname, lastname, code: codeConfirmation };
+
+  sendEmail(email, context);
+  res.status(200).json({ status: "success" });
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  let { code, password, passwordConfirm } = req.body;
+
+  if (!password && !passwordConfirm) {
+    return next(new AppError("All field are required.", 401));
+  }
+
+  if (password !== passwordConfirm) {
+    return next(
+      new AppError(`Password and confirm password does not match.`, 401),
+    );
+  }
+
+  password = await bcrypt.hash(password, 12);
+  let user = await User.findOneAndUpdate(
+    { codeConfirmation: code },
+    { password, passwordConfirm },
+  );
+  if (!user) {
+    return next(new AppError("The confirmaton code is wrong.", 404));
+  }
+  createSendToken(user, 200, req, res);
 });

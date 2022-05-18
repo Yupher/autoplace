@@ -225,3 +225,15 @@
     color: #e63121;
   }
 }
+
+.btn-resend {
+  border: none !important;
+  outline: none !important;
+  background-color: none !important;
+  background: none !important;
+  &:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}

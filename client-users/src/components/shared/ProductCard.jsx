@@ -31,7 +31,6 @@ function ProductCard(props) {
 
   const handleWishlist = (id) => {
     if (!currentUser) {
-      console.log("somehow idk");
       return;
     }
     let liked =

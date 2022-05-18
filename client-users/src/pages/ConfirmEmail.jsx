@@ -1,34 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { connect, useDispatch } from "react-redux";
 import { CLEAR_ERROR, SET_ERROR } from "../actions/types/errorTypes";
-import { confirmEmail } from "../actions/authActions";
+import { confirmEmail, resendEmail } from "../actions/authActions";
 
 import PageTitle from "../components/shared/PageTitle";
 import BlockSpace from "../components/blocks/BlockSpace";
 
 const ConfirmEmail = (props) => {
-  const { user, loading, error, confirmEmail } = props;
+  const { user, loading, error, confirmEmail, resendEmail } = props;
   const [code, setCode] = useState("");
-  const [success, setSuccess] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user && user.confirmed) {
+      dispatch({ type: CLEAR_ERROR });
       return navigate("/");
     }
   }, [user]);
-
-  useEffect(() => {
-    if (success) {
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
-  }, [success]);
 
   const onChange = (e) => {
     if (error) {
@@ -38,22 +30,21 @@ const ConfirmEmail = (props) => {
     setCode(e.target.value);
   };
 
-  const onSubmit = async (e) => {
+  const onResend = (e) => {
     e.preventDefault();
+    resendEmail();
+  };
+
+  const onSubmit = (e) => {
+    // e.preventDefault();
     if (!code) {
       return dispatch({
         type: SET_ERROR,
         payload: { type: "code", message: "Invalid" },
       });
     }
-    let status = await confirmEmail(code);
-
-    console.log(status);
-    if (status === "success") {
-      setSuccess(true);
-    } else {
-      setSuccess(false);
-    }
+    dispatch({ type: CLEAR_ERROR });
+    confirmEmail(code);
   };
 
   return (
@@ -74,13 +65,6 @@ const ConfirmEmail = (props) => {
                   <form onSubmit={onSubmit}>
                     {error && (
                       <div className='alert alert-sm alert-danger'>
-                        {/* <FormattedMessage id={error.message} /> */}
-                        <p>{error.message}</p>
-                      </div>
-                    )}
-
-                    {success && (
-                      <div className='alert alert-sm alert-success'>
                         {/* <FormattedMessage id={error.message} /> */}
                         <p>{error.message}</p>
                       </div>
@@ -111,6 +95,19 @@ const ConfirmEmail = (props) => {
                           <p>{error.message}</p>
                         )}
                       </div>
+                    </div>
+
+                    <div className='account-menu__form-link'>
+                      <button
+                        type='button'
+                        className={classNames("btn-resend", {
+                          "btn-loading": loading,
+                        })}
+                        onClick={onResend}
+                      >
+                        {/* <FormattedMessage id='LINK_CREATE_ACCOUNT' /> */}
+                        Resend Email
+                      </button>
                     </div>
 
                     <div className='form-group mb-0'>
@@ -144,6 +141,7 @@ const mapStateToProps = (state) => ({
 
 const actions = {
   confirmEmail,
+  resendEmail,
 };
 
 export default connect(mapStateToProps, actions)(ConfirmEmail);

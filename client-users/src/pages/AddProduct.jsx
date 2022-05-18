@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { ReactComponent as Car50Svg } from "../svg/car-50.svg";
 import BlockSpace from "../components/blocks/BlockSpace";
 
-const AddProduct = () => {
+const AddProduct = ({ user }) => {
   return (
     <Fragment>
       <BlockSpace layout='after-header' />
@@ -15,12 +16,19 @@ const AddProduct = () => {
           </div>
           <div className='card-divider' />
           <div className='card-body card-body--padding-2'>
-            <Link to='/add-vehicle' className='btn btn-light btn-lg'>
-              <div className='btn-icon'>
-                <Car50Svg />
-              </div>
-              Add vehicle
-            </Link>
+            {user.confirmed ? (
+              <Link to='/add-vehicle' className='btn btn-light btn-lg'>
+                <div className='btn-icon'>
+                  <Car50Svg />
+                </div>
+                Add vehicle
+              </Link>
+            ) : (
+              <Fragment>
+                <h4>Please confirm your email:</h4>
+                <Link to='/confirm-email'>Click here to confirm email</Link>
+              </Fragment>
+            )}
           </div>
         </div>
       </div>
@@ -29,4 +37,8 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+const mapStateToProps = (state) => ({
+  user: state.authState.user,
+});
+
+export default connect(mapStateToProps)(AddProduct);

@@ -15,7 +15,7 @@ router.get("/logout", authController.logout);
 router.get("/loaduser", authController.protect, authController.loadUser);
 
 // User Controller
-router.post("/resendEmail", authController.protect, authController.resendEmail);
+router.get("/resendEmail", authController.protect, authController.resendEmail);
 
 router.post(
   "/confirmEmail",
@@ -30,6 +30,9 @@ router.post(
   authController.protect,
   authController.confirmPhone,
 );
+
+router.post("/forgetPassword", authController.forgetPassword);
+router.post("/resetPassword", authController.resetPassword);
 
 // User Controller
 router.post(

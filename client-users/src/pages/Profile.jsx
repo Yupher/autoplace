@@ -351,7 +351,7 @@ const Profile = (props) => {
                     Current Password
                   </label>
                   <input
-                    id='signup-password'
+                    id='signup-password-old'
                     type='password'
                     className={classNames("form-control", {
                       "is-invalid": error && error.message,

@@ -46,11 +46,10 @@ export const signup = (userData) => async (dispatch) => {
 export const confirmEmail = (code) => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const res = await axios.post("/api/v1/users/confirmEmail", code);
+    const res = await axios.post("/api/v1/users/confirmEmail", { code });
     dispatch(resetLoading());
-    const { status } = res.data;
 
-    return status;
+    dispatch({ type: SET_CURRENT_USER, payload: res.data.user });
   } catch (error) {
     dispatch(resetLoading());
     console.log(error.response.data);
@@ -59,7 +58,22 @@ export const confirmEmail = (code) => async (dispatch) => {
       type: SET_ERROR,
       payload: { type: "server", message: error.response.data.message },
     });
-    return error.response.data.message.status;
+  }
+};
+
+export const resendEmail = () => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    await axios.get("/api/v1/users/resendEmail");
+    dispatch(resetLoading());
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
   }
 };
 
@@ -134,6 +148,42 @@ export const updatePassword = (passwordData) => async (dispatch) => {
   }
 };
 
+export const forgetPassword = (email) => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const res = await axios.post("/api/v1/users/forgetPassword", { email });
+    dispatch(resetLoading());
+
+    return res.data.status;
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const resetPassword = (passwordData) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await axios.post("/api/v1/users/resetPassword", passwordData);
+    dispatch(resetLoading());
+    const { token, user } = res.data;
+    localStorage.setItem("jwtToken", token);
+    setAuthToken(token);
+    return dispatch({ type: SET_CURRENT_USER, payload: user });
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch(setLoading());
@@ -151,9 +201,6 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
-
-export const verifyEmail = () => async (dispatch) => {};
-export const verifyPhone = () => async (dispatch) => {};
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("jwtToken");

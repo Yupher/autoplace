@@ -11,7 +11,6 @@ const initialState = {
 const wishlistReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_WISHLIST:
-      console.log(action.payload);
       return { ...state, wishlist: action.payload };
     case ADD_TO_WISHLIST:
       return { ...state, wishlist: action.payload };
