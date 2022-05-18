@@ -7,6 +7,7 @@ import {
   ADD_VEHICLE,
   UPDATE_VEHICLE,
   DELETE_VEHICLE,
+  GET_MY_VEHICLE,
 } from "./types/vehicleTypes";
 import { SET_LOADING, RESET_LOADING } from "./types/loadingTypes";
 import { SET_ERROR, CLEAR_ERROR } from "./types/errorTypes";
@@ -108,6 +109,40 @@ export const getVehicle = (id) => async (dispatch) => {
     dispatch({ type: RESET_LOADING });
 
     dispatch({ type: GET_VEHICLE, payload: data });
+  } catch (error) {
+    console.log(error.response.data.message);
+    dispatch({ type: RESET_LOADING });
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const getMyVehicles = () => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    let res = await axios.get(`/api/v1/vehicles/me`);
+    let { data } = res.data;
+    dispatch({ type: RESET_LOADING });
+
+    dispatch({ type: GET_MY_VEHICLE, payload: data });
+  } catch (error) {
+    console.log(error.response.data.message);
+    dispatch({ type: RESET_LOADING });
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const deleteVehicle = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_LOADING });
+    await axios.delete(`/api/v1/vehicles/${id}`);
+    dispatch({ type: RESET_LOADING });
+    return dispatch({ type: DELETE_VEHICLE, payload: id });
   } catch (error) {
     console.log(error.response.data.message);
     dispatch({ type: RESET_LOADING });

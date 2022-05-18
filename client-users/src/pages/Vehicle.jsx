@@ -1,28 +1,30 @@
 import React, { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import classNames from "classnames";
+import { useIntl } from "react-intl";
 import { connect, useDispatch } from "react-redux";
-
-import {
-  getVehicle,
-  acceptVehicle,
-  rejectVehicle,
-} from "../actions/vehicleAction";
 import { CLEAR_ERROR } from "../actions/types/errorTypes";
+import { getVehicle } from "../actions/vehicleAction";
+import { addToWishlist, removeFromWishlist } from "../actions/wishlistActions";
 
 import PageTitle from "../components/shared/PageTitle";
 import BlockSpace from "../components/blocks/BlockSpace";
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import ProductImageSlider from "../components/Products/ProductImageSlider";
+import { ReactComponent as Wishlist16Svg } from "../svg/wishlist-16.svg";
 
-const VehiclePage = ({
+const Vehicle = ({
   loading,
   error,
   getVehicle,
   currentVehicle,
-  acceptVehicle,
-  rejectVehicle,
+  wishlist,
+  user,
+  removeFromWishlist,
+  addToWishlist,
 }) => {
   const { productId } = useParams();
+  const intl = useIntl();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,23 +39,25 @@ const VehiclePage = ({
     }
   }, [error]);
 
-  const onAccept = () => {
-    dispatch({ type: CLEAR_ERROR });
-    acceptVehicle(productId);
-  };
-  const onReject = () => {
-    dispatch({ type: CLEAR_ERROR });
-    rejectVehicle(productId);
-  };
+  const onAddToFavorite = () => {
+    if (!user) {
+      return;
+    }
+    let liked =
+      wishlist &&
+      wishlist.products.find((item) => {
+        return item._id === productId ? true : false;
+      });
 
-  const formatDate = (date) => {
-    const dateJS = new Date(date);
-    // console.log(dateJS);
-    return dateJS.toDateString();
+    liked ? removeFromWishlist(productId) : addToWishlist(productId);
   };
 
   if (!currentVehicle && !loading) {
-    return <h3 style={{ textAlign: "center" }}>No data to display</h3>;
+    return (
+      <h3 style={{ textAlign: "center", height: "200px", marginTop: "20%" }}>
+        No data to display
+      </h3>
+    );
   }
   if (!currentVehicle && loading) {
     return <LoadingSpiner />;
@@ -79,16 +83,23 @@ const VehiclePage = ({
             </h1>
           </div>
           <div className='col-md-6  col-sm-12 p-2'>
-            {currentVehicle.accepted === undefined && (
-              <Fragment>
-                <button onClick={onAccept} className='btn btn-primary mx-2'>
-                  Accept
-                </button>
-                <button onClick={onReject} className='btn btn-primary  mx-2'>
-                  Reject
-                </button>
-              </Fragment>
-            )}
+            <button
+              type='button'
+              className='btn-add-to-favorite'
+              aria-label={intl.formatMessage({ id: "BUTTON_ADD_TO_WISHLIST" })}
+              onClick={onAddToFavorite}
+            >
+              <i
+                className={classNames("fas fa-heart", {
+                  liked:
+                    wishlist &&
+                    wishlist.products.find((item) =>
+                      productId === item._id ? true : false,
+                    ),
+                })}
+              ></i>{" "}
+              Add to favorite
+            </button>
           </div>
         </div>
         <div className='row mt-5'>
@@ -216,70 +227,6 @@ const VehiclePage = ({
               <ProductImageSlider images={currentVehicle.images} />
             </div>
           </div>
-
-          {currentVehicle.accepted !== undefined && (
-            <Fragment>
-              <div className='col-12 mt-5'>
-                <h4>Admin Actions: </h4>
-              </div>
-              {currentVehicle.accepted.value === true ? (
-                <Fragment>
-                  <div className='col-md-3 col-sm-6 mt-2'>
-                    <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Accepted by: </span>
-                      <span>
-                        {" "}
-                        {`${currentVehicle.accepted.acceptedBy.firstname} ${currentVehicle.accepted.acceptedBy.lastname}`}
-                      </span>
-                    </div>
-                  </div>
-                  <div className='col-md-3 col-sm-6 mt-2'>
-                    <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Accepted at: </span>
-                      <span>
-                        {" "}
-                        {formatDate(currentVehicle.accepted.acceptedAt)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className='col-md-3 col-sm-6'>
-                    <button
-                      onClick={onReject}
-                      className='btn btn-primary ml-auto'
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <div className='col-md-3 col-sm-6 mt-2'>
-                    <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Rejected by: </span>
-                      <span>
-                        {" "}
-                        {`${currentVehicle.accepted.acceptedBy.firstname} ${currentVehicle.accepted.acceptedBy.lastname}`}
-                      </span>
-                    </div>
-                  </div>
-                  <div className='col-md-3 col-sm-6 mt-2'>
-                    <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Rejected at: </span>
-                      <span>
-                        {" "}
-                        {formatDate(currentVehicle.accepted.acceptedAt)}{" "}
-                      </span>
-                    </div>
-                  </div>
-                  <div className='col-md-3 col-sm-6'>
-                    <button onClick={onAccept} className='btn btn-primary '>
-                      Accept
-                    </button>
-                  </div>
-                </Fragment>
-              )}
-            </Fragment>
-          )}
         </div>
       </div>
       <BlockSpace layout='before-footer' />
@@ -291,12 +238,14 @@ const mapStateToProps = (state) => ({
   currentVehicle: state.vehicleState.currentVehicle,
   loading: state.loadingState.loading,
   error: state.errorState.error,
+  wishlist: state.wishlistState.wishlist,
+  user: state.authState.user,
 });
 
 const actions = {
   getVehicle,
-  acceptVehicle,
-  rejectVehicle,
+  addToWishlist,
+  removeFromWishlist,
 };
 
-export default connect(mapStateToProps, actions)(VehiclePage);
+export default connect(mapStateToProps, actions)(Vehicle);

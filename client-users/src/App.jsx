@@ -26,6 +26,9 @@ import ConfirmEmail from "./pages/ConfirmEmail";
 import Wishlist from "./pages/Wishlist";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
+import Vehicle from "./pages/Vehicle";
+import Dashboard from "./pages/Dashboard";
+import UpdateVehicle from "./pages/UpdateVehicle";
 //styles
 import "./scss/index.scss";
 import "./scss/style.header-spaceship-variant-one.scss";
@@ -117,6 +120,7 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
                   path='/reset-password'
                   element={<ResetPassword />}
                 />
+                <Route exact path='/product/:productId' element={<Vehicle />} />
 
                 <Route exact path='/add-product' element={<AddProduct />} />
                 <Route element={<PrivateRoutes user={user} />}>
@@ -124,6 +128,11 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
                   <Route path='/confirm-email' element={<ConfirmEmail />} />
                   <Route path='/favorite' element={<Wishlist />} />
                   <Route path='/profile' element={<Profile />} />
+                  <Route path='/dashboard' element={<Dashboard />} />
+                  <Route
+                    path='/product/:productId/edit'
+                    element={<UpdateVehicle />}
+                  />
                 </Route>
               </Routes>
             </div>

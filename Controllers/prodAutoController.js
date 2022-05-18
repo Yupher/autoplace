@@ -16,6 +16,18 @@ exports.updateDocument = factory.updateOne(model, "name", "desc", "slug");
 
 exports.deleteDocument = factory.deleteOne(model);
 
+exports.getUserProduct = catchAsync(async (req, res, next) => {
+  let doc = await model.find({ addedBy: req.user._id });
+  if (!doc) {
+    return next(new AppError("No document found with that ID", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    results: doc.length,
+    data: doc,
+  });
+});
+
 exports.accept = catchAsync(async (req, res, next) => {
   const productId = req.params.id;
   const product = await model.findByIdAndUpdate(

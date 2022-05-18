@@ -9,10 +9,13 @@ import {
   removeFromWishlist,
 } from "../../actions/wishlistActions";
 import { connect } from "react-redux";
+import { deleteVehicle } from "../../actions/vehicleAction";
 
 function ProductCard(props) {
   const {
     product,
+    edit,
+    remove,
     layout,
     loading,
     exclude = [],
@@ -21,6 +24,7 @@ function ProductCard(props) {
     addToWishlist,
     removeFromWishlist,
     currentUser,
+    deleteVehicle,
     ...rootProps
   } = props;
   const intl = useIntl();
@@ -40,6 +44,10 @@ function ProductCard(props) {
       });
 
     liked ? removeFromWishlist(id) : addToWishlist(id);
+  };
+
+  const handleDelete = (id) => {
+    deleteVehicle(id);
   };
 
   return (
@@ -94,11 +102,34 @@ function ProductCard(props) {
           </div>
         </div>
 
-        <div className='product-card__actions-list'>
+        <div
+          className='product-card__actions-list'
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          {edit && (
+            <Link
+              to={`/product/${product._id}/edit`}
+              className='product-card__action product-card__action--wishlist'
+              aria-label={intl.formatMessage({ id: "BUTTON_ADD_TO_WISHLIST" })}
+            >
+              <i className='fas fa-edit'></i>
+            </Link>
+          )}
+          {remove && (
+            <button
+              type='button'
+              className='product-card__action product-card__action--wishlist'
+              aria-label={intl.formatMessage({ id: "BUTTON_ADD_TO_WISHLIST" })}
+              onClick={() => handleDelete(product._id)}
+            >
+              <i className='fas fa-trash'></i>
+            </button>
+          )}
           <button
             type='button'
             className={classNames(
-              "product-card__action product-card__action--wishlist",
+              "product-card__action",
+              "product-card__action--wishlist",
               {
                 "product-card__action--loading": loading,
                 liked:
@@ -128,6 +159,7 @@ const mapStateToProps = (state) => ({
 const actions = {
   addToWishlist,
   removeFromWishlist,
+  deleteVehicle,
 };
 
 export default connect(mapStateToProps, actions)(ProductCard);

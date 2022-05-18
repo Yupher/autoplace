@@ -237,3 +237,47 @@
     box-shadow: none !important;
   }
 }
+
+.carousel-control-next,
+.carousel-control-prev {
+  background-color: none !important;
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+
+  .carousel-icons {
+    font-size: 40px;
+    color: "#ff3333";
+    opacity: 0.8;
+    transition: all 0.2s ease-in;
+
+    &:hover {
+      transform-origin: center;
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+}
+
+.btn-add-to-favorite {
+  border: none !important;
+  outline: none !important;
+  background-color: none !important;
+  background: none !important;
+  opacity: 1;
+  transition: opacity 0.2 ease-in;
+  &:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+  i {
+    color: rgba(126, 126, 126, 0.7) !important;
+  }
+  .liked {
+    color: #e63121 !important;
+  }
+}

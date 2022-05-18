@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import classNames from "classnames";
 import { useDispatch, connect } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 import { CLEAR_ERROR, SET_ERROR } from "../../actions/types/errorTypes";
 import { getVihecleData, addVehicle } from "../../actions/vehicleAction";
@@ -79,6 +80,9 @@ const AddVehicleForm = (props) => {
     }
     dispatch({ type: CLEAR_ERROR });
     addVehicle(vehicleState);
+    if (!error) {
+      return <Navigate to='/dashbord' />;
+    }
   };
 
   const onChange = (e) => {

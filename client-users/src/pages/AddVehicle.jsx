@@ -20,6 +20,7 @@ const AddVehicle = () => {
           </div>
         </div>
       </div>
+      <BlockSpace layout='before-footer' />
     </Fragment>
   );
 };

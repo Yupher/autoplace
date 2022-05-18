@@ -67,6 +67,7 @@ const ResetPasswordInput = ({
   };
   return (
     <form onSubmit={onSubmit}>
+      <p>A code was sent to your email</p>
       <div className='form-group'>
         <label htmlFor='confirmaton-code'>
           {/* <FormattedMessage id='INPUT_EMAIL_ADDRESS_LABEL' /> */}

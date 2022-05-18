@@ -26,7 +26,6 @@ export const getWishlist = () => async (dispatch) => {
 };
 
 export const addToWishlist = (id) => async (dispatch) => {
-  console.log(id);
   try {
     dispatch({ type: SET_LOADING });
     const res = await axios.post(`/api/v1/vehicles/wishlist/${id}`);

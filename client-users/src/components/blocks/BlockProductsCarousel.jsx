@@ -6,7 +6,7 @@ import SectionHeader from "../shared/SectionHeader";
 import LoadingSpiner from "../shared/LoadingSpiner";
 
 function BlockProductsCarousel(props) {
-  const { blockTitle, products, loading } = props;
+  const { blockTitle, products, loading, remove, edit } = props;
 
   if (loading) {
     return <LoadingSpiner />;
@@ -30,6 +30,8 @@ function BlockProductsCarousel(props) {
                 key={product._id}
                 className='block-products-carousel__cell'
                 product={product}
+                remove={remove ? remove : null}
+                edit={edit ? edit : null}
               />
             ))}
           </div>

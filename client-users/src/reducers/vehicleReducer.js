@@ -4,12 +4,15 @@ import {
   GET_VEHICLE,
   GET_FILTRED_VEHICLES,
   CLEAR_FILTRED_VEHICLES,
+  GET_MY_VEHICLE,
+  DELETE_VEHICLE,
 } from "../actions/types/vehicleTypes";
 
 const initialSate = {
   vehicleData: null,
   vehicles: null,
   currentVehicle: null,
+  myVehicles: null,
 };
 
 const vehicleReducer = (state = initialSate, action) => {
@@ -24,6 +27,24 @@ const vehicleReducer = (state = initialSate, action) => {
     case GET_FILTRED_VEHICLES:
       return { ...state, vehicles: action.payload };
 
+    case GET_MY_VEHICLE:
+      return { ...state, myVehicles: action.payload };
+
+    case DELETE_VEHICLE:
+      let filteredVehicles = state.vehicles && [
+        ...state.vehicles.filter((veh) => veh._id !== action.payload),
+      ];
+      let filteredMyVehicles = state.myVehicles && [
+        ...state.myVehicles.filter((veh) => veh._id !== action.payload),
+      ];
+
+      console.log(filteredMyVehicles);
+      return {
+        ...state,
+        currentVehicle: null,
+        vehicles: filteredVehicles,
+        myVehicles: filteredMyVehicles,
+      };
     default:
       return state;
   }

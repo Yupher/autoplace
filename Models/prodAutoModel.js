@@ -29,6 +29,8 @@ const prodAutoSchema = new mongoose.Schema({
   options: {
     type: Array,
   },
+  accident: String,
+  accidentDescription: String,
   paper: {
     type: String,
     required: [true, "Vehicle paper is required"],

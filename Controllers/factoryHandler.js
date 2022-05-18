@@ -66,10 +66,42 @@ exports.getAll = (Model) =>
 
 exports.getOne = (model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await model.findById(req.params.id);
+    const document = await model.findById(req.params.id);
 
-    if (!doc) {
+    if (!document) {
       return next(new AppError("No document found with that ID", 404));
+    }
+
+    let token;
+
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    } else if (req.cookies && req.cookies.jwt) {
+      token = req.cookies.jwt;
+    } else {
+      token = req.body.token;
+    }
+
+    const decoded =
+      token && (await promisify(jwt.verify)(token, process.env.JWT_SECRET));
+
+    const currentUser =
+      decoded &&
+      (await User.findById(decoded.id).select("+role").select("+password"));
+
+    let doc = {};
+    if (
+      currentUser &&
+      (currentUser.role === "main_admin" ||
+        currentUser.role === "admin" ||
+        currentUser._id.toString() === document.addedBy._id.toString())
+    ) {
+      doc = document;
+    } else {
+      doc = document.accepted && document.value && document;
     }
 
     // SEND RESPONSE
