@@ -60,9 +60,11 @@ const AddVehicleForm = (props) => {
   });
 
   useEffect(() => {
-    getVihecleData();
+    if (!vehicleData) {
+      getVihecleData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [vehicleData]);
 
   useEffect(() => {
     if (error) {
@@ -230,7 +232,7 @@ const AddVehicleForm = (props) => {
               },
             )}
           >
-            Add vehicle
+            Submit
           </button>
         </div>
       </form>

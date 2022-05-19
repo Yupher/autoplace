@@ -21,6 +21,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Products from "./pages/Products";
 import VehiclePage from "./pages/VehiclePage";
+import Users from "./pages/Users";
 
 // styles
 import "./scss/index.scss";
@@ -95,6 +96,7 @@ function App({ currentLocale, error, user, loadUser, logout }) {
                       element={<VehiclePage />}
                     />
                   </Route>
+                  <Route path='/users' element={<Users />} />
                 </Route>
               </Routes>
             </div>

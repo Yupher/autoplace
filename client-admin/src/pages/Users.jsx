@@ -1,18 +1,25 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
+import { CLEAR_ERROR } from "../actions/types/errorTypes";
+import { getAllUsers } from "../actions/usersActions";
 
 import BlockSpace from "../components/blocks/BlockSpace";
 import PageTitle from "../components/shared/PageTitle";
-import ProductsTable from "../components/shared/DataTable";
-import { getAllVehicles } from "../actions/vehicleAction";
-import { CLEAR_ERROR } from "../actions/types/errorTypes";
+import UsersTable from "../components/shared/DataTable";
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 
-const Products = ({ getAllVehicles, vehicles, loading, error }) => {
+const Users = ({
+  allUsers,
+  getAllVehicles,
+  vehicles,
+  loading,
+  error,
+  getAllUsers,
+}) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    getAllVehicles();
+    getAllUsers();
   }, []);
 
   useEffect(() => {
@@ -23,7 +30,7 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
     }
   }, [error]);
 
-  if (!vehicles && !loading) {
+  if (!allUsers && !loading) {
     return (
       <div className='text-align-center'>
         <h3>No data available</h3>
@@ -31,30 +38,22 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
     );
   }
 
-  if (!vehicles && loading) {
+  if (!allUsers && loading) {
     return <LoadingSpiner />;
   }
 
-  const formatDate = (date) => {
-    const dateJS = new Date(date);
-    // console.log(dateJS);
-    return dateJS.toDateString();
-  };
-
   const data = [
-    ...vehicles.data.map((product) => ({
-      id: product._id,
-      product: `${product.brand} ${product.model}`,
-      user: product.addedBy._id,
-      status:
-        product.accepted === undefined
-          ? "Pending"
-          : product.accepted && product.accepted.value
-          ? "Accepted"
-          : "Rejected",
-
-      addedAt: formatDate(product.createdAt),
-    })),
+    ...allUsers.map((user) => {
+      let { _id, firstname, lastname, email, role } = user;
+      return {
+        id: _id,
+        firstname,
+        lastname,
+        email,
+        role,
+        status: user.active ? "active" : "blocked",
+      };
+    }),
   ];
 
   const columns = [
@@ -71,11 +70,11 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
       },
     },
     {
-      dataField: "product",
-      text: "Product",
+      dataField: "firstname",
+      text: "First Name",
       formatter: (cell, row) => {
         return (
-          <Link to={`/products/${row.id}`} className='table-link'>
+          <Link to={`/users/${row.id}`} className='table-link'>
             {cell}
           </Link>
         );
@@ -90,16 +89,54 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
       },
     },
     {
-      dataField: "user",
-      text: "User",
-      sort: true,
+      dataField: "lastname",
+      text: "Last Name",
       formatter: (cell, row) => {
         return (
-          <Link to={`/users/${cell}`} className='table-link'>
+          <Link to={`/users/${row.id}`} className='table-link'>
             {cell}
           </Link>
         );
       },
+      sort: true,
+      style: {
+        whiteSpace: "normal",
+        wordBreak: "break-all",
+      },
+      headerStyle: (colum, colIndex) => {
+        return { width: "200px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "email",
+      text: "Email",
+      formatter: (cell, row) => {
+        return (
+          <Link to={`/users/${row.id}`} className='table-link'>
+            {cell}
+          </Link>
+        );
+      },
+      sort: true,
+      style: {
+        whiteSpace: "normal",
+        wordBreak: "break-all",
+      },
+      headerStyle: (colum, colIndex) => {
+        return { width: "200px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "role",
+      text: "Role",
+      formatter: (cell, row) => {
+        return (
+          <Link to={`/users/${row.id}`} className='table-link'>
+            {cell}
+          </Link>
+        );
+      },
+      sort: true,
       style: {
         whiteSpace: "normal",
         wordBreak: "break-all",
@@ -120,30 +157,11 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
         return { width: "200px", textAlign: "center" };
       },
     },
-    {
-      dataField: "addedAt",
-      text: "Added at",
-      sort: true,
-      style: {
-        whiteSpace: "normal",
-        wordBreak: "break-all",
-      },
-      headerStyle: (colum, colIndex) => {
-        return { width: "200px", textAlign: "center" };
-      },
-      sortFunction: (a, b, order) => {
-        if (order === "asc") {
-          return Date.parse(a) - Date.parse(b);
-        } else if (order === "desc") {
-          return Date.parse(b) - Date.parse(a);
-        }
-      },
-    },
   ];
 
   return (
     <Fragment>
-      <PageTitle>Products</PageTitle>
+      <PageTitle>Users</PageTitle>
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>
@@ -156,7 +174,7 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
             )}
           </div>
           <div className='col-12'>
-            <ProductsTable data={data} columns={columns} />
+            <UsersTable data={data} columns={columns} />
           </div>
         </div>
       </div>
@@ -166,9 +184,9 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
 };
 
 const mapStateToProps = (state) => ({
-  vehicles: state.vehicleState.vehicles,
+  allUsers: state.usersState.allUsers,
   loading: state.loadingState.loading,
   error: state.errorState.error,
 });
-const actions = { getAllVehicles };
-export default connect(mapStateToProps, actions)(Products);
+const actions = { getAllUsers };
+export default connect(mapStateToProps, actions)(Users);

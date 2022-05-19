@@ -35,7 +35,7 @@ router.post("/forgetPassword", authController.forgetPassword);
 router.post("/resetPassword", authController.resetPassword);
 
 // User Controller
-router.post(
+router.get(
   "/",
   authController.protect,
   authController.isAdmin,

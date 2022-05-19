@@ -3,16 +3,22 @@ const catchAsync = require("../utils/catchAsync");
 const model = require("./../Models/prodAutoModel");
 const factory = require("./factoryHandler");
 const wishlist = require("../Models/wishlistModel");
-exports.getAllDocuments = factory.getAll(model);
+exports.getAllDocuments = factory.getAll(model, { accept: true });
 
-exports.getDocument = factory.getOne(model);
+exports.getDocument = factory.getOne(model, { accept: true });
 
 exports.createDocument = factory.createOne(model, {
   user: true,
   hasPhotos: true,
 });
 
-exports.updateDocument = factory.updateOne(model, "name", "desc", "slug");
+exports.updateDocument = factory.updateOne(
+  model,
+  { hasPhotos: true },
+  "name",
+  "desc",
+  "slug",
+);
 
 exports.deleteDocument = factory.deleteOne(model);
 

@@ -38,7 +38,6 @@ const vehicleReducer = (state = initialSate, action) => {
         ...state.myVehicles.filter((veh) => veh._id !== action.payload),
       ];
 
-      console.log(filteredMyVehicles);
       return {
         ...state,
         currentVehicle: null,

@@ -11,8 +11,6 @@ const AddVehicleStepTwo = (props) => {
     isChecked,
   } = vehicleState;
 
-  console.log(accident);
-
   //console.log(checked);
   return (
     <Fragment>
