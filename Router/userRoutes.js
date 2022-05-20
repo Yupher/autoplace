@@ -71,4 +71,11 @@ router.post(
   userController.updatePassword,
 );
 
+router.get(
+  "/:id",
+  authController.protect,
+  authController.isAdmin,
+  userController.getUser,
+);
+
 module.exports = router;

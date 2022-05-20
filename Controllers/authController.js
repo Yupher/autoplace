@@ -130,6 +130,10 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
   }
 
+  if (!user.active) {
+    return next(new AppError("Account disabled.", 401));
+  }
+
   // 3) If everything ok, send token to client
   createSendToken(user, 200, req, res);
 });

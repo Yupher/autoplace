@@ -28,6 +28,7 @@ import "./scss/index.scss";
 import "./scss/style.header-classic-variant-four.scss";
 import "./scss/style.mobile-header-variant-two.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import UserPage from "./pages/UserPage";
 
 //authtoken
 import setAuthToken from "./utils/setAuthToken";
@@ -88,6 +89,11 @@ function App({ currentLocale, error, user, loadUser, logout }) {
 
                 <Route element={<PrivateRoutes user={user} />}>
                   <Route path='/' element={<Home />} />
+                  {/* users routes */}
+                  <Route path='/users'>
+                    <Route index element={<Users />} />
+                    <Route path='/users/:userId' element={<UserPage />} />
+                  </Route>
                   {/* product routes */}
                   <Route path='/products'>
                     <Route index element={<Products />} />
@@ -96,7 +102,6 @@ function App({ currentLocale, error, user, loadUser, logout }) {
                       element={<VehiclePage />}
                     />
                   </Route>
-                  <Route path='/users' element={<Users />} />
                 </Route>
               </Routes>
             </div>

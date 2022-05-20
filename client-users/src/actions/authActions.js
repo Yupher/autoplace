@@ -189,7 +189,15 @@ export const loadUser = () => async (dispatch) => {
     dispatch(setLoading());
     const res = await axios.get("/api/v1/users/loaduser");
     dispatch(resetLoading());
-    return dispatch({ type: SET_CURRENT_USER, payload: res.data.user });
+    let { user } = res.data;
+    if (!user.active) {
+      dispatch({
+        type: SET_ERROR,
+        payload: { type: "server", message: "account disabled" },
+      });
+      return logout();
+    }
+    return dispatch({ type: SET_CURRENT_USER, payload: user });
   } catch (error) {
     dispatch(resetLoading());
     console.log(error.response.data);

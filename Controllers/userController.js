@@ -12,6 +12,7 @@ cloudinary.config({
 });
 
 exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
 
 exports.addAdmin = catchAsync(async (req, res, next) => {
   if (!req.body.email && !req.body.number) {
