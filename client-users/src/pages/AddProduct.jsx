@@ -16,7 +16,7 @@ const AddProduct = ({ user }) => {
           </div>
           <div className='card-divider' />
           <div className='card-body card-body--padding-2'>
-            {user.confirmed ? (
+            {user && user.confirmed ? (
               <Link to='/add-vehicle' className='btn btn-light btn-lg'>
                 <div className='btn-icon'>
                   <Car50Svg />

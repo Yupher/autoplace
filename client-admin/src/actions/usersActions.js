@@ -37,6 +37,77 @@ export const getUser = (id) => async (dispatch) => {
   }
 };
 
+export const addAdmin = (userData) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await axios.post(`/api/v1/users/add/admin`, userData);
+
+    let { data } = res.data;
+    dispatch(resetLoading());
+    dispatch({ type: GET_USER, payload: data });
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const deleteAdmin = (user) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await axios.post(`/api/v1/users/delete/admin`, { user });
+
+    let { data } = res.data;
+    dispatch(resetLoading());
+    dispatch({ type: GET_USER, payload: data });
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
+export const blockUser = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await axios.post(`/api/v1/users/block/one`, { id });
+
+    let { data } = res.data;
+    dispatch(resetLoading());
+    dispatch({ type: GET_USER, payload: data });
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+export const unblockUser = (id) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const res = await axios.post(`/api/v1/users/unblock/one`, { id });
+
+    let { data } = res.data;
+    dispatch(resetLoading());
+    dispatch({ type: GET_USER, payload: data });
+  } catch (error) {
+    dispatch(resetLoading());
+    console.log(error.response.data);
+    dispatch({
+      type: SET_ERROR,
+      payload: { type: "server", message: error.response.data.message },
+    });
+  }
+};
+
 export const setLoading = () => {
   return { type: SET_LOADING };
 };

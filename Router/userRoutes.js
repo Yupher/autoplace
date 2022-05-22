@@ -62,6 +62,12 @@ router.post(
   authController.isAdmin,
   userController.blockUser,
 );
+router.post(
+  "/unblock/one",
+  authController.protect,
+  authController.isAdmin,
+  userController.unblockUser,
+);
 
 router.post("/update/me", authController.protect, userController.updateMe);
 

@@ -15,7 +15,7 @@ exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);
 
 exports.addAdmin = catchAsync(async (req, res, next) => {
-  if (!req.body.email && !req.body.number) {
+  if (!req.body.email && !req.body.phone) {
     return next(new AppError("Please, Give us all informations.", 404));
   }
 
@@ -29,6 +29,10 @@ exports.addAdmin = catchAsync(async (req, res, next) => {
     return next(
       new AppError("We cannot find this user, please give us a valid ID.", 404),
     );
+  }
+
+  if (!current.confirmed) {
+    return next(new AppError("Please confirm your email first.", 404));
   }
 
   if (current.role === "main_admin") {
@@ -183,12 +187,87 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 exports.blockUser = catchAsync(async (req, res, next) => {
-  let { id, status } = req.body;
+  let { id } = req.body;
 
-  const updatedUser = await User.findByIdAndUpdate(id, { active: status });
+  if (id.toString() === req.user._id.toString()) {
+    return next(
+      new AppError(
+        "You can not block yourself please ask main admin to block you.",
+        404,
+      ),
+    );
+  }
+
+  const currentUser = await User.findById(id);
+
+  if (!currentUser) {
+    return next(
+      new AppError("We cannot find this user, please give us a valid ID.", 404),
+    );
+  }
+
+  if (currentUser.role === "main_admin") {
+    return next(new AppError("You do not have previlege.", 403));
+  }
+
+  if (currentUser.role === "admin" && req.user.role !== "main_admin") {
+    return next(new AppError("Only main admin can block an admin.", 403));
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { active: false },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   res.status(200).json({
     status: "success",
-    user: updatedUser,
+    data: updatedUser,
+  });
+});
+
+exports.unblockUser = catchAsync(async (req, res, next) => {
+  let { id } = req.body;
+
+  if (id.toString() === req.user._id.toString()) {
+    return next(
+      new AppError(
+        "You can not unblock yourself please ask main admin to block you.",
+        404,
+      ),
+    );
+  }
+
+  const currentUser = await User.findById(id);
+
+  if (!currentUser) {
+    return next(
+      new AppError("We cannot find this user, please give us a valid ID.", 404),
+    );
+  }
+
+  if (currentUser.role === "main_admin") {
+    return next(new AppError("You do not have previlege.", 403));
+  }
+
+  if (currentUser.role === "admin" && req.user.role !== "main_admin") {
+    return next(new AppError("Only main admin can unblock an admin.", 403));
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { active: true },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: updatedUser,
   });
 });

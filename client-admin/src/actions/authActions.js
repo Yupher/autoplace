@@ -31,11 +31,10 @@ export const loadUser = () => async (dispatch) => {
     dispatch(resetLoading());
     let { user } = res.data;
     if (!user.active) {
-      dispatch({
-        type: SET_ERROR,
-        payload: { type: "server", message: "account disabled" },
-      });
-      return logout();
+      localStorage.removeItem("jwtToken");
+
+      dispatch({ type: LOGOUT_USER });
+      return setAuthToken(false);
     }
     return dispatch({ type: SET_CURRENT_USER, payload: user });
   } catch (error) {

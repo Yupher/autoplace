@@ -36,6 +36,7 @@ import setAuthToken from "./utils/setAuthToken";
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
 } else {
+  logout();
   setAuthToken(false);
 }
 

@@ -21,11 +21,11 @@ const Profile = (props) => {
   const { user, loading, error, updateUser, updatePassword } = props;
 
   const [userData, setUserData] = useState({
-    firstname: user && user.firstname,
-    lastname: user && user.lastname,
-    email: user && user.email,
-    phone: user && user.phone,
-    address: user && user.address,
+    firstname: user && user.firstname ? user.firstname : "",
+    lastname: user && user.lastname ? user.lastname : "",
+    email: user && user.email ? user.email : "",
+    phone: user && user.phone ? user.phone : "",
+    address: user && user.address ? user.address : "",
     photo:
       user && user.photo !== "default.jpg"
         ? user.photo

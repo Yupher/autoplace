@@ -165,14 +165,6 @@ const Users = ({
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>
-          <div className='col-12 mb-3'>
-            {error && (
-              <div className='alert alert-sm alert-danger'>
-                {/* <FormattedMessage id={error.message} /> */}
-                <p>{error.message}</p>
-              </div>
-            )}
-          </div>
           <div className='col-12'>
             <UsersTable data={data} columns={columns} />
           </div>

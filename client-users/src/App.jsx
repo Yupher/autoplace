@@ -38,6 +38,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
 } else {
+  logout();
   setAuthToken(false);
 }
 
@@ -122,8 +123,8 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
                 />
                 <Route exact path='/product/:productId' element={<Vehicle />} />
 
-                <Route exact path='/add-product' element={<AddProduct />} />
                 <Route element={<PrivateRoutes user={user} />}>
+                  <Route exact path='/add-product' element={<AddProduct />} />
                   <Route path='/add-vehicle' element={<AddVehicle />} />
                   <Route path='/confirm-email' element={<ConfirmEmail />} />
                   <Route path='/favorite' element={<Wishlist />} />

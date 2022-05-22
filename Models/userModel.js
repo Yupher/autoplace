@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     // required: [true, 'Please tell us your last name!']
   },
-  number: {
+  phone: {
     type: String,
     // required: [true, 'Please tell us your last name!']
   },
