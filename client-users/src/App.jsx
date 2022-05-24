@@ -35,8 +35,13 @@ import "./scss/style.header-spaceship-variant-one.scss";
 import "./scss/style.mobile-header-variant-one.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
+} else if (urlParams.has("token")) {
+  setAuthToken(urlParams.get("token"));
+  localStorage.setItem("jwtToken", urlParams.get("token"));
 } else {
   logout();
   setAuthToken(false);
@@ -55,6 +60,7 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
   useEffect(() => {
     loadUser();
     getWishlist();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

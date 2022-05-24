@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please tell us your last name!"],
   },
-  facebook: {
+  facebookId: {
     type: String,
     // required: [true, 'Please tell us your last name!']
   },
@@ -48,22 +48,11 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, "Please provide a password"],
     // minlength: 8,
     select: false,
   },
-  passwordConfirm: {
-    type: String,
-    select: false,
-    required: [true, "Please confirm your password"],
-    validate: {
-      // This only works on CREATE and SAVE!!!
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: "Passwords are not the same!",
-    },
-  },
+  googleId: String,
+  facebookId: String,
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -89,7 +78,7 @@ userSchema.pre("save", async function (next) {
   // Hash the password with cost of 12
   this.password = await bcrypt.hash(this.password, 12);
 
-  if (!this.email && !this.facebook && !this.number) {
+  if (!this.email && !this.facebook && !this.phone) {
     throw new Error("Please provide your email or your phone.");
   }
 

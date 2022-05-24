@@ -4,6 +4,8 @@ import { SET_ERROR, CLEAR_ERROR } from "./types/errorTypes";
 import { SET_LOADING, RESET_LOADING } from "./types/loadingTypes";
 
 import setAuthToken from "../utils/setAuthToken";
+import getGoogleUri from "../utils/getGoogleUri";
+import getFacebookUrl from "../utils/getFacebookUrl";
 
 export const login = (userData) => async (dispatch) => {
   try {
@@ -78,40 +80,12 @@ export const resendEmail = () => async (dispatch) => {
 };
 
 export const googleAuth = () => async (dispatch) => {
-  try {
-    dispatch(setLoading());
-    const res = await axios.post("/api/v1/users/google/login");
-    dispatch(resetLoading());
-    const { token, user } = res.data;
-    localStorage.setItem("jwtToken", token);
-    setAuthToken(token);
-    return dispatch({ type: SET_CURRENT_USER, payload: user });
-  } catch (error) {
-    dispatch(resetLoading());
-    console.log(error.response.data);
-    dispatch({
-      type: SET_ERROR,
-      payload: { type: "server", message: error.response.data.message },
-    });
-  }
+  const authUrl = getGoogleUri();
+  window.location.assign(authUrl);
 };
 export const facebookAuth = () => async (dispatch) => {
-  try {
-    dispatch(setLoading());
-    const res = await axios.post("/api/v1/users/facebook/login");
-    dispatch(resetLoading());
-    const { token, user } = res.data;
-    localStorage.setItem("jwtToken", token);
-    setAuthToken(token);
-    return dispatch({ type: SET_CURRENT_USER, payload: user });
-  } catch (error) {
-    dispatch(resetLoading());
-    console.log(error.response.data);
-    dispatch({
-      type: SET_ERROR,
-      payload: { type: "server", message: error.response.data.message },
-    });
-  }
+  const authUrl = getFacebookUrl();
+  window.location.assign(authUrl);
 };
 
 export const updateUser = (userData) => async (dispatch) => {
