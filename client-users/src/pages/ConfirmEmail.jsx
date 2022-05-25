@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Link, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { connect, useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ import PageTitle from "../components/shared/PageTitle";
 import BlockSpace from "../components/blocks/BlockSpace";
 
 const ConfirmEmail = (props) => {
+  const intl = useIntl();
   const { user, loading, error, confirmEmail, resendEmail } = props;
   const [code, setCode] = useState("");
   const dispatch = useDispatch();
@@ -49,7 +50,9 @@ const ConfirmEmail = (props) => {
 
   return (
     <React.Fragment>
-      <PageTitle>Email Confirmation</PageTitle>
+      <PageTitle>
+        {intl.formatMessage({ id: "EMAIL_CONFIRMATION_TITLE" })}
+      </PageTitle>
 
       <BlockSpace layout='after-header' />
       <div className='block'>
@@ -60,7 +63,7 @@ const ConfirmEmail = (props) => {
                 <div className='card-body card-body--padding--2'>
                   <h3 className='card-title'>
                     {/* <FormattedMessage id='HEADER_LOGIN' /> */}
-                    Confirm Your Email
+                    <FormattedMessage id='EMAIL_CONFIRMATION_TITLE' />
                   </h3>
                   <form onSubmit={onSubmit}>
                     {error && (
@@ -72,8 +75,7 @@ const ConfirmEmail = (props) => {
 
                     <div className='form-group'>
                       <label htmlFor='confirmaton-code'>
-                        {/* <FormattedMessage id='INPUT_EMAIL_ADDRESS_LABEL' /> */}
-                        Enter confirmation code
+                        <FormattedMessage id='INPUT_CODE_CONFIRMATION' />
                       </label>
                       <input
                         id='confirmation-code'
@@ -105,8 +107,7 @@ const ConfirmEmail = (props) => {
                         })}
                         onClick={onResend}
                       >
-                        {/* <FormattedMessage id='LINK_CREATE_ACCOUNT' /> */}
-                        Resend Email
+                        <FormattedMessage id='BUTTON_RESEND_EMAIL' />
                       </button>
                     </div>
 
@@ -117,8 +118,7 @@ const ConfirmEmail = (props) => {
                           "btn-loading": loading,
                         })}
                       >
-                        {/* <FormattedMessage id='BUTTON_LOGIN' /> */}
-                        Confirm
+                        <FormattedMessage id='BUTTON_SUBMIT' />
                       </button>
                     </div>
                   </form>

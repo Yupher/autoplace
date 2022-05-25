@@ -85,7 +85,7 @@ const MobileMenu = ({ isOpen }) => {
               <div className='mobile-menu__contacts-subtitle'>
                 <FormattedMessage id='TEXT_MOBILE_MENU_PHONE_TITLE' />
               </div>
-              <div className='mobile-menu__contacts-title'>800 060-0730</div>
+              <div className='mobile-menu__contacts-title'>Coming soon...</div>
             </Link>
           </MobileMenuPanel>
         </MobileMenuConveyor>

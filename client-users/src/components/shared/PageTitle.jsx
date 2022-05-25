@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-const pageTitle = (props) => {
+const PageTitle = (props) => {
   const { children } = props;
   const title = children || "";
 
@@ -10,10 +10,10 @@ const pageTitle = (props) => {
       <title>
         {title}
         {title ? " — " : ""}
-        RedParts
+        Autoplace
       </title>
     </Helmet>
   );
 };
 
-export default pageTitle;
+export default PageTitle;

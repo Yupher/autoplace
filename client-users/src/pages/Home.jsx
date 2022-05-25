@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { connect, useDispatch } from "react-redux";
 
 import { getAllVehicles } from "../actions/vehicleAction";
@@ -8,6 +8,7 @@ import BlockFinder from "../components/blocks/BlockFinder";
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import BlockSpace from "../components/blocks/BlockSpace";
 import BlockProductsCarousel from "../components/blocks/BlockProductsCarousel";
+import PageTitle from "../components/shared/PageTitle";
 
 const Home = (props) => {
   const { getAllVehicles, vehicles, error, loading } = props;
@@ -27,16 +28,17 @@ const Home = (props) => {
 
   return (
     <Fragment>
+      <PageTitle>{intl.formatMessage({ id: "HOME_TITLE" })}</PageTitle>
       <BlockFinder />
       <BlockSpace layout='divider-nl' />
       {vehicles === null && error !== null && error.type === "server" && (
         <div className='d-flex.align-items-center.justify-content-center h-80'>
-          Ooops something went wrong...
+          <FormattedMessage id='SOMETHIN_WRONG' />
         </div>
       )}
       {vehicles && vehicles.lenght <= 0 && (
         <div className='d-flex.align-items-center.justify-content-center h-80'>
-          No data to display
+          <FormattedMessage id='NO_DATA' />
         </div>
       )}
       <BlockProductsCarousel

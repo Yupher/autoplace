@@ -17,9 +17,13 @@ const Search = () => {
   const onChange = (e) => {
     setSearch(e.target.value);
   };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className='search'>
-      <form className='search__body'>
+      <form className='search__body' onSubmit={onSubmit}>
         <div className='search__shadow' />
 
         <label className='sr-only' htmlFor='site-search'>

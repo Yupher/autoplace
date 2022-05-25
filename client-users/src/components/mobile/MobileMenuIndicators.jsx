@@ -13,15 +13,14 @@ import { ReactComponent as Person20Svg } from "../../svg/person-20.svg";
 import { ReactComponent as Logout20Svg } from "../../svg/logout-20.svg";
 
 const MobileMenuIndicators = (props) => {
-  const { user, logout } = props;
+  const { user, logout, wishlist } = props;
 
   const dispatch = useDispatch();
   const mobileMenuClose = () => {
     dispatch({ type: CLOSE_MENU });
   };
 
-  //todo wishlist from state
-  const wishlist = ["something"];
+  const wishlistCounter = wishlist && wishlist.products.length;
 
   return (
     <div className='mobile-menu__indicators'>
@@ -32,9 +31,9 @@ const MobileMenuIndicators = (props) => {
       >
         <span className='mobile-menu__indicator-icon'>
           <Heart20Svg />
-          {wishlist.length > 0 && (
+          {wishlistCounter > 0 && (
             <span className='mobile-menu__indicator-counter'>
-              {wishlist.length}
+              {wishlistCounter}
             </span>
           )}
         </span>
@@ -89,5 +88,6 @@ const MobileMenuIndicators = (props) => {
 };
 const mapStateToProps = (state) => ({
   user: state.authState.user,
+  wishlist: state.wishlistState.wishlist,
 });
 export default connect(mapStateToProps, { logout })(MobileMenuIndicators);

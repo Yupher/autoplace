@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
+import { useIntl, FormattedMessage } from "react-intl";
 
 const AddVehicleStepOne = (props) => {
   const { vehicleData, vehicleState, onChange } = props;
+  const intl = useIntl();
 
   const {
     year,
@@ -18,25 +20,31 @@ const AddVehicleStepOne = (props) => {
   return (
     <Fragment>
       <div className='form-group'>
-        <label htmlFor='year'>Year</label>
+        <label style={{ textTransform: "capitalize" }} htmlFor='year'>
+          {intl.formatMessage({ id: "SELECT_YEAR" })}
+        </label>
         <input
           type='text'
           className='form-control'
-          placeholder='year'
+          placeholder={intl.formatMessage({ id: "SELECT_YEAR" })}
           name='year'
           value={year}
           onChange={onChange}
         />
       </div>
       <div className='form-group'>
-        <label htmlFor='brand'>Brand</label>
+        <label style={{ textTransform: "capitalize" }} htmlFor='brand'>
+          <FormattedMessage id='SELECT_BRAND' />
+        </label>
         <select
           name='brand'
           value={brand}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select brand </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_BRAND' />
+          </option>
           {vehicleData &&
             vehicleData.brandsAndModels.map((brandAndModel, index) => (
               <option
@@ -49,16 +57,22 @@ const AddVehicleStepOne = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='model'>Model</label>
+        <label htmlFor='model'>
+          <FormattedMessage id='SELECT_MODEL' />
+        </label>
         <select
           name='model'
           value={model}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select Select model </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_MODEL' />
+          </option>
           {!brand ? (
-            <option value='0'>Please Select a brand</option>
+            <option value='0'>
+              <FormattedMessage id='SELECT_MODEL_ERROR' />
+            </option>
           ) : (
             vehicleData &&
             vehicleData.brandsAndModels.map(
@@ -74,14 +88,18 @@ const AddVehicleStepOne = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='enery'>Energy</label>
+        <label htmlFor='enery'>
+          <FormattedMessage id='SELECT_ENERGY' />
+        </label>
         <select
           name='energy'
           value={energy}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select energy </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_ENERGY' />
+          </option>
           {vehicleData &&
             vehicleData.energies.map((energy, index) => (
               <option key={energy.name + index} vlaue={energy.name}>
@@ -91,14 +109,18 @@ const AddVehicleStepOne = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='transmission'>Transmission</label>
+        <label htmlFor='transmission'>
+          <FormattedMessage id='SELECT_TRANSMISSION' />
+        </label>
         <select
           name='transmission'
           value={transmission}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select transmission </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_TRANSMISSION' />
+          </option>
           {vehicleData &&
             vehicleData.transmissions.map((trans, index) => (
               <option key={trans.name + index} vlaue={trans.name}>
@@ -108,11 +130,13 @@ const AddVehicleStepOne = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='kilometrage'>Kilometrage</label>
+        <label htmlFor='kilometrage'>
+          <FormattedMessage id='INPUT_KILOMETRAGE' />
+        </label>
         <input
           type='text'
           className='form-control'
-          placeholder='Kilometrage'
+          placeholder={intl.formatMessage({ id: "INPUT_KILOMETRAGE" })}
           name='kilometrage'
           value={kilometrage}
           onChange={onChange}

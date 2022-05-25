@@ -6,6 +6,7 @@ import { getVehicle } from "../actions/vehicleAction";
 import UpdateVehicleForm from "../components/Vehicles/UpdateVehicleForm";
 import BlockSpace from "../components/blocks/BlockSpace";
 import LoadingSpiner from "../components/shared/LoadingSpiner";
+import PageTitle from "../components/shared/PageTitle";
 
 const UpdateVehicle = ({ currentVehicle, getVehicle, loading, error }) => {
   const { productId } = useParams();
@@ -20,6 +21,7 @@ const UpdateVehicle = ({ currentVehicle, getVehicle, loading, error }) => {
   }
   return (
     <Fragment>
+      <PageTitle>Update vehicle</PageTitle>
       <BlockSpace layout='after-header' />
       {error && (
         <div className='alert alert-sm alert-danger'>

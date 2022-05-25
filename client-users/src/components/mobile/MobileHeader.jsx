@@ -45,10 +45,10 @@ const MobileHeader = ({ wishlist }) => {
           >
             <Menu18x14Svg />
           </button>
-          <Link to='/' className='mobile-header__logo'>
+          <Link to='/' className='mobile-header__logo '>
             <MobileLogo />
           </Link>
-          <div
+          {/* <div
             className={classNames("mobile-header__search mobile-search", {
               "mobile-header__search--open": searchOpen,
             })}
@@ -87,9 +87,9 @@ const MobileHeader = ({ wishlist }) => {
               </button>
               <div className='mobile-search__field' />
             </form>
-          </div>
+          </div> */}
           <div className='mobile-header__indicators'>
-            <div className='mobile-indicator d-md-none'>
+            {/* <div className='mobile-indicator d-md-none'>
               <button
                 type='button'
                 className='mobile-indicator__button'
@@ -99,15 +99,15 @@ const MobileHeader = ({ wishlist }) => {
                   <Search20Svg />
                 </span>
               </button>
-            </div>
-            <div className='mobile-indicator d-none d-md-block'>
+            </div> */}
+            <div className='mobile-indicator d-none d-md-block d-sm-none'>
               <Link to='/dashboard' className='mobile-indicator__button'>
                 <span className='mobile-indicator__icon'>
                   <Person20Svg />
                 </span>
               </Link>
             </div>
-            <div className='mobile-indicator d-none d-md-block'>
+            <div className='mobile-indicator d-none d-md-block d-sm-none'>
               <Link to='/favorite' className='mobile-indicator__button'>
                 <span className='mobile-indicator__icon'>
                   <Heart20Svg />

@@ -11,7 +11,7 @@ function Logo(props) {
         <div className='logo__slogan'>
           <FormattedMessage id='TEXT_SLOGAN' />
         </div>
-        <div className='logo__image'>
+        <div className='logo__image pt-3'>
           {/* logo */}
           <svg
             id='Layer_1'

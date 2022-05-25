@@ -1,13 +1,16 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 
 const AddVehicleFormStepSix = (props) => {
   const { vehicleState } = props;
   return (
     <div className='block'>
-      <h3 className='card-title'>Confirm your informations</h3>
+      <h3 className='card-title'>
+        <FormattedMessage id='TITLE_CONFIRM_ADD_VEHICLE' />
+        Confirm your informations
+      </h3>
       <p>
-        You can go back to check your informations if you are sure press Add
-        vehicle to contenue
+        <FormattedMessage id='TEXT_CONFIRM_ADD_VEHICLE' />
       </p>
     </div>
   );

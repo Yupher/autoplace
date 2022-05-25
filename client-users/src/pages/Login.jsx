@@ -67,7 +67,7 @@ const Login = (props) => {
 
   return (
     <React.Fragment>
-      <PageTitle>{intl.formatMessage({ id: "HEADER_REGISTER" })}</PageTitle>
+      <PageTitle>{intl.formatMessage({ id: "HEADER_LOGIN" })}</PageTitle>
 
       <BlockSpace layout='after-header' />
       <div className='block'>

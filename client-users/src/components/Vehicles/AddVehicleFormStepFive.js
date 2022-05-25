@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from "react";
 import classNames from "classnames";
 import { useDispatch } from "react-redux";
+import { useIntl } from "react-intl";
 import { useDropzone } from "react-dropzone";
 
 import { CLEAR_ERROR, SET_ERROR } from "../../actions/types/errorTypes";
 
 const AddVehicleFormStepFive = (props) => {
   const { vehicleState, setVehicleState } = props;
+  const intl = useIntl();
   const { photos } = vehicleState;
   const dispatch = useDispatch();
 
@@ -16,7 +18,10 @@ const AddVehicleFormStepFive = (props) => {
     if (rejectedFiles && rejectedFiles.length > 0) {
       dispatch({
         type: SET_ERROR,
-        payload: { type: "file", message: "Files are not supported" },
+        payload: {
+          type: "file",
+          message: intl.formatMessage({ id: "INPUT_FILE_LARGE_ERROR" }),
+        },
       });
     }
 
@@ -62,7 +67,9 @@ const AddVehicleFormStepFive = (props) => {
           {...getRootProps()}
         >
           <input className='d-none' {...getInputProps} />
-          {isDragActive ? "Drop" : "Drag and drop files"}
+          {isDragActive
+            ? intl.formatMessage({ id: "INPUT_FILE_DROP" })
+            : intl.formatMessage({ id: "INPUT_FILE_DRAG" })}
         </div>
       </div>
       <div className='card-divider' />

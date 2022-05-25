@@ -4,7 +4,7 @@ add remove in preview (done)
 add styles to preview (done)
 add validation (important) (done)
 
-add delete photo in backend (when addin delete product)
+add delete photo in backend (when addin delete product) (done)
 
 to delete image from cloudinary you need public id of the image
 

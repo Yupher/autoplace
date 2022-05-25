@@ -62,8 +62,7 @@ const ResetPaswordEmailInput = ({
             "btn-loading": loading,
           })}
         >
-          {/* <FormattedMessage id='BUTTON_LOGIN' /> */}
-          Submit
+          <FormattedMessage id='BUTTON_SUBMIT' />
         </button>
       </div>
     </form>

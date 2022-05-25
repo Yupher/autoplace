@@ -1,14 +1,17 @@
 import React, { Fragment, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { FormattedMessage, useIntl } from "react-intl";
 import { getMyVehicles } from "../actions/vehicleAction";
 
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import BlockSpace from "../components/blocks/BlockSpace";
 import ProductCard from "../components/shared/ProductCard";
 import BlockProductsCarousel from "../components/blocks/BlockProductsCarousel";
+import PageTitle from "../components/shared/PageTitle";
 
 const Dashboard = (props) => {
+  const intl = useIntl();
   const { getMyVehicles, myVehicles, error, loading } = props;
 
   useEffect(() => {
@@ -25,21 +28,20 @@ const Dashboard = (props) => {
 
   return (
     <Fragment>
+      <PageTitle>{intl.formatMessage({ id: "DASHBORD_TITLE" })}</PageTitle>
       <BlockSpace layout='after-header' />
       {myVehicles === null && error !== null && error.type === "server" && (
         <div className='d-flex.align-items-center.justify-content-center h-80'>
-          Ooops something went wrong...
+          <FormattedMessage id='SOMETHING_WRONG' />
         </div>
       )}
       {myVehicles && myVehicles.lenght <= 0 && (
         <div className='d-flex.align-items-center.justify-content-center h-80'>
-          No data to display
+          <FormattedMessage id='NO_DATA' />
         </div>
       )}
       <BlockProductsCarousel
-        blockTitle={
-          "My Vehicles" /*intl.formatMessage({ id: "HEADER_FEATURED_PRODUCTS" })*/
-        }
+        blockTitle={intl.formatMessage({ id: "HEADER_DASHBOARD_PRODUCTS" })}
         loading={loading}
         products={myVehicles}
         remove={true}

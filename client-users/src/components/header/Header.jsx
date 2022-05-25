@@ -15,7 +15,7 @@ import AccountMenu from "./AccountMenu";
 
 const Header = ({ wishlist, user }) => {
   //let user; // to do load the user from the backend
-  const wishlistCounter = wishlist && wishlist.products.length; // to do get wishlist items from backend api
+  const wishlistCounter = wishlist && wishlist.products.length;
   const accountIndicatorLabel = user ? (
     user.firstname
   ) : (
@@ -44,9 +44,9 @@ const Header = ({ wishlist, user }) => {
         </div>
       </div>
       <Logo className='header__logo' />
-      <div className='header__search'>
+      {/* <div className='header__search'>
         <Search />
-      </div>
+      </div> */}
       <div className='header__indicators'>
         <Indicator
           href='/favorite'

@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
-import { useIntl } from "react-intl";
+import { useIntl, FormattedMessage } from "react-intl";
 import { connect, useDispatch } from "react-redux";
 import { CLEAR_ERROR } from "../actions/types/errorTypes";
 import { getVehicle } from "../actions/vehicleAction";
@@ -66,7 +66,7 @@ const Vehicle = ({
 
   return (
     <Fragment>
-      <PageTitle>Products</PageTitle>
+      <PageTitle>{intl.formatMessage({ id: "VEHICLE_TITLE" })}</PageTitle>
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>
@@ -99,87 +99,127 @@ const Vehicle = ({
                     ),
                 })}
               ></i>{" "}
-              Add to favorite
+              <FormattedMessage id='BUTTON_ADD_TO_WISHLIST' />
             </button>
           </div>
         </div>
         <div className='row mt-5'>
           <div className='col-md-6 col-sm-12 mt-2 mb-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Firstname: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_FIRST_NAME_LABEL' />:{" "}
+              </span>
               <span> {currentVehicle.addedBy.firstname} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Lastname: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_LAST_NAME_LABEL' />:{" "}
+              </span>
               <span> {currentVehicle.addedBy.lastname} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Wilaya: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='LABEL_WILAYA' />:{" "}
+              </span>
               <span> {currentVehicle.wilaya} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Commune: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='LABEL_COMMUNE' />:{" "}
+              </span>
               <span> {currentVehicle.commune} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Phone: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_PHONE_NUMBER_LABEL' />:{" "}
+              </span>
               <span> {currentVehicle.phone} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Email: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_EMAIL_ADDRESS_LABEL' />:{" "}
+              </span>
               <span> {currentVehicle.email} </span>
             </div>
           </div>
           <div className='col-md-6 col-sm-12 mt-2 mb-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Year: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='SELECT_YEAR' />:{" "}
+              </span>
               <span> {currentVehicle.year} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Color: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='SELECT_COLOR' />:{" "}
+              </span>
               <span> {currentVehicle.color} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Energy: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='SELECT_ENERGY' />:{" "}
+              </span>
               <span> {currentVehicle.energy} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Transmission: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='SELECT_TRANSMISSION' />:{" "}
+              </span>
               <span> {currentVehicle.transmission} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Kilometrage: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_KILOMETRAGE' />:{" "}
+              </span>
               <span> {currentVehicle.kilometrage} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Paper: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='SELECT_PAPER' />:{" "}
+              </span>
               <span> {currentVehicle.paper} </span>
             </div>
           </div>
           <div className='col-12 mt-2 mb-2'>
-            <h6>Description: </h6>
+            <h6>
+              <FormattedMessage id='INPUT_GENERAL_DESCRIPTION' />:{" "}
+            </h6>
             <p>{currentVehicle.description}</p>
           </div>
           <div className='col-md-3 col-sm-6 mt-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Price: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_PRICE' />:{" "}
+              </span>
               <span> {currentVehicle.price} </span>
             </div>
           </div>
           <div className='col-md-3 col-sm-6 mt-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Type of offer: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_OFFER_TYPE' />:{" "}
+              </span>
               <span> {currentVehicle.offerType} </span>
             </div>
           </div>
           <div className='col-md-3 col-sm-6 mt-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Exchange: </span>
-              <span> {currentVehicle.exchange ? "Yes" : "No"} </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='INPUT_ACCEPT_EXCHANGE' />:{" "}
+              </span>
+              <span>
+                {currentVehicle.exchange ? (
+                  <FormattedMessage id='TEXT_YES' />
+                ) : (
+                  <FormattedMessage id='TEXT_NO' />
+                )}{" "}
+              </span>
             </div>
           </div>
           <div className='col-12 mt-2'>
-            <h5>Options</h5>
+            <h5>
+              <FormattedMessage id='SELECT_OPTIONS' />
+            </h5>
             {currentVehicle.options.map((option, index) => (
               <div key={index} className='form-check form-check-inline'>
                 <span className='input-check form-check-input'>
@@ -208,13 +248,17 @@ const Vehicle = ({
           </div>
 
           <div className='col-12 mt-3'>
-            <span style={{ fontWeight: "bold" }}>Accident: </span>
+            <span style={{ fontWeight: "bold" }}>
+              <FormattedMessage id='SELECT_ACCIDENT' />:{" "}
+            </span>
             <span>{currentVehicle.accident}</span>
           </div>
 
           {currentVehicle.accident !== "No accident" && (
             <div className='col-12 mt-2'>
-              <h6>Accident Description: </h6>
+              <h6>
+                <FormattedMessage id='INPUT_ACCIDENT_DESCRIPTION' />:{" "}
+              </h6>
               <p>{currentVehicle.accidentDescription}</p>
             </div>
           )}

@@ -21,11 +21,11 @@ const Topbar = (props) => {
               <FormattedMessage id='LINK_CONTACTS' />
             </a>
           </div>
-          <div className='topbar__item-text'>
+          {/* <div className='topbar__item-text'>
             <a href='#!' className='topbar__link'>
               <FormattedMessage id='LINK_TRACK_ORDER' />
             </a>
-          </div>
+          </div> */}
         </React.Fragment>
       )}
       {layout !== "spaceship-start" && (

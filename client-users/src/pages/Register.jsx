@@ -140,7 +140,7 @@ const Register = (props) => {
                           <FormattedMessage id='ERROR_FORM_REQUIRED' />
                         )}
                         {error && error.type === "firstname" && (
-                          // to do translaton <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
+                          //  <FormattedMessage id='ERROR_FORM_INCORRECT_EMAIL' />
                           <p>{error.message}</p>
                         )}
                       </div>

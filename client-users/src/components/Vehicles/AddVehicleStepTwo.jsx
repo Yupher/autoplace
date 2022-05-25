@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const AddVehicleStepTwo = (props) => {
+  const intl = useIntl();
   const { vehicleData, vehicleState, setVehicleState, onChange } = props;
   const {
     color,
@@ -15,14 +17,18 @@ const AddVehicleStepTwo = (props) => {
   return (
     <Fragment>
       <div className='form-group'>
-        <label htmlFor='color'>Color</label>
+        <label htmlFor='color'>
+          <FormattedMessage id='SELECT_COLOR' />
+        </label>
         <select
           name='color'
           value={color}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select color </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_COLOR' />
+          </option>
           {vehicleData &&
             vehicleData.colors.map((color, index) => (
               <option key={color.name + index} vlaue={color.name}>
@@ -32,14 +38,18 @@ const AddVehicleStepTwo = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='paper'>Paper</label>
+        <label htmlFor='paper'>
+          <FormattedMessage id='SELECT_PAPER' />
+        </label>
         <select
           name='paper'
           value={paper}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select paper </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_PAPER' />
+          </option>
           {vehicleData &&
             vehicleData.papers.map((paper, index) => (
               <option key={paper.name + index} vlaue={paper.name}>
@@ -49,14 +59,18 @@ const AddVehicleStepTwo = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='accident'>Accident</label>
+        <label htmlFor='accident'>
+          <FormattedMessage id='SELECT_ACCIDENT' />
+        </label>
         <select
           name='accident'
           value={accident}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select Option </option>
+          <option value='0'>
+            <FormattedMessage id='INPUT_SELECT_ACCIDENT' />
+          </option>
           <option vlaue='no accident'>No accident</option>
           <option vlaue='fixed'>Accident and Fixed</option>
           <option vlaue='not fixed'>Accident and not fixed</option>
@@ -64,11 +78,15 @@ const AddVehicleStepTwo = (props) => {
       </div>
       {accident !== "No accident" && accident !== "" && (
         <div className='form-group'>
-          <label htmlFor='description'>Describe the accident</label>
+          <label htmlFor='description'>
+            <FormattedMessage id='INPUT_ACCIDENT_DESCRIPTION' />
+          </label>
           <textarea
             type='text'
             className='form-control'
-            placeholder='Description'
+            placeholder={intl.formatMessage({
+              id: "INPUT_ACCIDENT_DESCRIPTION",
+            })}
             name='accidentDescription'
             value={accidentDescription}
             onChange={onChange}
@@ -76,7 +94,9 @@ const AddVehicleStepTwo = (props) => {
         </div>
       )}
       <div className='form-group'>
-        <label htmlFor='option'>Options</label>
+        <label htmlFor='option'>
+          <FormattedMessage id='SELECT_OPTIONS' />
+        </label>
         <div>
           {vehicleData &&
             vehicleData.options.map((option, index) => {
@@ -128,11 +148,13 @@ const AddVehicleStepTwo = (props) => {
       </div>
 
       <div className='form-group'>
-        <label htmlFor='description'>General description</label>
+        <label htmlFor='description'>
+          <FormattedMessage id='INPUT_GENERAL_DESCRIPTION' />
+        </label>
         <textarea
           type='text'
           className='form-control'
-          placeholder='description'
+          placeholder={intl.formatMessage({ id: "INPUT_GENERAL_DESCRIPTION" })}
           name='description'
           value={description}
           onChange={onChange}

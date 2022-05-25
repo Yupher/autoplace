@@ -1,30 +1,38 @@
 import React, { Fragment } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const AddVehicleFormStepThree = (props) => {
+  const intl = useIntl();
   const { vehicleData, vehicleState, setVehicleState, onChange } = props;
   const { price, offerType, exchange } = vehicleState;
   return (
     <Fragment>
       <div className='form-group'>
-        <label htmlFor='price'>Price</label>
+        <label htmlFor='price'>
+          <FormattedMessage id='INPUT_PRICE' />
+        </label>
         <input
           type='text'
           className='form-control'
-          placeholder='Price'
+          placeholder={intl.formatMessage({ id: "INPUT_PRICE" })}
           name='price'
           value={price}
           onChange={onChange}
         />
       </div>
       <div className='form-group'>
-        <label htmlFor='offerType'>Type of the offer</label>
+        <label htmlFor='offerType'>
+          <FormattedMessage id='INPUT_OFFER_TYPE' />
+        </label>
         <select
           name='offerType'
           value={offerType}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select an offer </option>
+          <option value='0'>
+            <FormattedMessage id='SELECT_OFFER_TYPE' />
+          </option>
           <option value='fixed'> Fixed </option>
           <option value='negotiable'> Negotiable </option>
           <option value='offered'> Offered </option>
@@ -54,7 +62,7 @@ const AddVehicleFormStepThree = (props) => {
             </span>
           </span>
           <label className='form-check-label' htmlFor='exchange'>
-            Accept exchange
+            <FormattedMessage id='INPUT_ACCEPT_EXCHANGE' />
           </label>
         </div>
       </div>

@@ -31,7 +31,6 @@ const MobileMenuSettings = (props) => {
       if (item.customFields && item.customFields.language) {
         setLanguage(item.customFields.language);
       }
-      console.log(item.customFields.language);
 
       mobileMenuClose();
     },

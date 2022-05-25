@@ -36,6 +36,7 @@ const BlockFinder = (props) => {
     }
     const queryString = new URLSearchParams(params).toString();
     e.preventDefault();
+    console.log(queryString);
     if (!queryString) {
       return getAllVehicles();
     }
@@ -52,12 +53,10 @@ const BlockFinder = (props) => {
       />
       <div className='block-finder__body container container--max--xl'>
         <div className='block-finder__title'>
-          {/* <FormattedMessage id='TEXT_BLOCK_FINDER_TITLE' /> */}
-          Find A Vehicle With Our Advanced Search
+          <FormattedMessage id='TEXT_BLOCK_FINDER_TITLE' />
         </div>
         <div className='block-finder__subtitle'>
-          {/* <FormattedMessage id='TEXT_BLOCK_FINDER_SUBTITLE' /> */}
-          Over hundred of thousands of vehicles
+          <FormattedMessage id='TEXT_BLOCK_FINDER_SUBTITLE' />
         </div>
         <form className='block-finder__form' onSubmit={onSubmit}>
           <VehicleSelect

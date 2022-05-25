@@ -1,19 +1,25 @@
 import React, { Fragment } from "react";
+import { useIntl, FormattedMessage } from "react-intl";
 
 const AddVehicleFormStepFour = (props) => {
+  const intl = useIntl();
   const { vehicleData, vehicleState, setVehicleState, email, onChange } = props;
   const { wilaya, commune, phone, displayPhone } = vehicleState;
   return (
     <Fragment>
       <div className='form-group'>
-        <label htmlFor='wilaya'>Wilaya</label>
+        <label htmlFor='wilaya'>
+          <FormattedMessage id='LABEL_WILAYA' />
+        </label>
         <select
           name='wilaya'
           value={wilaya}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select wilaya </option>
+          <option value='0'>
+            <FormattedMessage id='SELECT_WILAYA' />
+          </option>
           {vehicleData &&
             vehicleData.wilayaAndCities.map((wilayaAndCity) => (
               <option key={wilayaAndCity.id} vlaue={wilayaAndCity.name}>
@@ -23,16 +29,22 @@ const AddVehicleFormStepFour = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='model'>Commune</label>
+        <label htmlFor='model'>
+          <FormattedMessage id='LABEL_COMMUNE' />
+        </label>
         <select
           name='commune'
           value={commune}
           className='form-control'
           onChange={onChange}
         >
-          <option value='0'> Select commune </option>
+          <option value='0'>
+            <FormattedMessage id='SELECT_COMMUNE' />
+          </option>
           {!wilaya ? (
-            <option value='0'>Please Select a wilaya</option>
+            <option value='0'>
+              <FormattedMessage id='SELECT_COMMUNE_ERROR' />
+            </option>
           ) : (
             vehicleData &&
             vehicleData.wilayaAndCities.map(
@@ -48,22 +60,26 @@ const AddVehicleFormStepFour = (props) => {
         </select>
       </div>
       <div className='form-group'>
-        <label htmlFor='phone'>Phone</label>
+        <label htmlFor='phone'>
+          <FormattedMessage id='INPUT_PHONE_NUMBER_LABEL' />
+        </label>
         <input
           type='text'
           className='form-control'
-          placeholder='Phone'
+          placeholder={intl.formatMessage({ id: "INPUT_PHONE_NUMBER_LABEL" })}
           name='phone'
           value={phone}
           onChange={onChange}
         />
       </div>
       <div className='form-group'>
-        <label htmlFor='email'>Email</label>
+        <label htmlFor='email'>
+          <FormattedMessage id='INPUT_EMAIL_ADDRESS_LABEL' />
+        </label>
         <input
           type='email'
           className='form-control'
-          placeholder='email'
+          placeholder={intl.formatMessage({ id: "INPUT_EMAIL_ADDRESS_LABEL" })}
           name='email'
           value={email}
           onChange={onChange}
@@ -93,7 +109,7 @@ const AddVehicleFormStepFour = (props) => {
             </span>
           </span>
           <label className='form-check-label' htmlFor='display phone'>
-            Display Phone Number
+            <FormattedMessage id='DISPLAY_PHONE' />
           </label>
         </div>
       </div>

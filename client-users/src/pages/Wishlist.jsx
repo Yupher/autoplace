@@ -1,20 +1,16 @@
 import React, { Fragment, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { useIntl, FormattedMessage } from "react-intl";
 
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import BlockSpace from "../components/blocks/BlockSpace";
 import { removeFromWishlist } from "../actions/wishlistActions";
+import PageTitle from "../components/shared/PageTitle";
 
 const Wishlist = (props) => {
   const { wishlist, loading, user, error, removeFromWishlist } = props;
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user]);
+  const intl = useIntl();
 
   const removeItem = (id) => {
     removeFromWishlist(id);
@@ -30,6 +26,7 @@ const Wishlist = (props) => {
 
   return (
     <Fragment>
+      <PageTitle>{intl.formatMessage({ id: "HEADER_WISHLIST" })}</PageTitle>
       <BlockSpace layout='after-header' />
       {error && error.type === "server" && (
         <div
@@ -52,7 +49,9 @@ const Wishlist = (props) => {
             height: "500px",
           }}
         >
-          <h4>whishlist is empty!</h4>
+          <h4>
+            <FormattedMessage id='HEADER_WISHLIST_EMPTY_TITLE' />!
+          </h4>
         </div>
       )}
       {wishlist && (
@@ -77,7 +76,9 @@ const Wishlist = (props) => {
                   <p className='wishlist-address'>
                     {product.wilaya} {product.commune}
                   </p>
-                  <p className='wishlist-price'>Price: {product.price} DA</p>
+                  <p className='wishlist-price'>
+                    <FormattedMessage id='INPUT_PRICE' />: {product.price} DA
+                  </p>
                 </div>
               </li>
             ))}

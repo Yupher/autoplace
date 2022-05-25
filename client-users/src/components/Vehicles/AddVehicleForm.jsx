@@ -13,6 +13,7 @@ import AddVehicleFormStepFour from "./AddVehicleFormStepFour";
 import AddVehicleFormStepFive from "./AddVehicleFormStepFive";
 import AddVehicleFormStepSix from "./AddVehicleFormStepSix";
 import addVehicleValidation from "../../utils/addVehicleValidation";
+import { FormattedMessage } from "react-intl";
 
 const AddVehicleForm = (props) => {
   const { loading, user, vehicleData, getVihecleData, addVehicle, error } =
@@ -199,7 +200,7 @@ const AddVehicleForm = (props) => {
               },
             )}
           >
-            Prev
+            <FormattedMessage id='BUTTON_PREV' />
           </button>
           <button
             type='button'
@@ -216,7 +217,7 @@ const AddVehicleForm = (props) => {
               },
             )}
           >
-            next
+            <FormattedMessage id='BUTTON_NEXT' />
           </button>
           <button
             type='submit'
@@ -232,7 +233,7 @@ const AddVehicleForm = (props) => {
               },
             )}
           >
-            Submit
+            <FormattedMessage id='BUTTON_SUBMIT' />
           </button>
         </div>
       </form>

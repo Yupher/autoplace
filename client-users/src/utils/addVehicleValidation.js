@@ -1,3 +1,5 @@
+import { useIntl } from "react-intl";
+
 const addVehicleValidation = (input = {}, step) => {
   switch (step) {
     case 1:

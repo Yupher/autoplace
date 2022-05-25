@@ -29,11 +29,15 @@ import ResetPassword from "./pages/ResetPassword";
 import Vehicle from "./pages/Vehicle";
 import Dashboard from "./pages/Dashboard";
 import UpdateVehicle from "./pages/UpdateVehicle";
+import Trending from "./pages/Trending";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 //styles
 import "./scss/index.scss";
 import "./scss/style.header-spaceship-variant-one.scss";
 import "./scss/style.mobile-header-variant-one.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FormattedMessage } from "react-intl";
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -49,7 +53,7 @@ if (localStorage.jwtToken) {
 
 function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
   const { locale, direction, code } = currentLocale;
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -113,7 +117,8 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
                 <div className='alert alert-sm alert-danger mt-5'>
                   {/* <FormattedMessage id={error.message} /> */}
                   <p>
-                    {error.message}, to confirm your email{" "}
+                    {error.message},{" "}
+                    <FormattedMessage id='CONFIRM_YOUR_EMAIL' />{" "}
                     <Link to='/confirm-email'>click here</Link>
                   </p>
                 </div>
@@ -122,6 +127,13 @@ function App({ currentLocale, getWishlist, error, user, loadUser, logout }) {
                 <Route exact path='/' element={<Home />} />
                 <Route exact path='/register' element={<Register />} />
                 <Route exact path='/login' element={<Login />} />
+                <Route exact path='/tranding' element={<Trending />} />
+                <Route
+                  exact
+                  path='/privacy-policy'
+                  element={<PrivacyPolicy />}
+                />
+                <Route exact path='/terms' element={<TermsOfService />} />
                 <Route
                   exact
                   path='/reset-password'

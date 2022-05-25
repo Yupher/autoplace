@@ -67,11 +67,12 @@ const ResetPasswordInput = ({
   };
   return (
     <form onSubmit={onSubmit}>
-      <p>A code was sent to your email</p>
+      <p>
+        <FormattedMessage id='CODE_SENT' />
+      </p>
       <div className='form-group'>
         <label htmlFor='confirmaton-code'>
-          {/* <FormattedMessage id='INPUT_EMAIL_ADDRESS_LABEL' /> */}
-          Enter confirmation code
+          <FormattedMessage id='INPUT_CONFIRMATION_CODE' />
         </label>
         <input
           id='confirmation-code'
@@ -168,8 +169,7 @@ const ResetPasswordInput = ({
               "btn-loading": loading,
             })}
           >
-            {/* <FormattedMessage id='BUTTON_REGISTER' /> */}
-            Submit
+            <FormattedMessage id='BUTTON_SUBMIT' />
           </button>
         </div>
       </div>
