@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 export const validateEmail = (email) => {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (!email || email === "") {

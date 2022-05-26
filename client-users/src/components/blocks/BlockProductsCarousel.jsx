@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React from "react";
 import classNames from "classnames";
 
 import ProductCard from "../shared/ProductCard";

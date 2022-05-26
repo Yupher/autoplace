@@ -12,7 +12,6 @@ import PageTitle from "../components/shared/PageTitle";
 import BlockSpace from "../components/blocks/BlockSpace";
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import ProductImageSlider from "../components/Products/ProductImageSlider";
-import { ReactComponent as Wishlist16Svg } from "../svg/wishlist-16.svg";
 
 const Vehicle = ({
   loading,

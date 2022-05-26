@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
+
 import { connect } from "react-redux";
 import { FormattedMessage, useIntl } from "react-intl";
 import { getMyVehicles } from "../actions/vehicleAction";
 
 import LoadingSpiner from "../components/shared/LoadingSpiner";
 import BlockSpace from "../components/blocks/BlockSpace";
-import ProductCard from "../components/shared/ProductCard";
+
 import BlockProductsCarousel from "../components/blocks/BlockProductsCarousel";
 import PageTitle from "../components/shared/PageTitle";
 

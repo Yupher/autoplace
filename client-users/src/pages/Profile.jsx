@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, Fragment } from "react";
+import React, { useState, useCallback, Fragment } from "react";
 import classNames from "classnames";
 import { connect, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDropzone } from "react-dropzone";
 

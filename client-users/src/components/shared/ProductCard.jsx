@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import classNames from "classnames";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 
 import { ReactComponent as Wishlist16Svg } from "../../svg/wishlist-16.svg";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   addToWishlist,
   removeFromWishlist,

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { OPEN_MENU, CLOSE_MENU } from "../../actions/types/MobileMenuTypes";
+import { CLOSE_MENU } from "../../actions/types/MobileMenuTypes";
 import { ReactComponent as Cross12Svg } from "../../svg/cross-12.svg";
 import MobileMenuConveyor from "./MobileMenuConveyor";
 import MobileMenuPanel from "./MobileMenuPanel";
@@ -53,7 +53,7 @@ const MobileMenu = ({ isOpen }) => {
     },
     {
       title: intl.formatMessage({ id: "NAVBAR_TRENDING_LINK" }),
-      url: "/trending",
+      url: "/tranding",
     },
   ];
 

@@ -1,8 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
-const AddVehicleFormStepSix = (props) => {
-  const { vehicleState } = props;
+const AddVehicleFormStepSix = () => {
   return (
     <div className='block'>
       <h3 className='card-title'>

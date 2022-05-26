@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, connect } from "react-redux";
+import { connect } from "react-redux";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import PageTitle from "../components/shared/PageTitle";
@@ -9,7 +9,7 @@ import ResetPasswordForm from "../components/resetPassword/ResetPasswordForm";
 
 const ResetPassword = ({ user, error }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const intl = useIntl();
 
   useEffect(() => {

@@ -9,12 +9,11 @@ import { ReactComponent as Plus32Svg } from "../../svg/plus-32.svg";
 import Topbar from "./Topbar";
 import MainMenu from "./MainMenu";
 import Logo from "./Logo";
-import Search from "./Search";
+
 import Indicator from "./Indicator";
 import AccountMenu from "./AccountMenu";
 
 const Header = ({ wishlist, user }) => {
-  //let user; // to do load the user from the backend
   const wishlistCounter = wishlist && wishlist.products.length;
   const accountIndicatorLabel = user ? (
     user.firstname

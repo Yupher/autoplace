@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { useNavigate } from "react-router-dom";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 import { filteredVehicles, getAllVehicles } from "../../actions/vehicleAction";
 
@@ -9,7 +8,7 @@ import Decor from "../shared/Decor";
 import VehicleSelect from "../shared/VehicleSelect";
 
 const BlockFinder = (props) => {
-  const { filtred, filteredVehicles, getAllVehicles } = props;
+  const { filteredVehicles, getAllVehicles } = props;
   const [vehicleState, setVehicle] = useState({
     year: "",
     brand: "",

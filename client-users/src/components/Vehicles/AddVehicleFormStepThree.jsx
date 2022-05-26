@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 const AddVehicleFormStepThree = (props) => {
   const intl = useIntl();
-  const { vehicleData, vehicleState, setVehicleState, onChange } = props;
+  const { vehicleState, setVehicleState, onChange } = props;
   const { price, offerType, exchange } = vehicleState;
   return (
     <Fragment>

@@ -1,6 +1,5 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom";
 
 import Decor from "../shared/Decor";
 import FooterContacts from "./FooterContacts";

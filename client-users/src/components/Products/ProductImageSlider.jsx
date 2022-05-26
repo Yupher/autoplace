@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const ProductImageSlider = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);

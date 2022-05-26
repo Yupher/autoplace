@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactDOM from "react-dom";
 
 import { ReactComponent as ArrowRoundedLeft7x11Svg } from "../../svg/arrow-rounded-left-7x11.svg";

@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 import { getAllVehicles } from "../actions/vehicleAction";
 

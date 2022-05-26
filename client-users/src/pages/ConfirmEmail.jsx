@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { connect, useDispatch } from "react-redux";
 import { CLEAR_ERROR, SET_ERROR } from "../actions/types/errorTypes";

@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import classNames from "classnames";
 import { useDispatch, connect } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { useIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage } from "react-intl";
 
 import { CLEAR_ERROR, SET_ERROR } from "../../actions/types/errorTypes";
 import { getVihecleData, updateVehicle } from "../../actions/vehicleAction";

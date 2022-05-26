@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { useIntl, FormattedMessage } from "react-intl";
@@ -9,7 +9,7 @@ import { removeFromWishlist } from "../actions/wishlistActions";
 import PageTitle from "../components/shared/PageTitle";
 
 const Wishlist = (props) => {
-  const { wishlist, loading, user, error, removeFromWishlist } = props;
+  const { wishlist, loading, error, removeFromWishlist } = props;
   const intl = useIntl();
 
   const removeItem = (id) => {
