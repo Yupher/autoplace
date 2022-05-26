@@ -5,6 +5,32 @@
   color: #ff3333 !important;
 }
 
+.btn-facebook,
+.btn-facebook.disabled,
+.btn-facebook:disabled {
+  border-color: #3b5998;
+  background-color: #3b5998;
+  color: #fff;
+}
+.btn-google,
+.btn-google.disabled,
+.btn-google:disabled {
+  border-color: #db4437;
+  background-color: #db4437;
+  color: #fff;
+}
+
+.btn-facebook:hover {
+  border-color: #333;
+  background-color: #333;
+  color: #fff;
+}
+.btn-google:hover {
+  border-color: #333;
+  background-color: #333;
+  color: #fff;
+}
+
 .table-link {
   text-decoration: none;
   color: inherit;

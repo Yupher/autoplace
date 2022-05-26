@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
+import { useIntl, FormattedMessage } from "react-intl";
 
 import BlockSpace from "../components/blocks/BlockSpace";
 import PageTitle from "../components/shared/PageTitle";
@@ -11,6 +12,7 @@ import LoadingSpiner from "../components/shared/LoadingSpiner";
 
 const Products = ({ getAllVehicles, vehicles, loading, error }) => {
   const dispatch = useDispatch();
+  const intl = useIntl();
   useEffect(() => {
     getAllVehicles();
   }, []);
@@ -26,7 +28,9 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
   if (!vehicles && !loading) {
     return (
       <div className='text-align-center'>
-        <h3>No data available</h3>
+        <h3>
+          <FormattedMessage id='NO_DATA' />
+        </h3>
       </div>
     );
   }
@@ -143,7 +147,7 @@ const Products = ({ getAllVehicles, vehicles, loading, error }) => {
 
   return (
     <Fragment>
-      <PageTitle>Products</PageTitle>
+      <PageTitle>{intl.formatMessage({ id: "PRODUCTS" })}</PageTitle>
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>

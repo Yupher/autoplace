@@ -11,6 +11,8 @@ import BlockSpace from "../components/blocks/BlockSpace";
 import PageTitle from "../components/shared/PageTitle";
 
 import { validateEmail, validatePassword } from "../utils/userInputValidation";
+import getFacebookUri from "../utils/getFacebookUrl";
+import getGoogleUri from "../utils/getGoogleUri";
 
 const Login = (props) => {
   const intl = useIntl();
@@ -60,9 +62,18 @@ const Login = (props) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
+  const facebookLogin = () => {
+    const authUri = getFacebookUri();
+    window.location.assign(authUri);
+  };
+  const googleLogin = () => {
+    const authUri = getGoogleUri();
+    window.location.assign(authUri);
+  };
+
   return (
     <React.Fragment>
-      <PageTitle>{intl.formatMessage({ id: "HEADER_REGISTER" })}</PageTitle>
+      <PageTitle>{intl.formatMessage({ id: "HEADER_LOGIN" })}</PageTitle>
 
       <BlockSpace layout='after-header' />
       <div className='block'>
@@ -117,7 +128,7 @@ const Login = (props) => {
                           "is-invalid": error && error.message,
                         })}
                         placeholder={intl.formatMessage({
-                          id: "INPUT_PASSWORD_PLACEHOLDER",
+                          id: "INPUT_PASSWORD_LABEL",
                         })}
                         name='password'
                         value={userData.password}
@@ -129,16 +140,51 @@ const Login = (props) => {
                         )}
                       </div>
                     </div>
-
-                    <div className='form-group mb-0'>
-                      <button
-                        type='submit'
-                        className={classNames("btn", "btn-primary", "mt-3", {
-                          "btn-loading": loading,
-                        })}
-                      >
-                        <FormattedMessage id='BUTTON_LOGIN' />
-                      </button>
+                    <div className='d-flex'>
+                      <div className='form-group mb-0 mr-3'>
+                        <button
+                          type='submit'
+                          className={classNames("btn", "btn-primary", "mt-3", {
+                            "btn-loading": loading,
+                          })}
+                        >
+                          <FormattedMessage id='BUTTON_LOGIN' />
+                        </button>
+                      </div>
+                      <div className='form-group mb-0 mr-3'>
+                        <button
+                          type='button'
+                          onClick={googleLogin}
+                          className={classNames(
+                            "btn",
+                            "btn-primary",
+                            "btn-google",
+                            "mt-3",
+                            {
+                              "btn-loading": loading,
+                            },
+                          )}
+                        >
+                          Google
+                        </button>
+                      </div>
+                      <div className='form-group mb-0 mr-3'>
+                        <button
+                          type='button'
+                          onClick={facebookLogin}
+                          className={classNames(
+                            "btn",
+                            "btn-primary",
+                            "btn-facebook",
+                            "mt-3",
+                            {
+                              "btn-loading": loading,
+                            },
+                          )}
+                        >
+                          Facebook
+                        </button>
+                      </div>
                     </div>
                   </form>
                 </div>

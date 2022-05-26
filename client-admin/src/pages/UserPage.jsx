@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useIntl, FormattedMessage } from "react-intl";
 import { connect, useDispatch } from "react-redux";
 
 import {
@@ -18,6 +19,7 @@ import LoadingSpiner from "../components/shared/LoadingSpiner";
 const UserPage = (props) => {
   const { userId } = useParams();
   const dispatch = useDispatch();
+  const intl = useIntl();
   const {
     user,
     loading,
@@ -60,7 +62,11 @@ const UserPage = (props) => {
   };
 
   if (!user && !loading) {
-    return <h3 style={{ textAlign: "center" }}>No data to display</h3>;
+    return (
+      <h3 style={{ textAlign: "center" }}>
+        <FormattedMessage id='NO_DATA' />
+      </h3>
+    );
   }
   if (!user && loading) {
     return <LoadingSpiner />;
@@ -93,22 +99,26 @@ const UserPage = (props) => {
                           {user.role === "admin" ? (
                             <li>
                               <button onClick={deleteAdminClick}>
-                                Delete Admin
+                                <FormattedMessage id='DELETE_ADMIN' />
                               </button>
                             </li>
                           ) : (
                             <li>
-                              <button onClick={addAdminClick}>Add Admin</button>
+                              <button onClick={addAdminClick}>
+                                <FormattedMessage id='ADD_ADMIN' />
+                              </button>
                             </li>
                           )}
                         </Fragment>
                       )}
                       <li>
                         {user.active ? (
-                          <button onClick={blockUserClick}>Block User</button>
+                          <button onClick={blockUserClick}>
+                            <FormattedMessage id='BLOCK_USER' />
+                          </button>
                         ) : (
                           <button onClick={unblockUserClick}>
-                            Unblock User
+                            <FormattedMessage id='UNBLOCK_USER' />
                           </button>
                         )}
                       </li>
@@ -139,7 +149,9 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>Id: </h6>
+                    <h6>
+                      <FormattedMessage id='ID' />:{" "}
+                    </h6>
                     <p>{user._id}</p>
                   </div>
                   <div
@@ -150,7 +162,9 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>Email: </h6>
+                    <h6>
+                      <FormattedMessage id='EMAIL' />:{" "}
+                    </h6>
                     <p>{user.email}</p>
                   </div>
                   <div
@@ -161,7 +175,9 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>Phone: </h6>
+                    <h6>
+                      <FormattedMessage id='PHONE' />:{" "}
+                    </h6>
                     <p>{user.phone}</p>
                   </div>
                   <div
@@ -172,7 +188,9 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>First name: </h6>
+                    <h6>
+                      <FormattedMessage id='FIRST_NAME' />:{" "}
+                    </h6>
                     <p>{user.firstname}</p>
                   </div>
                   <div
@@ -183,7 +201,9 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>Last name: </h6>
+                    <h6>
+                      <FormattedMessage id='LAST_NAME' />:{" "}
+                    </h6>
                     <p>{user.lastname}</p>
                   </div>
                   <div
@@ -194,7 +214,9 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>role: </h6>
+                    <h6>
+                      <FormattedMessage id='ROLE' />:{" "}
+                    </h6>
                     <p>
                       {user.role === "main_admin" ? "Main admin" : user.role}
                     </p>
@@ -207,8 +229,14 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>Confirmed: </h6>
-                    <p>{user.confirmed ? "Confirmed" : "No"}</p>
+                    <h6>
+                      <FormattedMessage id='CONFIRMED' />:{" "}
+                    </h6>
+                    <p>
+                      {user.confirmed
+                        ? intl.formatMessage({ id: "CONFIRMED" })
+                        : intl.formatMessage({ id: "NO" })}
+                    </p>
                   </div>
                   <div
                     style={{
@@ -218,8 +246,14 @@ const UserPage = (props) => {
                       gap: "7px",
                     }}
                   >
-                    <h6>Status: </h6>
-                    <p>{user.active ? "Active" : "Blocked"}</p>
+                    <h6>
+                      <FormattedMessage id='STATUS' />:{" "}
+                    </h6>
+                    <p>
+                      {user.active
+                        ? intl.formatMessage({ id: "ACTIVE" })
+                        : intl.formatMessage({ id: "BLOCKED" })}
+                    </p>
                   </div>
                 </div>
               </div>

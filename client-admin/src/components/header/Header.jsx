@@ -1,6 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import { logout } from "../../actions/authActions";
 
 import Logo from "./Logo";
@@ -20,7 +21,7 @@ const Header = ({ logout, user }) => {
         )}
         {user && (
           <span onClick={onLogout} className='logout-button'>
-            Logout
+            <FormattedMessage id='LOGOUT' />
           </span>
         )}
         <DropdownLanguage />

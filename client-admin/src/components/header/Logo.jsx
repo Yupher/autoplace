@@ -9,9 +9,6 @@ function Logo(props) {
   return (
     <div {...props}>
       <Link to='/' className='logo'>
-        <div className='logo__slogan'>
-          <FormattedMessage id='TEXT_SLOGAN' />
-        </div>
         <div className='logo__image'>
           {/* logo */}
           <img

@@ -244,6 +244,60 @@ exports.googleLogin = catchAsync(async (req, res, next) => {
   }
 });
 
+exports.googleLoginAdmin = catchAsync(async (req, res, next) => {
+  const { code } = req.query;
+
+  const url = "https://oauth2.googleapis.com/token";
+
+  const values = {
+    code,
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_SECRET,
+    redirect_uri: process.env.GOOGLE_REDIRECT_URI_ADMIN,
+    grant_type: "authorization_code",
+  };
+  try {
+    const response = await axios.post(url, qs.stringify(values), {
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    if (response && response.data) {
+      let { access_token, id_token } = response.data;
+
+      const getUserInfo = await axios.get(
+        `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${id_token}`,
+          },
+        },
+      );
+      // console.log(getUserInfo);
+
+      let user;
+
+      if (getUserInfo && getUserInfo.data) {
+        const { id } = getUserInfo.data;
+        user = await User.findOne({ googleId: id });
+
+        if (!user) {
+          return next(new AppError("User not found.", 404));
+        }
+
+        if (user.role !== "admin" && user.role !== "main_admin") {
+          return next(new AppError("Forbidden.", 403));
+        }
+      }
+      const token = signToken(user);
+      res.redirect(`${process.env.FRONTEND_URL_ADMIN}/?token=${token}`);
+    }
+  } catch (error) {
+    console.log(error.response.data.error);
+  }
+});
+
 exports.facebookLogin = catchAsync(async (req, res, next) => {
   const { code } = req.query;
   const url = "https://graph.facebook.com/v6.0/oauth/access_token";
@@ -289,6 +343,42 @@ exports.facebookLogin = catchAsync(async (req, res, next) => {
     }
     const token = signToken(user);
     res.redirect(`${process.env.FRONTEND_URL}/?token=${token}`);
+  } catch (error) {
+    console.log(error.response.data.error);
+  }
+});
+
+exports.facebookLoginAdmin = catchAsync(async (req, res, next) => {
+  const { code } = req.query;
+  const url = "https://graph.facebook.com/v6.0/oauth/access_token";
+  const values = {
+    code,
+    client_id: process.env.FACEBOOK_CLIENT_ID,
+    client_secret: process.env.FACEBOOK_SECRET,
+    redirect_uri: process.env.FACEBOOK_REDIRECT_URI_ADMIN,
+  };
+  try {
+    const response = await axios.get(`${url}?${qs.stringify(values)}`);
+    let user;
+    if (response && response.data) {
+      const { access_token } = response.data;
+      const userInfo = await axios.get(
+        `https://graph.facebook.com/me?access_token=${access_token}&fields=id,first_name,last_name,email,picture`,
+      );
+      if (userInfo && userInfo.data) {
+        let { id } = userInfo.data;
+        user = await User.findOne({ facebookId: id });
+        if (!user) {
+          return next(new AppError("User not found.", 404));
+        }
+
+        if (user.role !== "admin" && user.role !== "main_admin") {
+          return next(new AppError("Forbidden.", 403));
+        }
+      }
+    }
+    const token = signToken(user);
+    res.redirect(`${process.env.FRONTEND_URL_ADMIN}/?token=${token}`);
   } catch (error) {
     console.log(error.response.data.error);
   }

@@ -30,8 +30,13 @@ import UserPage from "./pages/UserPage";
 //authtoken
 import setAuthToken from "./utils/setAuthToken";
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
+} else if (urlParams.has("token")) {
+  setAuthToken(urlParams.get("token"));
+  localStorage.setItem("jwtToken", urlParams.get("token"));
 } else {
   logout();
   setAuthToken(false);

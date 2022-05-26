@@ -7,6 +7,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, {
   Search,
 } from "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit";
+import { FormattedMessage } from "react-intl";
 
 const ProductsTable = (props) => {
   const { columns, data } = props;
@@ -42,7 +43,9 @@ const ProductsTable = (props) => {
         >
           {(props) => (
             <div>
-              <h6>Input something at below input field:</h6>
+              <h6>
+                <FormattedMessage id='DATA_TABLE_SEARCH' />:
+              </h6>
               <SearchBar {...props.searchProps} />
               <ClearSearchButton {...props.searchProps} />
               <hr />

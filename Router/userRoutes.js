@@ -10,7 +10,9 @@ router.post("/signup/phone", authController.signupPhone);
 router.post("/login", authController.login);
 router.post("/admin-login", authController.adminLogin);
 router.get("/google/login", authController.googleLogin);
+router.get("/admin/google/login", authController.googleLoginAdmin);
 router.get("/facebook/login", authController.facebookLogin);
+router.get("/admin/facebook/login", authController.facebookLoginAdmin);
 router.get("/logout", authController.logout);
 router.get("/loaduser", authController.protect, authController.loadUser);
 

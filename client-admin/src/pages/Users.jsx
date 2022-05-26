@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
+import { useIntl, FormattedMessage } from "react-intl";
 import { CLEAR_ERROR } from "../actions/types/errorTypes";
 import { getAllUsers } from "../actions/usersActions";
 
@@ -18,6 +19,8 @@ const Users = ({
   getAllUsers,
 }) => {
   const dispatch = useDispatch();
+  const intl = useIntl();
+
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -33,7 +36,9 @@ const Users = ({
   if (!allUsers && !loading) {
     return (
       <div className='text-align-center'>
-        <h3>No data available</h3>
+        <h3>
+          <FormattedMessage id='NO_DATA' />
+        </h3>
       </div>
     );
   }
@@ -51,7 +56,9 @@ const Users = ({
         lastname,
         email,
         role,
-        status: user.active ? "active" : "blocked",
+        status: user.active
+          ? intl.formatMessage({ id: "ACTIVE" })
+          : intl.formatMessage({ id: "BLOCKED" }),
       };
     }),
   ];
@@ -161,7 +168,7 @@ const Users = ({
 
   return (
     <Fragment>
-      <PageTitle>Users</PageTitle>
+      <PageTitle>{intl.formatMessage({ id: "USERS" })}</PageTitle>
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>

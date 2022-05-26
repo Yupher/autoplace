@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
+import { useIntl, FormattedMessage } from "react-intl";
 
 import {
   getVehicle,
@@ -24,6 +25,7 @@ const VehiclePage = ({
 }) => {
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   useEffect(() => {
     getVehicle(productId);
@@ -53,7 +55,11 @@ const VehiclePage = ({
   };
 
   if (!currentVehicle && !loading) {
-    return <h3 style={{ textAlign: "center" }}>No data to display</h3>;
+    return (
+      <h3 style={{ textAlign: "center" }}>
+        <FormattedMessage id='NO_DATA' />
+      </h3>
+    );
   }
   if (!currentVehicle && loading) {
     return <LoadingSpiner />;
@@ -61,7 +67,7 @@ const VehiclePage = ({
 
   return (
     <Fragment>
-      <PageTitle>Products</PageTitle>
+      <PageTitle>{intl.formatMessage({ id: "PRODUCTS" })}</PageTitle>
       <BlockSpace layout='after-header' />
       <div className='container'>
         <div className='row'>
@@ -82,10 +88,10 @@ const VehiclePage = ({
             {currentVehicle.accepted === undefined && (
               <Fragment>
                 <button onClick={onAccept} className='btn btn-primary mx-2'>
-                  Accept
+                  <FormattedMessage id='ACCEPT' />
                 </button>
                 <button onClick={onReject} className='btn btn-primary  mx-2'>
-                  Reject
+                  <FormattedMessage id='REJECT' />
                 </button>
               </Fragment>
             )}
@@ -94,80 +100,119 @@ const VehiclePage = ({
         <div className='row mt-5'>
           <div className='col-md-6 col-sm-12 mt-2 mb-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Firstname: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='FIRST_NAME' />:{" "}
+              </span>
               <span> {currentVehicle.addedBy.firstname} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Lastname: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='LAST_NAME' />:{" "}
+              </span>
               <span> {currentVehicle.addedBy.lastname} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Wilaya: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='WILAYA' />:{" "}
+              </span>
               <span> {currentVehicle.wilaya} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Commune: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='COMMUNE' />:{" "}
+              </span>
               <span> {currentVehicle.commune} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Phone: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='PHONE' />:{" "}
+              </span>
               <span> {currentVehicle.phone} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Email: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='EMAIL' />:{" "}
+              </span>
               <span> {currentVehicle.email} </span>
             </div>
           </div>
           <div className='col-md-6 col-sm-12 mt-2 mb-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Year: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='YEAR' />:{" "}
+              </span>
               <span> {currentVehicle.year} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Color: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='COLOR' />:{" "}
+              </span>
               <span> {currentVehicle.color} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Energy: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='ENERGY' />:{" "}
+              </span>
               <span> {currentVehicle.energy} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Transmission: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='TRANSMISSION' />:{" "}
+              </span>
               <span> {currentVehicle.transmission} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Kilometrage: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='KILOMETRAGE' />:{" "}
+              </span>
               <span> {currentVehicle.kilometrage} </span>
             </div>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Paper: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='PAPER' />:{" "}
+              </span>
               <span> {currentVehicle.paper} </span>
             </div>
           </div>
           <div className='col-12 mt-2 mb-2'>
-            <h6>Description: </h6>
+            <h6>
+              <FormattedMessage id='DESCRIPTION' />:{" "}
+            </h6>
             <p>{currentVehicle.description}</p>
           </div>
           <div className='col-md-3 col-sm-6 mt-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Price: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='PRICE' />:{" "}
+              </span>
               <span> {currentVehicle.price} </span>
             </div>
           </div>
           <div className='col-md-3 col-sm-6 mt-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Type of offer: </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='TYPE_OF_OFFER' />:{" "}
+              </span>
               <span> {currentVehicle.offerType} </span>
             </div>
           </div>
           <div className='col-md-3 col-sm-6 mt-2'>
             <div className='mb-2'>
-              <span style={{ fontWeight: "bold" }}>Exchange: </span>
-              <span> {currentVehicle.exchange ? "Yes" : "No"} </span>
+              <span style={{ fontWeight: "bold" }}>
+                <FormattedMessage id='EXCHANGE' />:{" "}
+              </span>
+              <span>
+                {" "}
+                {currentVehicle.exchange
+                  ? intl.formatMessage({ id: "YES" })
+                  : intl.formatMessage({ id: "NO" })}{" "}
+              </span>
             </div>
           </div>
           <div className='col-12 mt-2'>
-            <h5>Options</h5>
+            <h5>
+              <FormattedMessage id='OPTIONS' />
+            </h5>
             {currentVehicle.options.map((option, index) => (
               <div key={index} className='form-check form-check-inline'>
                 <span className='input-check form-check-input'>
@@ -196,13 +241,17 @@ const VehiclePage = ({
           </div>
 
           <div className='col-12 mt-3'>
-            <span style={{ fontWeight: "bold" }}>Accident: </span>
+            <span style={{ fontWeight: "bold" }}>
+              <FormattedMessage id='ACCIDENT' />:{" "}
+            </span>
             <span>{currentVehicle.accident}</span>
           </div>
 
           {currentVehicle.accident !== "No accident" && (
             <div className='col-12 mt-2'>
-              <h6>Accident Description: </h6>
+              <h6>
+                <FormattedMessage id='ACCIDENT_DESCRIPTION' />:{" "}
+              </h6>
               <p>{currentVehicle.accidentDescription}</p>
             </div>
           )}
@@ -220,13 +269,17 @@ const VehiclePage = ({
           {currentVehicle.accepted !== undefined && (
             <Fragment>
               <div className='col-12 mt-5'>
-                <h4>Admin Actions: </h4>
+                <h4>
+                  <FormattedMessage id='ADMIN_ACTIONS' />:{" "}
+                </h4>
               </div>
               {currentVehicle.accepted.value === true ? (
                 <Fragment>
                   <div className='col-md-3 col-sm-6 mt-2'>
                     <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Accepted by: </span>
+                      <span style={{ fontWeight: "bold" }}>
+                        <FormattedMessage id='ACCEPTED_BY' />:{" "}
+                      </span>
                       <span>
                         {" "}
                         {`${currentVehicle.accepted.acceptedBy.firstname} ${currentVehicle.accepted.acceptedBy.lastname}`}
@@ -235,7 +288,9 @@ const VehiclePage = ({
                   </div>
                   <div className='col-md-3 col-sm-6 mt-2'>
                     <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Accepted at: </span>
+                      <span style={{ fontWeight: "bold" }}>
+                        <FormattedMessage id='ACCEPTED_AT' />:{" "}
+                      </span>
                       <span>
                         {" "}
                         {formatDate(currentVehicle.accepted.acceptedAt)}
@@ -247,7 +302,7 @@ const VehiclePage = ({
                       onClick={onReject}
                       className='btn btn-primary ml-auto'
                     >
-                      Reject
+                      <FormattedMessage id='REJECT' />
                     </button>
                   </div>
                 </Fragment>
@@ -255,7 +310,9 @@ const VehiclePage = ({
                 <Fragment>
                   <div className='col-md-3 col-sm-6 mt-2'>
                     <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Rejected by: </span>
+                      <span style={{ fontWeight: "bold" }}>
+                        <FormattedMessage id='REJECTED_BY' />:{" "}
+                      </span>
                       <span>
                         {" "}
                         {`${currentVehicle.accepted.acceptedBy.firstname} ${currentVehicle.accepted.acceptedBy.lastname}`}
@@ -264,7 +321,9 @@ const VehiclePage = ({
                   </div>
                   <div className='col-md-3 col-sm-6 mt-2'>
                     <div className='mb-2'>
-                      <span style={{ fontWeight: "bold" }}>Rejected at: </span>
+                      <span style={{ fontWeight: "bold" }}>
+                        <FormattedMessage id='REJECTED_AT' />:{" "}
+                      </span>
                       <span>
                         {" "}
                         {formatDate(currentVehicle.accepted.acceptedAt)}{" "}
@@ -273,7 +332,7 @@ const VehiclePage = ({
                   </div>
                   <div className='col-md-3 col-sm-6'>
                     <button onClick={onAccept} className='btn btn-primary '>
-                      Accept
+                      <FormattedMessage id='ACCEPT' />
                     </button>
                   </div>
                 </Fragment>
