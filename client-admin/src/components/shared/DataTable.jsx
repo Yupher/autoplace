@@ -32,7 +32,7 @@ const ProductsTable = (props) => {
   const { SearchBar, ClearSearchButton } = Search;
   return (
     <Fragment>
-      <div className='table-responsive-md'>
+      <div className='table-responsive'>
         <ToolkitProvider
           bootstrap4
           keyField='id'

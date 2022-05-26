@@ -12,9 +12,6 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 
 //components
 import Header from "./components/header/Header";
-import MobileHeader from "./components/mobile/MobileHeader";
-import MobileMenu from "./components/mobile/MobileMenu";
-import Footer from "./components/footer/Footer";
 
 //pages
 import Home from "./pages/Home";
@@ -71,10 +68,6 @@ function App({ currentLocale, error, user, loadUser, logout }) {
         <div className='site site--desktop-header--classic-four site--mobile-header--mobile-two'>
           <ToastContainer autoClose={5000} hideProgressBar />
           <div className='site__container'>
-            <header className='site__mobile-header'>
-              <MobileHeader />
-            </header>
-
             <header className='site__header'>
               <Header />
             </header>
@@ -106,14 +99,7 @@ function App({ currentLocale, error, user, loadUser, logout }) {
                 </Route>
               </Routes>
             </div>
-            <footer className='site__footer'>
-              <Footer />
-            </footer>
           </div>
-
-          <MobileMenu />
-
-          {/* <Quickview /> */}
         </div>
       </LanguageProvider>
     </HelmetProvider>

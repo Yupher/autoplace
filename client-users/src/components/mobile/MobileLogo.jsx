@@ -1,11 +1,13 @@
 // react
 import React from "react";
+import logo from "./mobileLogo.svg";
 
 function MobileLogo() {
   return (
     <div className='mobile-logo'>
       {/* mobile-logo */}
-      <svg
+      <img style={{ width: "100px", height: "80px" }} src={logo} alt='logo' />
+      {/* <svg
         id='Layer_1'
         data-name='Layer 1'
         xmlns='http://www.w3.org/2000/svg'
@@ -28,7 +30,7 @@ function MobileLogo() {
           transform='translate(-371 -218)'
           style={{ fill: "#e22828" }}
         />
-      </svg>
+      </svg> */}
       {/* mobile-logo / end */}
     </div>
   );

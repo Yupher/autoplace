@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch, connect } from "react-redux";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 import { OPEN_MENU, CLOSE_MENU } from "../../actions/types/MobileMenuTypes";
 import { ReactComponent as Cross12Svg } from "../../svg/cross-12.svg";
@@ -17,6 +17,7 @@ const MobileMenu = ({ isOpen }) => {
   const mobileMenuClose = () => dispatch({ type: CLOSE_MENU });
   const bodyRef = useRef(null);
   const conveyorRef = useRef(null);
+  const intl = useIntl();
 
   const rootClasses = classNames("mobile-menu", {
     "mobile-menu--open": isOpen,
@@ -39,19 +40,19 @@ const MobileMenu = ({ isOpen }) => {
 
   const dataMobileMenuLinks = [
     {
-      title: "Home",
+      title: intl.formatMessage({ id: "NAVBAR_HOME_LINK" }),
       url: "/",
     },
     {
-      title: "Profile",
+      title: intl.formatMessage({ id: "NAVBAR_PROFILE_LINK" }),
       url: "/profile",
     },
     {
-      title: "Dashboard",
+      title: intl.formatMessage({ id: "NAVBAR_DASHBOARD_LINK" }),
       url: "/dashboard",
     },
     {
-      title: "Trending",
+      title: intl.formatMessage({ id: "NAVBAR_TRENDING_LINK" }),
       url: "/trending",
     },
   ];

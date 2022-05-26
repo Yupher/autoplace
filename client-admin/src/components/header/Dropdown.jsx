@@ -28,6 +28,7 @@ const Dropdown = (props) => {
         className='topbar__button topbar__button--has-arrow topbar__menu-button'
         type='button'
         onClick={handleButtonClick}
+        style={{ color: "#fff" }}
       >
         {hasLabel && <span className='topbar__button-label'>{label}</span>}
         {hasTitle && <span className='topbar__button-title'>{title}</span>}
