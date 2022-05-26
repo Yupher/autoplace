@@ -215,7 +215,7 @@ const AccountMenu = (props) => {
           <ul className='account-menu__links'>
             <li>
               <Link to='/add-product' onClick={onCloseMenu}>
-                <FormattedMessage id='LINK_ACCOUNT_GARAGE' />
+                <FormattedMessage id='ADD_PRODUCT_TITLE' />
               </Link>
             </li>
             <li>
@@ -224,13 +224,13 @@ const AccountMenu = (props) => {
               </Link>
             </li>
             <li>
-              <Link to='/' onClick={onCloseMenu}>
-                <FormattedMessage id='LINK_ACCOUNT_ORDERS' />
+              <Link to='/dashboard' onClick={onCloseMenu}>
+                <FormattedMessage id='DASHBORD_TITLE' />
               </Link>
             </li>
             <li>
-              <Link to='/' onClick={onCloseMenu}>
-                <FormattedMessage id='LINK_ACCOUNT_ADDRESSES' />
+              <Link to='/favorite' onClick={onCloseMenu}>
+                <FormattedMessage id='HEADER_WISHLIST' />
               </Link>
             </li>
           </ul>
