@@ -19,6 +19,8 @@ nodeJs for the backend with express framework
 
 mongoDB database
 
+Google/Facebook ouath as other options for authentication
+
 react frontend
 
 redux for state management
